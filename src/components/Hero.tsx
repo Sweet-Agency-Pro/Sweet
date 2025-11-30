@@ -20,7 +20,7 @@ function Hero() {
               <h1 className="text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
                 Votre problème<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-300">
-                  notre SOLUTION.
+                  notre solution.
                 </span>
               </h1>
               <p className="text-xl text-slate-300 font-light leading-relaxed max-w-xl">
