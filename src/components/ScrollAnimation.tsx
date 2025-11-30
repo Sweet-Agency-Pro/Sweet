@@ -51,8 +51,7 @@ function ScrollAnimation() {
       // Update STRATA visibility
       setStrataVisible(!shouldHideStrata);
 
-      // Trigger navbar appearance ONCE - never hide it again
-      // Once navbar appears, it stays visible permanently
+      // Trigger navbar with proper timing
       if (shouldShowNavbar && !showNavbar) {
         // Clear any existing timeout
         if (navbarTimeoutRef.current) {
@@ -63,9 +62,16 @@ function ScrollAnimation() {
         navbarTimeoutRef.current = window.setTimeout(() => {
           setShowNavbar(true);
         }, 300);
+      } else if (!shouldShowNavbar && showNavbar) {
+        // Hide navbar when scrolling back up
+        setShowNavbar(false);
+
+        // Clear timeout if scrolling back
+        if (navbarTimeoutRef.current) {
+          clearTimeout(navbarTimeoutRef.current);
+          navbarTimeoutRef.current = null;
+        }
       }
-      // REMOVED: The else-if block that was hiding the navbar when scrolling back
-      // This ensures navbar stays visible once it appears
     };
 
     // Use requestAnimationFrame for smoother performance
