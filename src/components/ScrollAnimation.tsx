@@ -27,7 +27,7 @@ function ScrollAnimation() {
 
       // Animation triggers when user scrolls into STRATA section
       const animationStart = strataSectionTop;
-      const animationEnd = strataSectionTop + (viewportHeight * 0.1);
+      const animationEnd = strataSectionTop + (viewportHeight * 0.6);
 
       // Calculate scroll progress FIRST (before using it)
       let currentProgress = 0;
