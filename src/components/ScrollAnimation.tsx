@@ -63,7 +63,7 @@ function ScrollAnimation() {
             showNavbarRef.current = true;
             setShowNavbar(true);
             navbarTimeoutRef.current = null;
-          }, 300); // keep the 300ms delay from your version for smoothness
+          }, 100); // keep the 300ms delay from your version for smoothness
         }
       } else {
         setStrataVisible(true);
