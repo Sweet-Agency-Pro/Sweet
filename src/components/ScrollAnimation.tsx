@@ -9,6 +9,8 @@ function ScrollAnimation() {
   const [isHiding, setIsHiding] = useState(false);
   const strataRef = useRef<HTMLDivElement>(null);
   const navbarTimeoutRef = useRef<number | null>(null);
+  const lastScrollYRef = useRef<number>(0);
+  const navbarScrollHandledRef = useRef<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,9 +19,10 @@ function ScrollAnimation() {
 
       if (!heroSection || !strataElement) return;
 
-      const heroHeight = heroSection.offsetHeight;
-      const scrollPosition = window.scrollY;
-      const viewportHeight = window.innerHeight;
+  const heroHeight = heroSection.offsetHeight;
+  const scrollPosition = window.scrollY;
+  const isScrollingDown = scrollPosition > lastScrollYRef.current;
+  const viewportHeight = window.innerHeight;
 
       // Get the actual position of the STRATA section in the document
       const strataSection = strataElement.parentElement;
@@ -69,11 +72,22 @@ function ScrollAnimation() {
             navbarTimeoutRef.current = null;
           }, 150); // shorter delay to ensure overlap and avoid gap
         }
+        // If navbar is visible and user scrolls down, force STRATA hidden and finalize animation
+        if ((showNavbar || showNavbarRef.current) && isScrollingDown && !navbarScrollHandledRef.current) {
+          navbarScrollHandledRef.current = true;
+          // Force end state: hide strata immediately and set progress to end
+          setIsHiding(false);
+          setStrataVisible(false);
+          setScrollProgress(1);
+        }
       } else {
         setIsHiding(false);
         setStrataVisible(true);
         showNavbarRef.current = false;
         setShowNavbar(false);
+
+        // reset handler when condition not met
+        navbarScrollHandledRef.current = false;
 
         // Clear timeout if scrolling back before it fired
         if (navbarTimeoutRef.current) {
