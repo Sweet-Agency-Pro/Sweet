@@ -135,7 +135,7 @@ function ScrollAnimation() {
 
       // How much distance (in px) we use to interpolate the scale. Tune this
       // value to make the scale change earlier/later relative to the navbar.
-      const scaleRange = viewportHeightNow * 0.6;
+      const scaleRange = viewportHeightNow * 0.4;
 
       const distance = Math.max(0, strataCenter - navbarLogoPosition);
       // scaleProgress goes from 0 -> 1 as distance goes from scaleRange -> 0
