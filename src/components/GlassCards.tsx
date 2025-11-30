@@ -32,14 +32,14 @@ function GlassCards() {
                   <span className="text-slate-500">// PostgreSQL + Redis</span>
                 </div>
                 <div className="opacity-40">
-                  <span className="text-slate-500">// Microservices Architecture</span>
+                  <span className="text-slate-500">// Architecture Microservices</span>
                 </div>
                 <div className="opacity-40">
-                  <span className="text-slate-500">// GraphQL + REST APIs</span>
+                  <span className="text-slate-500">// APIs GraphQL + REST</span>
                 </div>
               </div>
               <div className="absolute bottom-4 left-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Backend Layer
+                Couche Backend
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@ function GlassCards() {
                 </div>
               </div>
               <div className="absolute bottom-4 left-6 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                Architecture Layer
+                Couche Architecture
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ function GlassCards() {
               </div>
 
               <div className="absolute bottom-4 left-6 text-xs font-semibold text-white uppercase tracking-wider">
-                Frontend Layer
+                Couche Frontend
               </div>
             </div>
           </div>

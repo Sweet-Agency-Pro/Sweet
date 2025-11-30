@@ -19,10 +19,10 @@ function Navigation() {
             Services
           </a>
           <a href="#work" className="text-slate-300 hover:text-white font-medium transition-colors duration-200">
-            Work
+            Travaux
           </a>
           <a href="#about" className="text-slate-300 hover:text-white font-medium transition-colors duration-200">
-            About
+            À Propos
           </a>
           <a href="#contact" className="text-slate-300 hover:text-white font-medium transition-colors duration-200">
             Contact
@@ -30,7 +30,7 @@ function Navigation() {
         </div>
 
         <button className="px-6 py-2.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white font-semibold hover:bg-white/15 transition-all duration-200">
-          Let's Talk
+          Discutons
         </button>
       </div>
     </nav>
