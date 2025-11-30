@@ -54,7 +54,7 @@ function ScrollAnimation() {
       const navbarLogoPosition = 20; // px from top
 
       // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
-      if (strataTopPosition <= navbarLogoPosition + 60 && currentProgress > 0.5) {
+      if (strataTopPosition <= navbarLogoPosition + 200 && currentProgress > 0.5) {
         setStrataVisible(false);
 
         // Schedule navbar appearance once; don't recreate the timeout on every frame
