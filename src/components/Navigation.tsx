@@ -19,7 +19,7 @@ function Navigation() {
             Services
           </a>
           <a href="#work" className="text-slate-300 hover:text-white font-medium transition-colors duration-200">
-            Travaux
+            Réalisations
           </a>
           <a href="#about" className="text-slate-300 hover:text-white font-medium transition-colors duration-200">
             À Propos
