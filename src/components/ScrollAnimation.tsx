@@ -44,30 +44,29 @@ function ScrollAnimation() {
 
   // (No need to read bounding rect for current logic)
 
-      // Now use the calculated progress for visibility decisions
-      const shouldHideStrata = currentProgress >= 0.75;
-      // Show navbar only after the strata animation is essentially finished
-      // Use a high threshold so continuing to scroll won't show navbar early
-      const shouldShowNavbar = currentProgress >= 0.99;
+      // Now use the calculated progress and actual STRATA position for visibility
+  // Calculate STRATA element's position relative to viewport (used to
+  // determine when the logo reaches the navbar area)
+  const strataRect = strataElement.getBoundingClientRect();
+  const strataTopPosition = strataRect.top;
 
-      // Update STRATA visibility
-      setStrataVisible(!shouldHideStrata);
+      // Target position: where STRATA logo should align with navbar logo
+      const navbarLogoPosition = 40; // px from top
 
-      // Trigger navbar with proper timing using refs to avoid stale closures
-      if (shouldShowNavbar && !showNavbarRef.current) {
-        // If a timeout is already pending, don't recreate it — this avoids
-        // requiring the user to pause while continuously scrolling.
-        if (navbarTimeoutRef.current == null) {
-          // Delay navbar appearance slightly — small delay avoids jank but
-          // will fire even if user keeps scrolling.
+      // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
+      if (strataTopPosition <= navbarLogoPosition + 20 && currentProgress > 0.7) {
+        setStrataVisible(false);
+
+        // Schedule navbar appearance once; don't recreate the timeout on every frame
+        if (navbarTimeoutRef.current == null && !showNavbarRef.current) {
           navbarTimeoutRef.current = window.setTimeout(() => {
             showNavbarRef.current = true;
             setShowNavbar(true);
             navbarTimeoutRef.current = null;
-          }, 50);
+          }, 300); // keep the 300ms delay from your version for smoothness
         }
-      } else if (!shouldShowNavbar && showNavbarRef.current) {
-        // Hide navbar when scrolling back up before animation completes
+      } else {
+        setStrataVisible(true);
         showNavbarRef.current = false;
         setShowNavbar(false);
 
