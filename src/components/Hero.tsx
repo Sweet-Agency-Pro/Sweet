@@ -24,8 +24,8 @@ function Hero() {
                 </span>
               </h1>
               <p className="text-xl text-slate-300 font-light leading-relaxed max-w-xl">
-                Nous transformons vos besoins en réalité numérique.
-                De la conception à la mise en chantier, chaque projet est façonné pour répondre précisement à vos                        objectifs.
+                Nous transformons vos besoins en réalité.
+                De la conception à la mise en production, chaque projet est façonné pour répondre précisement à vos                      objectifs.
               </p>
             </div>
 
