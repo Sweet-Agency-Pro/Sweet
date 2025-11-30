@@ -18,29 +18,38 @@ function ScrollAnimation() {
       const scrollPosition = window.scrollY;
       const viewportHeight = window.innerHeight;
 
-      // Animation starts when STRATA reaches center of viewport
-      const animationStart = heroHeight + (viewportHeight * 0.2);
-      const animationEnd = heroHeight + (viewportHeight * 0.8);
+      // Get the actual position of the STRATA section in the document
+      const strataSection = strataElement.parentElement;
+      const strataSectionTop = strataSection?.offsetTop || heroHeight;
+
+      // Animation triggers when user scrolls into STRATA section
+      const animationStart = strataSectionTop;
+      const animationEnd = strataSectionTop + (viewportHeight * 0.6);
+
+      // Calculate scroll progress FIRST (before using it)
+      let currentProgress = 0;
+      if (scrollPosition >= animationStart && scrollPosition <= animationEnd) {
+        currentProgress = (scrollPosition - animationStart) / (animationEnd - animationStart);
+        currentProgress = Math.min(Math.max(currentProgress, 0), 1);
+        setScrollProgress(currentProgress);
+      } else if (scrollPosition < animationStart) {
+        currentProgress = 0;
+        setScrollProgress(0);
+      } else {
+        currentProgress = 1;
+        setScrollProgress(1);
+      }
 
       // Calculate STRATA element's position relative to viewport
       const strataRect = strataElement.getBoundingClientRect();
       const strataTopPosition = strataRect.top;
-      const strataCenterPosition = strataRect.top + (strataRect.height / 2);
-      const viewportCenter = viewportHeight / 2;
 
-      // Target position: where STRATA logo appears in navbar
-      const navbarLogoPosition = 40;
+      // Now use the calculated progress for visibility decisions
+      const shouldHideStrata = currentProgress >= 0.75;
+      const shouldShowNavbar = currentProgress >= 0.8;
 
-      // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
-      // Check if STRATA has moved significantly toward navbar (using scroll progress)
-      const shouldShowNavbar = scrollProgress >= 0.8;
-      const shouldHideStrata = scrollProgress >= 0.75;
-
-      if (shouldHideStrata) {
-        setStrataVisible(false);
-      } else {
-        setStrataVisible(true);
-      }
+      // Update STRATA visibility
+      setStrataVisible(!shouldHideStrata);
 
       // Trigger navbar with proper timing
       if (shouldShowNavbar && !showNavbar) {
@@ -62,16 +71,6 @@ function ScrollAnimation() {
           clearTimeout(navbarTimeoutRef.current);
           navbarTimeoutRef.current = null;
         }
-      }
-
-      // Handle scroll progress for STRATA animation
-      if (scrollPosition >= animationStart && scrollPosition <= animationEnd) {
-        const progress = (scrollPosition - animationStart) / (animationEnd - animationStart);
-        setScrollProgress(Math.min(Math.max(progress, 0), 1));
-      } else if (scrollPosition < animationStart) {
-        setScrollProgress(0);
-      } else {
-        setScrollProgress(1);
       }
     };
 
@@ -96,7 +95,7 @@ function ScrollAnimation() {
         clearTimeout(navbarTimeoutRef.current);
       }
     };
-  }, [showNavbar]);
+  }, [showNavbar, scrollProgress]);
 
   const easeOutCubic = (t: number): number => {
     return 1 - Math.pow(1 - t, 3);
