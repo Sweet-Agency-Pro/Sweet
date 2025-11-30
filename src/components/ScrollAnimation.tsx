@@ -46,7 +46,7 @@ function ScrollAnimation() {
 
       // Now use the calculated progress for visibility decisions
       const shouldHideStrata = currentProgress >= 0.75;
-      const shouldShowNavbar = currentProgress >= 0.8;
+      const shouldShowNavbar = currentProgress >= 0.5;
 
       // Update STRATA visibility
       setStrataVisible(!shouldHideStrata);
