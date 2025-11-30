@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 function ScrollAnimation() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showNavbar, setShowNavbar] = useState(false);
+  // use ref to hold latest showNavbar to avoid it in effect deps
+  const showNavbarRef = useRef<boolean>(false);
   const [strataVisible, setStrataVisible] = useState(true);
   const strataRef = useRef<HTMLDivElement>(null);
   const navbarTimeoutRef = useRef<number | null>(null);
@@ -40,30 +42,32 @@ function ScrollAnimation() {
         setScrollProgress(1);
       }
 
-      // Calculate STRATA element's position relative to viewport
-      const strataRect = strataElement.getBoundingClientRect();
-      const strataTopPosition = strataRect.top;
+  // (No need to read bounding rect for current logic)
 
       // Now use the calculated progress for visibility decisions
       const shouldHideStrata = currentProgress >= 0.75;
-      const shouldShowNavbar = currentProgress >= 0.8;
+      // Show navbar only after the strata animation is essentially finished
+      // Use a high threshold so continuing to scroll won't show navbar early
+      const shouldShowNavbar = currentProgress >= 0.99;
 
       // Update STRATA visibility
       setStrataVisible(!shouldHideStrata);
 
-      // Trigger navbar with proper timing
-      if (shouldShowNavbar && !showNavbar) {
+      // Trigger navbar with proper timing using refs to avoid stale closures
+      if (shouldShowNavbar && !showNavbarRef.current) {
         // Clear any existing timeout
         if (navbarTimeoutRef.current) {
           clearTimeout(navbarTimeoutRef.current);
         }
 
-        // Delay navbar appearance by 300ms for smooth transition
+        // Delay navbar appearance by 150ms for a snappier transition
         navbarTimeoutRef.current = window.setTimeout(() => {
+          showNavbarRef.current = true;
           setShowNavbar(true);
-        }, 300);
-      } else if (!shouldShowNavbar && showNavbar) {
-        // Hide navbar when scrolling back up
+        }, 150);
+      } else if (!shouldShowNavbar && showNavbarRef.current) {
+        // Hide navbar when scrolling back up before animation completes
+        showNavbarRef.current = false;
         setShowNavbar(false);
 
         // Clear timeout if scrolling back
@@ -86,7 +90,9 @@ function ScrollAnimation() {
       }
     };
 
+    // Attach listener once; avoid re-subscribing on state changes
     window.addEventListener('scroll', scrollListener, { passive: true });
+    // run once to set initial positions
     handleScroll();
 
     return () => {
@@ -95,7 +101,8 @@ function ScrollAnimation() {
         clearTimeout(navbarTimeoutRef.current);
       }
     };
-  }, [showNavbar, scrollProgress]);
+    // empty deps on purpose: internal refs/state are used to avoid stale closures
+  }, []);
 
   const easeOutCubic = (t: number): number => {
     return 1 - Math.pow(1 - t, 3);
