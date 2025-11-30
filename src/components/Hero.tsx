@@ -43,6 +43,8 @@ function Hero() {
                 Voir les Projets
               </button>
             </div>
+          </div>
+
           <GlassCards />
         </div>
       </main>
