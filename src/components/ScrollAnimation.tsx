@@ -118,7 +118,7 @@ function ScrollAnimation() {
   // Start from center (0vh vertical offset) and move up to navbar position
   const strataY = -(easedProgress * 45);
   // Move left to align with navbar logo position
-  const strataX = easedProgress * -75;
+  const strataX = easedProgress * -55;
   // Scale down from full size to navbar logo size
   const strataScale = 1 - (easedProgress * 0.85);
 
