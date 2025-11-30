@@ -43,25 +43,6 @@ function Hero() {
                 Voir les Projets
               </button>
             </div>
-
-            <div className="flex items-center gap-8 pt-4">
-              <div className="space-y-1">
-                <div className="text-3xl font-bold text-white">50+</div>
-                <div className="text-sm text-slate-400 font-light">Projets Livrés</div>
-              </div>
-              <div className="h-12 w-px bg-slate-700"></div>
-              <div className="space-y-1">
-                <div className="text-3xl font-bold text-white">99.9%</div>
-                <div className="text-sm text-slate-400 font-light">Disponibilité SLA</div>
-              </div>
-              <div className="h-12 w-px bg-slate-700"></div>
-              <div className="space-y-1">
-                <div className="text-3xl font-bold text-white">24/7</div>
-                <div className="text-sm text-slate-400 font-light">Assistance</div>
-              </div>
-            </div>
-          </div>
-
           <GlassCards />
         </div>
       </main>
