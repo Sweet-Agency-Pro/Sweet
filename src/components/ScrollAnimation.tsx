@@ -3,7 +3,9 @@ import { useEffect, useState, useRef } from 'react';
 function ScrollAnimation() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showNavbar, setShowNavbar] = useState(false);
+  const [strataVisible, setStrataVisible] = useState(true);
   const strataRef = useRef<HTMLDivElement>(null);
+  const navbarTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,21 +16,43 @@ function ScrollAnimation() {
 
       const heroHeight = heroSection.offsetHeight;
       const scrollPosition = window.scrollY;
-      const animationStart = heroHeight * 0.7;
-      const animationEnd = heroHeight * 1.1;
+      const viewportHeight = window.innerHeight;
+
+      // Animation starts when STRATA reaches center of viewport
+      const animationStart = heroHeight + (viewportHeight * 0.2);
+      const animationEnd = heroHeight + (viewportHeight * 0.8);
 
       // Calculate STRATA element's position relative to viewport
       const strataRect = strataElement.getBoundingClientRect();
       const strataTopPosition = strataRect.top;
+      const strataCenterPosition = strataRect.top + (strataRect.height / 2);
+      const viewportCenter = viewportHeight / 2;
 
-      // Target position: where STRATA logo appears in navbar (approximately 32px from top for centering in 80px navbar)
+      // Target position: where STRATA logo appears in navbar
       const navbarLogoPosition = 40;
 
-      // Trigger navbar when STRATA element reaches the navbar logo position
-      if (strataTopPosition <= navbarLogoPosition && scrollPosition > animationStart) {
-        setShowNavbar(true);
+      // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
+      if (strataTopPosition <= navbarLogoPosition + 20 && scrollProgress > 0.7) {
+        setStrataVisible(false);
+
+        // Clear any existing timeout
+        if (navbarTimeoutRef.current) {
+          clearTimeout(navbarTimeoutRef.current);
+        }
+
+        // Delay navbar appearance by 300ms for smooth transition
+        navbarTimeoutRef.current = window.setTimeout(() => {
+          setShowNavbar(true);
+        }, 300);
       } else {
+        setStrataVisible(true);
         setShowNavbar(false);
+
+        // Clear timeout if scrolling back
+        if (navbarTimeoutRef.current) {
+          clearTimeout(navbarTimeoutRef.current);
+          navbarTimeoutRef.current = null;
+        }
       }
 
       // Handle scroll progress for STRATA animation
@@ -57,7 +81,12 @@ function ScrollAnimation() {
     window.addEventListener('scroll', scrollListener, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener('scroll', scrollListener);
+    return () => {
+      window.removeEventListener('scroll', scrollListener);
+      if (navbarTimeoutRef.current) {
+        clearTimeout(navbarTimeoutRef.current);
+      }
+    };
   }, []);
 
   const easeOutCubic = (t: number): number => {
@@ -66,14 +95,23 @@ function ScrollAnimation() {
 
   const easedProgress = easeOutCubic(scrollProgress);
 
-  const strataY = 50 - (easedProgress * 55);
+  // Start from center (0vh vertical offset) and move up to navbar position
+  const strataY = -(easedProgress * 45);
+  // Move left to align with navbar logo position
   const strataX = easedProgress * -35;
-  const strataScale = 1 - (easedProgress * 0.65);
-  const strataOpacity = scrollProgress < 0.95 ? 1 : 1 - ((scrollProgress - 0.95) / 0.05);
+  // Scale down from full size to navbar logo size
+  const strataScale = 1 - (easedProgress * 0.85);
+
+  // STRATA opacity: visible initially, then fade out when it reaches near navbar
+  // Add delayed fade out at 75% progress
+  let strataOpacity = 1;
+  if (scrollProgress >= 0.75) {
+    strataOpacity = strataVisible ? 1 - ((scrollProgress - 0.75) / 0.25) : 0;
+  }
 
   return (
     <>
-      <div className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-white">
+      <div className="relative h-[100vh] flex items-center justify-center overflow-hidden bg-white">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[140px]"></div>
         </div>
@@ -85,7 +123,7 @@ function ScrollAnimation() {
           style={{
             transform: `translate(${strataX}vw, ${strataY}vh) scale(${strataScale})`,
             opacity: strataOpacity,
-            transition: 'none',
+            transition: 'opacity 0.3s ease-out',
             willChange: 'transform, opacity',
           }}
         >
