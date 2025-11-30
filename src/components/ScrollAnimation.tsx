@@ -32,9 +32,18 @@ function ScrollAnimation() {
       const navbarLogoPosition = 40;
 
       // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
-      if (strataTopPosition <= navbarLogoPosition + 20 && scrollProgress > 0.7) {
-        setStrataVisible(false);
+      // Check if STRATA has moved significantly toward navbar (using scroll progress)
+      const shouldShowNavbar = scrollProgress >= 0.8;
+      const shouldHideStrata = scrollProgress >= 0.75;
 
+      if (shouldHideStrata) {
+        setStrataVisible(false);
+      } else {
+        setStrataVisible(true);
+      }
+
+      // Trigger navbar with proper timing
+      if (shouldShowNavbar && !showNavbar) {
         // Clear any existing timeout
         if (navbarTimeoutRef.current) {
           clearTimeout(navbarTimeoutRef.current);
@@ -44,8 +53,8 @@ function ScrollAnimation() {
         navbarTimeoutRef.current = window.setTimeout(() => {
           setShowNavbar(true);
         }, 300);
-      } else {
-        setStrataVisible(true);
+      } else if (!shouldShowNavbar && showNavbar) {
+        // Hide navbar when scrolling back up
         setShowNavbar(false);
 
         // Clear timeout if scrolling back
@@ -87,7 +96,7 @@ function ScrollAnimation() {
         clearTimeout(navbarTimeoutRef.current);
       }
     };
-  }, []);
+  }, [showNavbar]);
 
   const easeOutCubic = (t: number): number => {
     return 1 - Math.pow(1 - t, 3);
