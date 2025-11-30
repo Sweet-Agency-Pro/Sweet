@@ -24,8 +24,8 @@ function Hero() {
                 </span>
               </h1>
               <p className="text-xl text-slate-300 font-light leading-relaxed max-w-xl">
-                Nous concevons des écosystèmes évolutifs où l'infrastructure backend rencontre l'excellence frontend.
-                Chaque couche, chaque ligne—conçue avec précision et intention.
+                Nous transformons vos besoins en réalité numérique.
+                De la conception à la mise en chantier, chaque projet est façonné pour répondre précisement à vos                        objectifs.
               </p>
             </div>
 
