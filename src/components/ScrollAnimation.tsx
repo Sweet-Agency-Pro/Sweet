@@ -2,9 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 
 function ScrollAnimation() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [showNavbar, setShowNavbar] = useState(true); // ✅ Changed to true - navbar always visible
+  const [showNavbar, setShowNavbar] = useState(false);
   const [strataVisible, setStrataVisible] = useState(true);
   const strataRef = useRef<HTMLDivElement>(null);
+  const navbarTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,11 +46,32 @@ function ScrollAnimation() {
 
       // Now use the calculated progress for visibility decisions
       const shouldHideStrata = currentProgress >= 0.75;
+      const shouldShowNavbar = currentProgress >= 0.8;
 
       // Update STRATA visibility
       setStrataVisible(!shouldHideStrata);
 
-      // ✅ REMOVED: All navbar show/hide logic - navbar is always visible
+      // Trigger navbar with proper timing
+      if (shouldShowNavbar && !showNavbar) {
+        // Clear any existing timeout
+        if (navbarTimeoutRef.current) {
+          clearTimeout(navbarTimeoutRef.current);
+        }
+
+        // Delay navbar appearance by 300ms for smooth transition
+        navbarTimeoutRef.current = window.setTimeout(() => {
+          setShowNavbar(true);
+        }, 300);
+      } else if (!shouldShowNavbar && showNavbar) {
+        // Hide navbar when scrolling back up
+        setShowNavbar(false);
+
+        // Clear timeout if scrolling back
+        if (navbarTimeoutRef.current) {
+          clearTimeout(navbarTimeoutRef.current);
+          navbarTimeoutRef.current = null;
+        }
+      }
     };
 
     // Use requestAnimationFrame for smoother performance
@@ -69,8 +91,11 @@ function ScrollAnimation() {
 
     return () => {
       window.removeEventListener('scroll', scrollListener);
+      if (navbarTimeoutRef.current) {
+        clearTimeout(navbarTimeoutRef.current);
+      }
     };
-  }, [scrollProgress]); // ✅ Removed showNavbar dependency
+  }, [showNavbar, scrollProgress]);
 
   const easeOutCubic = (t: number): number => {
     return 1 - Math.pow(1 - t, 3);
@@ -115,7 +140,9 @@ function ScrollAnimation() {
       </div>
 
       <div
-        className="fixed top-0 left-0 right-0 z-50 translate-y-0 opacity-100 transition-all duration-700 ease-out"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${
+          showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        }`}
       >
         <nav className="bg-white/98 backdrop-blur-lg border-b border-slate-200 shadow-sm">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
