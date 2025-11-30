@@ -51,7 +51,7 @@ function ScrollAnimation() {
   const strataTopPosition = strataRect.top;
 
       // Target position: where STRATA logo should align with navbar logo
-      const navbarLogoPosition = 40; // px from top
+      const navbarLogoPosition = 30; // px from top
 
       // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
       if (strataTopPosition <= navbarLogoPosition + 20 && currentProgress > 0.7) {
