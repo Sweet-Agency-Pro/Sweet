@@ -57,7 +57,7 @@ function ScrollAnimation() {
       // STRATA begins hiding when it approaches navbar area; do not hide instantly
       // to avoid a visual gap — instead start a gradual fade and schedule navbar
       // appearance shortly after so they overlap.
-      if (strataTopPosition <= navbarLogoPosition + 200 && currentProgress > 0.25) {
+      if (strataTopPosition <= navbarLogoPosition + 200 && currentProgress > 0.20) {
         // start hiding phase
         setIsHiding(true);
 
