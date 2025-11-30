@@ -1,21 +1,8 @@
 import { ArrowRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import Navigation from './Navigation';
 import GlassCards from './GlassCards';
 
 function Hero() {
-  const [shouldShowNavbar, setShouldShowNavbar] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setShouldShowNavbar(scrollPosition > 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div id="hero-section" className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="absolute inset-0 overflow-hidden">
@@ -24,7 +11,7 @@ function Hero() {
         <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px]"></div>
       </div>
 
-      <Navigation shouldShowNavbar={shouldShowNavbar} />
+      <Navigation />
 
       <main className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
