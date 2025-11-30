@@ -120,7 +120,8 @@ function ScrollAnimation() {
   // Move left to align with navbar logo position
   const strataX = easedProgress * -55;
   // Scale down from full size to navbar logo size
-  const strataScale = 1 - (easedProgress * 0.85);
+  const finalScale = 0.15; // smaller = tinier final logo (default ~15% of original)
+  const strataScale = 1 + (finalScale - 1) * easedProgress;
 
   // STRATA opacity: visible initially, then fade out when it reaches near navbar
   // STRATA opacity: visible initially, then fade out when it reaches near navbar
