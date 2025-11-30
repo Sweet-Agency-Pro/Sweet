@@ -134,7 +134,7 @@ function ScrollAnimation() {
   // Move left to align with navbar logo position
   const strataX = easedProgress * -75;
   // Scale down from full size to navbar logo size
-  const finalScale = 0.2; // smaller = tinier final logo (default ~15% of original)
+  const finalScale = 0.1; // smaller = tinier final logo (default ~15% of original)
   
   // Compute scale progress based on STRATA's position in the viewport so we can
   // make the text reach navbar size at a precise moment, without changing the
