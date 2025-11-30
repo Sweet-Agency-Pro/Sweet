@@ -16,7 +16,7 @@ function Hero() {
       <main className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="space-y-8 z-10">
-            <div className="space-y-7">
+            <div className="space-y-6">
               <h1 className="text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
                 La solution à<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-300">
