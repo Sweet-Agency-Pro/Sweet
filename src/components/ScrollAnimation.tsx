@@ -6,6 +6,7 @@ function ScrollAnimation() {
   // use ref to hold latest showNavbar to avoid it in effect deps
   const showNavbarRef = useRef<boolean>(false);
   const [strataVisible, setStrataVisible] = useState(true);
+  const [isHiding, setIsHiding] = useState(false);
   const strataRef = useRef<HTMLDivElement>(null);
   const navbarTimeoutRef = useRef<number | null>(null);
 
@@ -51,11 +52,14 @@ function ScrollAnimation() {
   const strataTopPosition = strataRect.top;
 
       // Target position: where STRATA logo should align with navbar logo
-      const navbarLogoPosition = 20; // px from top
+      const navbarLogoPosition = 40; // px from top
 
-      // STRATA disappears when it gets close to navbar position (with delay before navbar appears)
-      if (strataTopPosition <= navbarLogoPosition + 200 && currentProgress > 0.5) {
-        setStrataVisible(false);
+      // STRATA begins hiding when it approaches navbar area; do not hide instantly
+      // to avoid a visual gap — instead start a gradual fade and schedule navbar
+      // appearance shortly after so they overlap.
+      if (strataTopPosition <= navbarLogoPosition + 20 && currentProgress > 0.5) {
+        // start hiding phase
+        setIsHiding(true);
 
         // Schedule navbar appearance once; don't recreate the timeout on every frame
         if (navbarTimeoutRef.current == null && !showNavbarRef.current) {
@@ -63,9 +67,10 @@ function ScrollAnimation() {
             showNavbarRef.current = true;
             setShowNavbar(true);
             navbarTimeoutRef.current = null;
-          }, 100); // keep the 300ms delay from your version for smoothness
+          }, 150); // shorter delay to ensure overlap and avoid gap
         }
       } else {
+        setIsHiding(false);
         setStrataVisible(true);
         showNavbarRef.current = false;
         setShowNavbar(false);
@@ -118,9 +123,13 @@ function ScrollAnimation() {
   const strataScale = 1 - (easedProgress * 0.85);
 
   // STRATA opacity: visible initially, then fade out when it reaches near navbar
-  // Add delayed fade out at 75% progress
+  // STRATA opacity: visible initially, then fade out when it reaches near navbar
+  // Add delayed fade out at 75% progress, and ensure overlap with navbar when hiding
   let strataOpacity = 1;
-  if (scrollProgress >= 0.75) {
+  if (isHiding) {
+    // when hiding, start a smoother fade regardless of exact progress
+    strataOpacity = 0.15 + (1 - Math.min(Math.max((scrollProgress - 0.5) / 0.5, 0), 1)) * 0.85;
+  } else if (scrollProgress >= 0.75) {
     strataOpacity = strataVisible ? 1 - ((scrollProgress - 0.75) / 0.25) : 0;
   }
 
