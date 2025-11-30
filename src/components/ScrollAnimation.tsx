@@ -55,22 +55,23 @@ function ScrollAnimation() {
 
       // Trigger navbar with proper timing using refs to avoid stale closures
       if (shouldShowNavbar && !showNavbarRef.current) {
-        // Clear any existing timeout
-        if (navbarTimeoutRef.current) {
-          clearTimeout(navbarTimeoutRef.current);
+        // If a timeout is already pending, don't recreate it — this avoids
+        // requiring the user to pause while continuously scrolling.
+        if (navbarTimeoutRef.current == null) {
+          // Delay navbar appearance slightly — small delay avoids jank but
+          // will fire even if user keeps scrolling.
+          navbarTimeoutRef.current = window.setTimeout(() => {
+            showNavbarRef.current = true;
+            setShowNavbar(true);
+            navbarTimeoutRef.current = null;
+          }, 50);
         }
-
-        // Delay navbar appearance by 150ms for a snappier transition
-        navbarTimeoutRef.current = window.setTimeout(() => {
-          showNavbarRef.current = true;
-          setShowNavbar(true);
-        }, 150);
       } else if (!shouldShowNavbar && showNavbarRef.current) {
         // Hide navbar when scrolling back up before animation completes
         showNavbarRef.current = false;
         setShowNavbar(false);
 
-        // Clear timeout if scrolling back
+        // Clear timeout if scrolling back before it fired
         if (navbarTimeoutRef.current) {
           clearTimeout(navbarTimeoutRef.current);
           navbarTimeoutRef.current = null;
