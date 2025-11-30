@@ -134,10 +134,6 @@ function GlassCards() {
                   </div>
                 </div>
               </div>
-
-              <div className="absolute bottom-4 left-6 text-xs font-semibold text-white uppercase tracking-wider">
-                Couche Frontend
-              </div>
             </div>
           </div>
         </div>
