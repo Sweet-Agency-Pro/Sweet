@@ -121,7 +121,31 @@ function ScrollAnimation() {
   const strataX = easedProgress * -55;
   // Scale down from full size to navbar logo size
   const finalScale = 0.01; // smaller = tinier final logo (default ~15% of original)
-  const strataScale = 1 + (finalScale - 1) * easedProgress;
+  
+  // Compute scale progress based on STRATA's position in the viewport so we can
+  // make the text reach navbar size at a precise moment, without changing the
+  // scroll distance used for translation. Falls back to easedProgress.
+  let scaleProgress = easedProgress;
+  try {
+    const rect = strataRef.current?.getBoundingClientRect();
+    if (rect && typeof window !== 'undefined') {
+      const strataCenter = rect.top + rect.height / 2;
+      const viewportHeightNow = window.innerHeight;
+      const navbarLogoPosition = 40; // px from top (same trigger used elsewhere)
+
+      // How much distance (in px) we use to interpolate the scale. Tune this
+      // value to make the scale change earlier/later relative to the navbar.
+      const scaleRange = viewportHeightNow * 0.6;
+
+      const distance = Math.max(0, strataCenter - navbarLogoPosition);
+      // scaleProgress goes from 0 -> 1 as distance goes from scaleRange -> 0
+      scaleProgress = 1 - Math.min(Math.max(distance / scaleRange, 0), 1);
+    }
+  } catch (e) {
+    // reading layout can fail in some SSR environments; ignore and use easedProgress
+  }
+
+  const strataScale = 1 + (finalScale - 1) * scaleProgress;
 
   // STRATA opacity: visible initially, then fade out when it reaches near navbar
   // STRATA opacity: visible initially, then fade out when it reaches near navbar
