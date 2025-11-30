@@ -18,9 +18,9 @@ function Hero() {
           <div className="space-y-8 z-10">
             <div className="space-y-6">
               <h1 className="text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
-                Transparence<br />
+                Votre problème<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-300">
-                  Full-Stack.
+                  Notre solution.
                 </span>
               </h1>
               <p className="text-xl text-slate-300 font-light leading-relaxed max-w-xl">
@@ -44,7 +44,6 @@ function Hero() {
               </button>
             </div>
           </div>
-
           <GlassCards />
         </div>
       </main>
