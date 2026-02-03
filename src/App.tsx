@@ -2,7 +2,7 @@ import Hero from './components/Hero';
 import ScrollAnimation from './components/ScrollAnimation';
 import ServicesPreview from './components/ServicesPreview';
 import PortfolioPreview from './components/PortfolioPreview';
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   return (
