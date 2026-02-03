@@ -2,6 +2,7 @@ import Hero from './components/Hero';
 import ScrollAnimation from './components/ScrollAnimation';
 import ServicesPreview from './components/ServicesPreview';
 import PortfolioPreview from './components/PortfolioPreview';
+import { Analytics } from '@vercel/analytics/next';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <ScrollAnimation />
       <ServicesPreview />
       <PortfolioPreview />
+      <Analytics />
     </div>
   );
 }
