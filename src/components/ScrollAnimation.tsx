@@ -3,28 +3,34 @@ import { useEffect, useState, useRef } from 'react';
 function ScrollAnimation() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showNavbar, setShowNavbar] = useState(false);
-  const [strataVisible, setStrataVisible] = useState(true);
-  const strataRef = useRef<HTMLDivElement>(null);
+  // use ref to hold latest showNavbar to avoid it in effect deps
+  const showNavbarRef = useRef<boolean>(false);
+  const [sweetVisible, setSweetVisible] = useState(true);
+  const [isHiding, setIsHiding] = useState(false);
+  const sweetRef = useRef<HTMLDivElement>(null);
   const navbarTimeoutRef = useRef<number | null>(null);
+  const lastScrollYRef = useRef<number>(0);
+  const navbarScrollHandledRef = useRef<boolean>(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.getElementById('hero-section');
-      const strataElement = strataRef.current;
+      const sweetElement = sweetRef.current;
 
-      if (!heroSection || !strataElement) return;
+      if (!heroSection || !sweetElement) return;
 
-      const heroHeight = heroSection.offsetHeight;
-      const scrollPosition = window.scrollY;
-      const viewportHeight = window.innerHeight;
+  const heroHeight = heroSection.offsetHeight;
+  const scrollPosition = window.scrollY;
+  const isScrollingDown = scrollPosition > lastScrollYRef.current;
+  const viewportHeight = window.innerHeight;
 
-      // Get the actual position of the STRATA section in the document
-      const strataSection = strataElement.parentElement;
-      const strataSectionTop = strataSection?.offsetTop || heroHeight;
+      // Get the actual position of the SWEET section in the document
+      const sweetSection = sweetElement.parentElement;
+      const sweetSectionTop = sweetSection?.offsetTop || heroHeight;
 
-      // Animation triggers when user scrolls into STRATA section
-      const animationStart = strataSectionTop;
-      const animationEnd = strataSectionTop + (viewportHeight * 0.6);
+      // Animation triggers when user scrolls into SWEET section
+      const animationStart = sweetSectionTop;
+      const animationEnd = sweetSectionTop + (viewportHeight * 0.8);
 
       // Calculate scroll progress FIRST (before using it)
       let currentProgress = 0;
@@ -40,33 +46,50 @@ function ScrollAnimation() {
         setScrollProgress(1);
       }
 
-      // Calculate STRATA element's position relative to viewport
-      const strataRect = strataElement.getBoundingClientRect();
-      const strataTopPosition = strataRect.top;
+  // (No need to read bounding rect for current logic)
 
-      // Now use the calculated progress for visibility decisions
-      const shouldHideStrata = currentProgress >= 0.75;
-      const shouldShowNavbar = currentProgress >= 0.8;
+      // Now use the calculated progress and actual SWEET position for visibility
+  // Calculate SWEET element's position relative to viewport (used to
+  // determine when the logo reaches the navbar area)
+  const sweetRect = sweetElement.getBoundingClientRect();
+  const sweetTopPosition = sweetRect.top;
 
-      // Update STRATA visibility
-      setStrataVisible(!shouldHideStrata);
+      // Target position: where SWEET logo should align with navbar logo
+      const navbarLogoPosition = 40; // px from top
 
-      // Trigger navbar with proper timing
-      if (shouldShowNavbar && !showNavbar) {
-        // Clear any existing timeout
-        if (navbarTimeoutRef.current) {
-          clearTimeout(navbarTimeoutRef.current);
+      // SWEET begins hiding when it approaches navbar area; do not hide instantly
+      // to avoid a visual gap — instead start a gradual fade and schedule navbar
+      // appearance shortly after so they overlap.
+      if (sweetTopPosition <= navbarLogoPosition + 200 && currentProgress > 0.20) {
+        // start hiding phase
+        setIsHiding(true);
+
+        // Schedule navbar appearance once; don't recreate the timeout on every frame
+        if (navbarTimeoutRef.current == null && !showNavbarRef.current) {
+          navbarTimeoutRef.current = window.setTimeout(() => {
+            showNavbarRef.current = true;
+            setShowNavbar(true);
+            navbarTimeoutRef.current = null;
+          }, 150); // shorter delay to ensure overlap and avoid gap
         }
-
-        // Delay navbar appearance by 300ms for smooth transition
-        navbarTimeoutRef.current = window.setTimeout(() => {
-          setShowNavbar(true);
-        }, 300);
-      } else if (!shouldShowNavbar && showNavbar) {
-        // Hide navbar when scrolling back up
+        // If navbar is visible and user scrolls down, force SWEET hidden and finalize animation
+        if ((showNavbar || showNavbarRef.current) && isScrollingDown && !navbarScrollHandledRef.current) {
+          navbarScrollHandledRef.current = true;
+          // Force end state: hide sweet immediately and set progress to end
+          setIsHiding(false);
+          setSweetVisible(false);
+          setScrollProgress(1);
+        }
+      } else {
+        setIsHiding(false);
+        setSweetVisible(true);
+        showNavbarRef.current = false;
         setShowNavbar(false);
 
-        // Clear timeout if scrolling back
+        // reset handler when condition not met
+        navbarScrollHandledRef.current = false;
+
+        // Clear timeout if scrolling back before it fired
         if (navbarTimeoutRef.current) {
           clearTimeout(navbarTimeoutRef.current);
           navbarTimeoutRef.current = null;
@@ -86,7 +109,9 @@ function ScrollAnimation() {
       }
     };
 
+    // Attach listener once; avoid re-subscribing on state changes
     window.addEventListener('scroll', scrollListener, { passive: true });
+    // run once to set initial positions
     handleScroll();
 
     return () => {
@@ -95,7 +120,8 @@ function ScrollAnimation() {
         clearTimeout(navbarTimeoutRef.current);
       }
     };
-  }, [showNavbar, scrollProgress]);
+    // empty deps on purpose: internal refs/state are used to avoid stale closures
+  }, []);
 
   const easeOutCubic = (t: number): number => {
     return 1 - Math.pow(1 - t, 3);
@@ -104,17 +130,46 @@ function ScrollAnimation() {
   const easedProgress = easeOutCubic(scrollProgress);
 
   // Start from center (0vh vertical offset) and move up to navbar position
-  const strataY = -(easedProgress * 45);
+  const sweetY = -(easedProgress * 45);
   // Move left to align with navbar logo position
-  const strataX = easedProgress * -35;
+  const sweetX = easedProgress * -75;
   // Scale down from full size to navbar logo size
-  const strataScale = 1 - (easedProgress * 0.85);
+  const finalScale = 0.01; // smaller = tinier final logo (default ~15% of original)
+  
+  // Compute scale progress based on SWEET's position in the viewport so we can
+  // make the text reach navbar size at a precise moment, without changing the
+  // scroll distance used for translation. Falls back to easedProgress.
+  let scaleProgress = easedProgress;
+  try {
+    const rect = sweetRef.current?.getBoundingClientRect();
+    if (rect && typeof window !== 'undefined') {
+      const sweetCenter = rect.top + rect.height / 2;
+      const viewportHeightNow = window.innerHeight;
+      const navbarLogoPosition = 40; // px from top (same trigger used elsewhere)
 
-  // STRATA opacity: visible initially, then fade out when it reaches near navbar
-  // Add delayed fade out at 75% progress
-  let strataOpacity = 1;
-  if (scrollProgress >= 0.75) {
-    strataOpacity = strataVisible ? 1 - ((scrollProgress - 0.75) / 0.25) : 0;
+      // How much distance (in px) we use to interpolate the scale. Tune this
+      // value to make the scale change earlier/later relative to the navbar.
+      const scaleRange = viewportHeightNow * 0.4;
+
+      const distance = Math.max(0, sweetCenter - navbarLogoPosition);
+      // scaleProgress goes from 0 -> 1 as distance goes from scaleRange -> 0
+      scaleProgress = 1 - Math.min(Math.max(distance / scaleRange, 0), 1);
+    }
+  } catch (e) {
+    // reading layout can fail in some SSR environments; ignore and use easedProgress
+  }
+
+  const sweetScale = 1 + (finalScale - 1) * scaleProgress;
+
+  // SWEET opacity: visible initially, then fade out when it reaches near navbar
+  // SWEET opacity: visible initially, then fade out when it reaches near navbar
+  // Add delayed fade out at 75% progress, and ensure overlap with navbar when hiding
+  let sweetOpacity = 1;
+  if (isHiding) {
+    // when hiding, start a smoother fade regardless of exact progress
+    sweetOpacity = 0.15 + (1 - Math.min(Math.max((scrollProgress - 0.5) / 0.5, 0), 1)) * 0.85;
+  } else if (scrollProgress >= 0.75) {
+    sweetOpacity = sweetVisible ? 1 - ((scrollProgress - 0.75) / 0.25) : 0;
   }
 
   return (
@@ -125,17 +180,17 @@ function ScrollAnimation() {
         </div>
 
         <div
-          ref={strataRef}
-          id="strata"
+          ref={sweetRef}
+          id="sweet"
           className="relative text-[12rem] lg:text-[16rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 leading-none tracking-tighter pointer-events-none select-none"
           style={{
-            transform: `translate(${strataX}vw, ${strataY}vh) scale(${strataScale})`,
-            opacity: strataOpacity,
+            transform: `translate(${sweetX}vw, ${sweetY}vh) scale(${sweetScale})`,
+            opacity: sweetOpacity,
             transition: 'opacity 0.3s ease-out',
             willChange: 'transform, opacity',
           }}
         >
-          STRATA
+          SWEET
         </div>
       </div>
 
@@ -143,13 +198,20 @@ function ScrollAnimation() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${
           showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
+        style={{
+          // animate backdrop blur together with opacity/transform
+          backdropFilter: showNavbar ? 'blur(12px)' : 'blur(0px)',
+          WebkitBackdropFilter: showNavbar ? 'blur(12px)' : 'blur(0px)',
+          transition:
+            'backdrop-filter 300ms ease, -webkit-backdrop-filter 300ms ease, opacity 300ms ease, transform 300ms ease',
+        }}
       >
-        <nav className="bg-white/98 backdrop-blur-lg border-b border-slate-200 shadow-sm">
+        <nav className="bg-white/98 border-b border-slate-200 shadow-sm">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
               <div className="flex items-center gap-12">
                 <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500">
-                  STRATA
+                  SWEET
                 </div>
 
                 <div className="hidden md:flex items-center gap-8">

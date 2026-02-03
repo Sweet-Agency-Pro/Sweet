@@ -11,7 +11,7 @@ function Navigation() {
               <Layers className="w-6 h-6 text-white" />
             </div>
           </div>
-          <span className="text-2xl font-black text-white tracking-tight">STRATA</span>
+          <span className="text-2xl font-black text-white tracking-wider">Sweet</span>
         </div>
 
         <div className="hidden md:flex items-center gap-8">
