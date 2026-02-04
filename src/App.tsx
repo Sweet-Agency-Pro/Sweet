@@ -3,21 +3,23 @@ import ScrollAnimation from './components/ScrollAnimation';
 import ServicesPreview from './components/ServicesPreview';
 import PortfolioPreview from './components/PortfolioPreview';
 import { Analytics } from '@vercel/analytics/react';
-import { useEffect } from 'react';
+import { useEffect, CSSProperties } from 'react';
 
+// =============================================================================
+// COMPONENT
+// =============================================================================
 function App() {
-
   useEffect(() => {
     const env = import.meta.env.VITE_VERCEL_ENV || 'local';
     if (env !== 'production') {
-      document.title = "Sweet DEVELOPMENT";
+      document.title = 'Sweet DEVELOPMENT';
     } else {
-      document.title = "Agence Sweet";
+      document.title = 'Agence Sweet';
     }
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div style={styles.app}>
       <Hero />
       <ScrollAnimation />
       <ServicesPreview />
@@ -26,5 +28,16 @@ function App() {
     </div>
   );
 }
+
+// =============================================================================
+// STYLES
+// =============================================================================
+const styles: Record<string, CSSProperties> = {
+  app: {
+    minHeight: '100vh',
+    width: '100%',
+    overflowX: 'hidden',
+  },
+};
 
 export default App;
