@@ -1,15 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* =============================================================================
+   FLUID SCALING SYSTEM
+   Base: 16px | ≥1920px: 18px | ≥2560px: 22px
+   ============================================================================= */
 
-@layer base {
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+:root {
+  --base-font-size: 16px;
+  --color-teal-500: #14b8a6;
+  --color-cyan-500: #06b6d4;
+  --color-blue-500: #3b82f6;
+  --color-purple-500: #a855f7;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-white: #ffffff;
+}
+
+html {
+  font-size: var(--base-font-size);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Large Viewports (≥1920px): Scale to 18px */
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 18px;
   }
 }
 
+/* Ultra-Wide/High-Density Viewports (≥2560px): Scale to 22px */
+@media screen and (min-width: 2560px) {
+  html {
+    font-size: 22px;
+  }
+}
+
+/* High DPI displays */
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px),
+       screen and (min-resolution: 192dpi) and (min-width: 1920px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 2560px),
+       screen and (min-resolution: 192dpi) and (min-width: 2560px) {
+  html {
+    font-size: 24px;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--color-slate-900);
+  background-color: var(--color-white);
+  min-height: 100vh;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* =============================================================================
+   UTILITY CLASSES (minimal - prefer JS styles)
+   ============================================================================= */
+
 .perspective-1000 {
-  perspective: 1000px;
+  perspective: 62.5rem; /* 1000px */
+}
+
+/* Smooth transitions for interactive elements */
+a, button {
+  transition: all 0.2s ease;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-teal-500);
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: var(--color-teal-500);
+  color: var(--color-white);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-slate-800);
+  border-radius: 0.25rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-teal-500);
 }
