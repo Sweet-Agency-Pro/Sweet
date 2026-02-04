@@ -81,7 +81,7 @@ const { colors, spacing, typography, gradients, hexToRgba } = theme;
 const styles: Record<string, CSSProperties> = {
   section: {
     position: 'relative',
-    height: '100vh',
+    height: '90vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

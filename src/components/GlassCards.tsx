@@ -146,18 +146,18 @@ const styles: Record<string, CSSProperties> = {
   },
   cardsWrapper: {
     position: 'absolute',
-    top: 0,
+    top: '12rem',
     right: 0,
     bottom: 0,
     left: 0,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
   },
   cardsContainer: {
     position: 'relative',
     width: '100%',
-    maxWidth: '28rem',
+    maxWidth: '34rem',
     transformStyle: 'preserve-3d',
   },
   // Backend Card (back layer)

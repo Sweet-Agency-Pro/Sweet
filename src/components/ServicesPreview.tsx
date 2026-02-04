@@ -102,7 +102,7 @@ const { colors, spacing, typography, borderRadius, transitions, gradients, hexTo
 const styles: Record<string, CSSProperties> = {
   section: {
     position: 'relative',
-    paddingTop: spacing[24],
+    paddingTop: spacing[16],
     paddingBottom: spacing[24],
     overflow: 'hidden',
     backgroundColor: colors.white,
