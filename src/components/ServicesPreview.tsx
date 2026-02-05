@@ -1,11 +1,43 @@
-import { ArrowRight, Code2, Database, Globe, Sparkles } from 'lucide-react';
-import { CSSProperties } from 'react';
+import { Store, BarChart3, Palette, ArrowRight, Sparkles } from 'lucide-react';
+import { CSSProperties, useState } from 'react';
 import theme from '../styles/theme';
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
 function ServicesPreview() {
+  const [hoveredService, setHoveredService] = useState<number | null>(null);
+
+  const services = [
+    {
+      id: 1,
+      icon: Palette,
+      accroche: 'Site Vitrine',
+      tagline: 'Une présentation sur mesure, adaptée à la densité de votre contenu.',
+      resume: 'Le site vitrine est le pilier de votre identité numérique. Nous adaptons sa structure selon vos objectifs : l\'option "One-Page" idéale pour un impact immédiat, ou l\'option "Multi-Pages" pour structurer votre activité en rubriques distinctes et favoriser un référencement profond. Quelle que soit la structure choisie, vous bénéficiez d\'un design unique et d\'une performance technique optimale.',
+      features: ['Design personnalisé', 'One-Page ou Multi-Pages', 'Optimisation SEO', 'Performance garantie'],
+      colorAccent: colors.teal,
+      glowColor: hexToRgba(colors.teal[500], 0.15),
+    },
+    {
+      id: 2,
+      icon: Store,
+      accroche: 'Site E-commerce',
+      tagline: 'Votre boutique en ligne complète pour vendre 24h/7j.',
+      resume: 'Transformez vos visiteurs en clients fidèles avec une plateforme de vente robuste. Notre solution e-commerce intègre les paiements sécurisés, un parcours d\'achat optimisé et une gestion de catalogue fluide. Conçu pour la performance, votre site e-commerce est développé pour supporter la croissance de votre activité tout en offrant une expérience utilisateur rassurante et professionnelle.',
+      features: ['Paiements sécurisés', 'Gestion de catalogue', 'Parcours d\'achat optimisé', 'Scalabilité'],
+      colorAccent: colors.cyan,
+      glowColor: hexToRgba(colors.cyan[500], 0.15),
+    },
+    {
+      id: 3,
+      icon: BarChart3,
+      accroche: 'Panneau de Gestion',
+      tagline: 'L\'interface d\'administration indissociable pour piloter votre site en autonomie.',
+      resume: 'Le panneau de gestion est le moteur qui rend votre Site Vitrine ou E-commerce dynamique. Greffé à votre site public, il constitue votre back-office privé et sécurisé. Il vous permet de modifier vos contenus sans toucher au code, administrer votre activité (stocks, commandes, utilisateurs), et suivre vos performances via des tableaux de bord analytiques. C\'est l\'outil indispensable pour garder la main sur votre site au quotidien.',
+      features: ['Gestion de contenu simple', 'Back-office sécurisé', 'Tableaux de bord analytiques', 'Contrôle total'],
+      colorAccent: colors.blue,
+      glowColor: hexToRgba(colors.blue[500], 0.15),
+    },
+  ];
+
   return (
     <section id="services" style={styles.section}>
       <div style={styles.container}>
@@ -17,77 +49,133 @@ function ServicesPreview() {
           </div>
 
           <h2 style={styles.title}>
-            Des solutions qui transforment
-            <span style={styles.titleGradient}> votre vision</span> en réalité
+            Solutions Numériques<br/>
+            <span style={styles.titleGradient}>Sur Mesure</span>
           </h2>
 
           <p style={styles.description}>
-            Nous ne livrons pas que du code—nous créons des expériences numériques qui propulsent votre entreprise vers l'avant.
-            De l'architecture backend la plus robuste aux interfaces utilisateur les plus élégantes, chaque ligne est écrite pour
-            générer de la valeur et des résultats mesurables.
+            Trois piliers pour construire votre présence en ligne : du site vitrine à l'e-commerce, en passant par l'administration complète de votre écosystème digital.
           </p>
-
-          <div style={styles.buttonContainer}>
-            <button style={styles.primaryButton}>
-              <div style={styles.primaryButtonBg}></div>
-              <div style={styles.primaryButtonHover}></div>
-              <span style={styles.primaryButtonContent}>
-                Découvrir tous nos services
-                <ArrowRight style={styles.buttonIcon} />
-              </span>
-            </button>
-          </div>
         </div>
 
         {/* Services Grid */}
         <div style={styles.grid}>
-          {/* Card 1 - Web Development */}
-          <div style={styles.card}>
-            <div style={{ ...styles.cardGlow, ...styles.cardGlowTeal }}></div>
-            <div style={styles.cardInner}>
-              <div style={{ ...styles.cardIcon, ...styles.cardIconTeal }}>
-                <Code2 style={{ ...styles.icon, color: colors.teal[600] }} />
-              </div>
-              <h3 style={styles.cardTitle}>Développement Web</h3>
-              <p style={styles.cardDescription}>Applications modernes et performantes</p>
-            </div>
-          </div>
+          {services.map((service) => {
+            const IconComponent = service.icon;
+            const isHovered = hoveredService === service.id;
 
-          {/* Card 2 - Backend Infrastructure */}
-          <div style={styles.card}>
-            <div style={{ ...styles.cardGlow, ...styles.cardGlowCyan }}></div>
-            <div style={styles.cardInner}>
-              <div style={{ ...styles.cardIcon, ...styles.cardIconCyan }}>
-                <Database style={{ ...styles.icon, color: colors.cyan[600] }} />
-              </div>
-              <h3 style={styles.cardTitle}>Infrastructure Backend</h3>
-              <p style={styles.cardDescription}>APIs robustes et scalables</p>
-            </div>
-          </div>
+            return (
+              <div
+                key={service.id}
+                style={{
+                  ...styles.cardWrapper,
+                  ...(isHovered ? styles.cardWrapperHovered : {}),
+                }}
+                onMouseEnter={() => setHoveredService(service.id)}
+                onMouseLeave={() => setHoveredService(null)}
+              >
+                {/* Glow effect */}
+                <div
+                  style={{
+                    ...styles.cardGlow,
+                    background: service.glowColor,
+                    opacity: isHovered ? 1 : 0.5,
+                  }}
+                />
 
-          {/* Card 3 - Cloud Architecture */}
-          <div style={styles.card}>
-            <div style={{ ...styles.cardGlow, ...styles.cardGlowBlue }}></div>
-            <div style={styles.cardInner}>
-              <div style={{ ...styles.cardIcon, ...styles.cardIconBlue }}>
-                <Globe style={{ ...styles.icon, color: colors.blue[600] }} />
-              </div>
-              <h3 style={styles.cardTitle}>Architecture Cloud</h3>
-              <p style={styles.cardDescription}>Déploiement et scaling optimisés</p>
-            </div>
-          </div>
+                {/* Card inner */}
+                <div style={{
+                  ...styles.cardInner,
+                  borderColor: isHovered ? service.colorAccent[400] : colors.slate[200],
+                }}>
+                  {/* Icon */}
+                  <div style={{
+                    ...styles.iconContainer,
+                    backgroundColor: `${service.colorAccent[50]}`,
+                    borderColor: `${service.colorAccent[200]}`,
+                  }}>
+                    <IconComponent
+                      style={{
+                        ...styles.icon,
+                        color: service.colorAccent[600],
+                      }}
+                    />
+                  </div>
 
-          {/* Card 4 - UX/UI Design */}
-          <div style={styles.card}>
-            <div style={{ ...styles.cardGlow, ...styles.cardGlowPurple }}></div>
-            <div style={styles.cardInner}>
-              <div style={{ ...styles.cardIcon, ...styles.cardIconPurple }}>
-                <Sparkles style={{ ...styles.icon, color: colors.purple[600] }} />
+                  {/* Content */}
+                  <div style={styles.cardContent}>
+                    <h3 style={styles.cardTitle}>{service.accroche}</h3>
+                    <p style={styles.cardTagline}>{service.tagline}</p>
+
+                    {/* Resume - shown on hover */}
+                    <div
+                      style={{
+                        ...styles.cardResume,
+                        opacity: isHovered ? 1 : 0,
+                        maxHeight: isHovered ? '200px' : '0px',
+                      }}
+                    >
+                      <p style={styles.resumeText}>{service.resume}</p>
+                    </div>
+
+                    {/* Features - shown on hover */}
+                    <div
+                      style={{
+                        ...styles.features,
+                        opacity: isHovered ? 1 : 0,
+                        display: isHovered ? 'grid' : 'none',
+                      }}
+                    >
+                      {service.features.map((feature, idx) => (
+                        <div key={idx} style={styles.feature}>
+                          <div style={{
+                            ...styles.featureDot,
+                            backgroundColor: service.colorAccent[500],
+                          }} />
+                          <span style={styles.featureText}>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bottom divider and arrow */}
+                  <div style={{
+                    ...styles.cardFooter,
+                    borderTopColor: isHovered ? service.colorAccent[200] : colors.slate[100],
+                  }}>
+                    <button style={{
+                      ...styles.learnMoreButton,
+                      color: isHovered ? service.colorAccent[600] : colors.slate[600],
+                    }}>
+                      <span>En savoir plus</span>
+                      <ArrowRight style={{
+                        ...styles.arrowIcon,
+                        transform: isHovered ? 'translateX(4px)' : 'translateX(0)',
+                      }} />
+                    </button>
+                  </div>
+                </div>
               </div>
-              <h3 style={styles.cardTitle}>UX/UI Design</h3>
-              <p style={styles.cardDescription}>Expériences utilisateur mémorables</p>
-            </div>
+            );
+          })}
+        </div>
+
+        {/* CTA Section */}
+        <div style={styles.ctaSection}>
+          <div style={styles.ctaContent}>
+            <h3 style={styles.ctaTitle}>Prêt à transformer votre présence numérique ?</h3>
+            <p style={styles.ctaDescription}>
+              Parlons ensemble de comment nos solutions peuvent propulser votre activité vers l'avant.
+            </p>
           </div>
+          <button style={styles.ctaButton}>
+            <div style={styles.ctaButtonBg}></div>
+            <div style={styles.ctaButtonHover}></div>
+            <span style={styles.ctaButtonContent}>
+              Commencer un projet
+              <ArrowRight style={styles.ctaButtonIcon} />
+            </span>
+          </button>
         </div>
       </div>
     </section>
@@ -96,13 +184,10 @@ function ServicesPreview() {
 
 const { colors, spacing, typography, borderRadius, transitions, gradients, hexToRgba } = theme;
 
-// =============================================================================
-// STYLES
-// =============================================================================
 const styles: Record<string, CSSProperties> = {
   section: {
     position: 'relative',
-    paddingTop: spacing[16],
+    paddingTop: spacing[20],
     paddingBottom: spacing[24],
     overflow: 'hidden',
     backgroundColor: colors.white,
@@ -117,13 +202,13 @@ const styles: Record<string, CSSProperties> = {
   },
   header: {
     textAlign: 'center',
-    maxWidth: '48rem',
+    maxWidth: '56rem',
     marginLeft: 'auto',
     marginRight: 'auto',
     display: 'flex',
     flexDirection: 'column',
     gap: spacing[6],
-    marginBottom: spacing[16],
+    marginBottom: spacing[20],
   },
   badge: {
     display: 'inline-flex',
@@ -153,6 +238,7 @@ const styles: Record<string, CSSProperties> = {
     fontWeight: typography.fontWeight.black,
     color: colors.slate[900],
     lineHeight: typography.lineHeight.tight,
+    margin: 0,
   },
   titleGradient: {
     color: 'transparent',
@@ -165,11 +251,161 @@ const styles: Record<string, CSSProperties> = {
     color: colors.slate[600],
     fontWeight: typography.fontWeight.light,
     lineHeight: typography.lineHeight.relaxed,
+    margin: 0,
   },
-  buttonContainer: {
-    paddingTop: spacing[6],
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: spacing[8],
+    marginBottom: spacing[16],
   },
-  primaryButton: {
+  cardWrapper: {
+    position: 'relative',
+    perspective: '1000px',
+    transition: `transform ${transitions.duration.medium} ${transitions.timing.ease}`,
+  },
+  cardWrapperHovered: {
+    transform: 'translateY(-8px)',
+  },
+  cardGlow: {
+    position: 'absolute',
+    top: '-1rem',
+    right: '-1rem',
+    bottom: '-1rem',
+    left: '-1rem',
+    borderRadius: borderRadius['2xl'],
+    filter: 'blur(2rem)',
+    zIndex: 0,
+    transition: `opacity ${transitions.duration.slow} ${transitions.timing.ease}`,
+  },
+  cardInner: {
+    position: 'relative',
+    backgroundColor: colors.white,
+    border: `1.5px solid ${colors.slate[200]}`,
+    borderRadius: borderRadius['2xl'],
+    padding: spacing[8],
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[6],
+    transition: `all ${transitions.duration.medium} ${transitions.timing.ease}`,
+    zIndex: 1,
+  },
+  iconContainer: {
+    width: spacing[14],
+    height: spacing[14],
+    borderRadius: borderRadius.xl,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: `1px solid`,
+  },
+  icon: {
+    width: spacing[7],
+    height: spacing[7],
+  },
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[3],
+  },
+  cardTitle: {
+    fontSize: typography.fontSize['2xl'],
+    fontWeight: typography.fontWeight.bold,
+    color: colors.slate[900],
+    margin: 0,
+  },
+  cardTagline: {
+    fontSize: typography.fontSize.base,
+    color: colors.slate[700],
+    fontWeight: typography.fontWeight.semibold,
+    margin: 0,
+  },
+  cardResume: {
+    transition: `all ${transitions.duration.medium} ${transitions.timing.ease}`,
+    overflow: 'hidden',
+  },
+  resumeText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.slate[600],
+    fontWeight: typography.fontWeight.light,
+    lineHeight: typography.lineHeight.relaxed,
+    margin: 0,
+  },
+  features: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: spacing[3],
+    transition: `all ${transitions.duration.medium} ${transitions.timing.ease}`,
+  },
+  feature: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: spacing[2],
+  },
+  featureDot: {
+    width: spacing[2],
+    height: spacing[2],
+    borderRadius: borderRadius.full,
+    flexShrink: 0,
+  },
+  featureText: {
+    fontSize: typography.fontSize.xs,
+    color: colors.slate[700],
+    fontWeight: typography.fontWeight.medium,
+  },
+  cardFooter: {
+    borderTop: `1px solid`,
+    paddingTop: spacing[4],
+    marginTop: spacing[2],
+    transition: `border-color ${transitions.duration.medium} ${transitions.timing.ease}`,
+  },
+  learnMoreButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: spacing[2],
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.semibold,
+    transition: `all ${transitions.duration.medium} ${transitions.timing.ease}`,
+    padding: 0,
+  },
+  arrowIcon: {
+    width: spacing[4],
+    height: spacing[4],
+    transition: `transform ${transitions.duration.medium} ${transitions.timing.ease}`,
+  },
+  ctaSection: {
+    backgroundColor: colors.slate[50],
+    border: `1px solid ${colors.slate[200]}`,
+    borderRadius: borderRadius['2xl'],
+    padding: spacing[12],
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
+    gap: spacing[8],
+    alignItems: 'center',
+  },
+  ctaContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[4],
+  },
+  ctaTitle: {
+    fontSize: typography.fontSize['2xl'],
+    fontWeight: typography.fontWeight.bold,
+    color: colors.slate[900],
+    margin: 0,
+  },
+  ctaDescription: {
+    fontSize: typography.fontSize.base,
+    color: colors.slate[600],
+    fontWeight: typography.fontWeight.light,
+    lineHeight: typography.lineHeight.relaxed,
+    margin: 0,
+  },
+  ctaButton: {
     position: 'relative',
     paddingLeft: spacing[8],
     paddingRight: spacing[8],
@@ -181,8 +417,9 @@ const styles: Record<string, CSSProperties> = {
     cursor: 'pointer',
     border: 'none',
     background: 'transparent',
+    whiteSpace: 'nowrap',
   },
-  primaryButtonBg: {
+  ctaButtonBg: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -191,7 +428,7 @@ const styles: Record<string, CSSProperties> = {
     backgroundImage: gradients.tealCyan,
     borderRadius: borderRadius.xl,
   },
-  primaryButtonHover: {
+  ctaButtonHover: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -201,7 +438,7 @@ const styles: Record<string, CSSProperties> = {
     opacity: 0,
     transition: `opacity ${transitions.duration.medium} ${transitions.timing.ease}`,
   },
-  primaryButtonContent: {
+  ctaButtonContent: {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
@@ -210,93 +447,9 @@ const styles: Record<string, CSSProperties> = {
     fontWeight: typography.fontWeight.semibold,
     fontSize: typography.fontSize.base,
   },
-  buttonIcon: {
+  ctaButtonIcon: {
     width: spacing[5],
     height: spacing[5],
-    transition: `transform ${transitions.duration.medium} ${transitions.timing.ease}`,
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: spacing[6],
-    maxWidth: '75rem',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  card: {
-    position: 'relative',
-  },
-  cardGlow: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    borderRadius: borderRadius['2xl'],
-    filter: 'blur(1.5rem)',
-    opacity: 0,
-    transition: `opacity ${transitions.duration.slow} ${transitions.timing.ease}`,
-  },
-  cardGlowTeal: {
-    background: `linear-gradient(to bottom right, ${hexToRgba(colors.teal[500], 0.2)}, ${hexToRgba(colors.cyan[500], 0.2)})`,
-  },
-  cardGlowCyan: {
-    background: `linear-gradient(to bottom right, ${hexToRgba(colors.cyan[500], 0.2)}, ${hexToRgba(colors.blue[500], 0.2)})`,
-  },
-  cardGlowBlue: {
-    background: `linear-gradient(to bottom right, ${hexToRgba(colors.blue[500], 0.2)}, ${hexToRgba(colors.purple[500], 0.2)})`,
-  },
-  cardGlowPurple: {
-    background: `linear-gradient(to bottom right, ${hexToRgba(colors.purple[500], 0.2)}, ${hexToRgba('#ec4899', 0.2)})`,
-  },
-  cardInner: {
-    position: 'relative',
-    backgroundColor: colors.slate[50],
-    border: `1px solid ${colors.slate[200]}`,
-    borderRadius: borderRadius['2xl'],
-    padding: spacing[6],
-    height: '100%',
-    transition: `all ${transitions.duration.medium} ${transitions.timing.ease}`,
-  },
-  cardIcon: {
-    width: spacing[12],
-    height: spacing[12],
-    borderRadius: borderRadius.xl,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing[4],
-  },
-  cardIconTeal: {
-    background: `linear-gradient(to bottom right, ${colors.teal[100]}, ${colors.cyan[100]})`,
-    border: `1px solid ${colors.teal[300]}`,
-  },
-  cardIconCyan: {
-    background: `linear-gradient(to bottom right, ${colors.cyan[100]}, ${colors.blue[100]})`,
-    border: `1px solid ${colors.cyan[300]}`,
-  },
-  cardIconBlue: {
-    background: `linear-gradient(to bottom right, ${colors.blue[100]}, ${colors.purple[100]})`,
-    border: `1px solid ${colors.blue[300]}`,
-  },
-  cardIconPurple: {
-    background: `linear-gradient(to bottom right, ${colors.purple[100]}, #fce7f3)`,
-    border: `1px solid ${colors.purple[300]}`,
-  },
-  icon: {
-    width: spacing[6],
-    height: spacing[6],
-  },
-  cardTitle: {
-    fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.slate[900],
-    marginBottom: spacing[2],
-  },
-  cardDescription: {
-    fontSize: typography.fontSize.sm,
-    color: colors.slate[600],
-    fontWeight: typography.fontWeight.light,
   },
 };
 
