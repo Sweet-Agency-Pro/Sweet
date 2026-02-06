@@ -1,9 +1,11 @@
-import Hero from './components/Hero';
-import ScrollAnimation from './components/ScrollAnimation';
-import ServicesPreview from './components/ServicesPreview';
-import PortfolioPreview from './components/PortfolioPreview';
-import { Analytics } from '@vercel/analytics/react';
 import { useEffect, CSSProperties } from 'react';
+import { Analytics } from '@vercel/analytics/react';
+
+// Section Components (modular architecture)
+import Hero from './components/sections/Hero';
+import ScrollAnimation from './components/sections/ScrollAnimation';
+import ServicesPreview from './components/sections/Services';
+import PortfolioPreview from './components/sections/Portfolio';
 
 // =============================================================================
 // COMPONENT
