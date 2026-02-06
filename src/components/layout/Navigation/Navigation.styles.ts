@@ -205,6 +205,14 @@ export const burgerStyles: Record<string, CSSProperties> = {
     backdropFilter: 'none',
     WebkitBackdropFilter: 'none',
   },
+  burgerButtonOpen: {
+    position: 'relative' as const,
+    zIndex: 1102,
+    backgroundColor: colors.slate[100],
+    border: `1px solid ${colors.slate[200]}`,
+    backdropFilter: 'none',
+    WebkitBackdropFilter: 'none',
+  },
   burgerIcon: {
     width: spacing[6],
     height: spacing[6],
@@ -213,6 +221,9 @@ export const burgerStyles: Record<string, CSSProperties> = {
   },
   burgerIconScrolled: {
     color: colors.teal[600],
+  },
+  burgerIconOpen: {
+    color: colors.slate[700],
   },
 };
 
@@ -229,7 +240,7 @@ export const drawerStyles: Record<string, CSSProperties> = {
     backgroundColor: hexToRgba(colors.slate[900], 0.5),
     backdropFilter: 'blur(0.25rem)',
     WebkitBackdropFilter: 'blur(0.25rem)',
-    zIndex: 998,
+    zIndex: 1100,
   },
   drawer: {
     position: 'fixed',
@@ -239,7 +250,7 @@ export const drawerStyles: Record<string, CSSProperties> = {
     width: '85vw',
     maxWidth: '22rem',
     backgroundColor: colors.white,
-    zIndex: 999,
+    zIndex: 1101,
     display: 'flex',
     flexDirection: 'column',
     padding: spacing[6],

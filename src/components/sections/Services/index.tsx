@@ -114,6 +114,7 @@ function ServicesPreview() {
               key={service.id}
               service={service}
               isHovered={hoveredService === service.id}
+              isMobile={isMobile}
               onHover={() => setHoveredService(service.id)}
               onLeave={() => setHoveredService(null)}
             />

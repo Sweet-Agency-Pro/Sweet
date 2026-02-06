@@ -49,17 +49,17 @@ function ScrollAnimation() {
     offset: ['start end', 'end start'],
   });
 
-  // Parallax transforms
-  const textY = useTransform(scrollYProgress, [0, 1], ['100%', '-100%']);
-  const textOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.5, 0.8, 1],
-    [0, 1, 1, 1, 0]
-  );
+  // Parallax transforms — fast, no fade
+  const textY = useTransform(scrollYProgress, [0, 1], ['300%', '-300%']);
   const textScale = useTransform(
     scrollYProgress,
+    [0, 0.2, 0.5, 0.8, 1],
+    [0.6, 1.05, 1.1, 1.05, 0.6]
+  );
+  const textRotateX = useTransform(
+    scrollYProgress,
     [0, 0.3, 0.5, 0.7, 1],
-    [0.9, 1, 1, 1, 0.9]
+    [30, 5, 0, -5, -30]
   );
 
   return (
@@ -87,8 +87,8 @@ function ScrollAnimation() {
               ...(isMobile && styles.revealTextMobile),
               ...(isTablet && styles.revealTextTablet),
               y: textY,
-              opacity: textOpacity,
               scale: textScale,
+              rotateX: textRotateX,
             }}
           >
             SWEET
@@ -96,11 +96,8 @@ function ScrollAnimation() {
         </div>
 
         {/* Subtitle */}
-        <motion.div
-          style={{
-            ...styles.subtitleContainer,
-            opacity: textOpacity,
-          }}
+        <div
+          style={styles.subtitleContainer}
         >
           <p style={{
             ...styles.subtitle,
@@ -108,7 +105,7 @@ function ScrollAnimation() {
           }}>
             Agence Web Créative
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

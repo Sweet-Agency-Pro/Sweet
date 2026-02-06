@@ -1,28 +1,41 @@
 /**
  * ServiceCard Component
- * Individual service card with hover effects
+ * Individual service card with scroll animation and mobile expand
  */
 
-import { ArrowRight } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { styles, colors } from '../Services.styles';
 import type { Service } from '../services.data';
 
 interface ServiceCardProps {
   service: Service;
   isHovered: boolean;
+  isMobile: boolean;
   onHover: () => void;
   onLeave: () => void;
 }
 
-function ServiceCard({ service, isHovered, onHover, onLeave }: ServiceCardProps) {
+function ServiceCard({ service, isHovered, isMobile, onHover, onLeave }: ServiceCardProps) {
   const IconComponent = service.icon;
+  const [isOpen, setIsOpen] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, margin: '-60px' });
+
+  // Desktop: expand on hover | Mobile: expand on button click
+  const isExpanded = isMobile ? isOpen : isHovered;
 
   return (
-    <div
+    <motion.div
+      ref={cardRef}
       style={{
         ...styles.cardWrapper,
-        ...(isHovered ? styles.cardWrapperHovered : {}),
+        ...(isExpanded && !isMobile ? styles.cardWrapperHovered : {}),
       }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
     >
@@ -31,24 +44,27 @@ function ServiceCard({ service, isHovered, onHover, onLeave }: ServiceCardProps)
         style={{
           ...styles.cardGlow,
           background: service.glowColor,
-          opacity: isHovered ? 1 : 0.5,
+          opacity: isExpanded ? 1 : 0.5,
         }}
       />
 
       {/* Card inner */}
       <div style={{
         ...styles.cardInner,
-        borderColor: isHovered ? service.colorAccent[400] : colors.slate[200],
+        ...(isMobile && styles.cardInnerMobile),
+        borderColor: isExpanded ? service.colorAccent[400] : colors.slate[200],
       }}>
         {/* Icon */}
         <div style={{
           ...styles.iconContainer,
+          ...(isMobile && styles.iconContainerMobile),
           backgroundColor: service.colorAccent[50],
           borderColor: service.colorAccent[200],
         }}>
           <IconComponent
             style={{
               ...styles.icon,
+              ...(isMobile && styles.iconMobile),
               color: service.colorAccent[600],
             }}
           />
@@ -56,26 +72,33 @@ function ServiceCard({ service, isHovered, onHover, onLeave }: ServiceCardProps)
 
         {/* Content */}
         <div style={styles.cardContent}>
-          <h3 style={styles.cardTitle}>{service.accroche}</h3>
-          <p style={styles.cardTagline}>{service.tagline}</p>
+          <h3 style={{
+            ...styles.cardTitle,
+            ...(isMobile && styles.cardTitleMobile),
+          }}>{service.accroche}</h3>
+          <p style={{
+            ...styles.cardTagline,
+            ...(isMobile && styles.cardTaglineMobile),
+          }}>{service.tagline}</p>
 
-          {/* Resume - shown on hover */}
+          {/* Resume - expandable on mobile, hover on desktop */}
           <div
             style={{
               ...styles.cardResume,
-              opacity: isHovered ? 1 : 0,
-              maxHeight: isHovered ? '12.5rem' : '0',
+              opacity: isExpanded ? 1 : 0,
+              maxHeight: isExpanded ? '20rem' : '0',
             }}
           >
             <p style={styles.resumeText}>{service.resume}</p>
           </div>
 
-          {/* Features - shown on hover */}
+          {/* Features - expandable on mobile, hover on desktop */}
           <div
             style={{
               ...styles.features,
-              opacity: isHovered ? 1 : 0,
-              display: isHovered ? 'grid' : 'none',
+              ...(isMobile && styles.featuresMobile),
+              opacity: isExpanded ? 1 : 0,
+              display: isExpanded ? 'grid' : 'none',
             }}
           >
             {service.features.map((feature, idx) => (
@@ -93,21 +116,34 @@ function ServiceCard({ service, isHovered, onHover, onLeave }: ServiceCardProps)
         {/* Footer */}
         <div style={{
           ...styles.cardFooter,
-          borderTopColor: isHovered ? service.colorAccent[200] : colors.slate[100],
+          borderTopColor: isExpanded ? service.colorAccent[200] : colors.slate[100],
         }}>
-          <button style={{
-            ...styles.learnMoreButton,
-            color: isHovered ? service.colorAccent[600] : colors.slate[600],
-          }}>
-            <span>En savoir plus</span>
-            <ArrowRight style={{
-              ...styles.arrowIcon,
-              transform: isHovered ? 'translateX(0.25rem)' : 'translateX(0)',
-            }} />
+          <button
+            style={{
+              ...styles.learnMoreButton,
+              color: isExpanded ? service.colorAccent[600] : colors.slate[600],
+            }}
+            onClick={isMobile ? () => setIsOpen((prev) => !prev) : undefined}
+          >
+            <span>{isMobile && isOpen ? 'Réduire' : 'En savoir plus'}</span>
+            {isMobile ? (
+              <ChevronDown
+                style={{
+                  ...styles.arrowIcon,
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease',
+                }}
+              />
+            ) : (
+              <ArrowRight style={{
+                ...styles.arrowIcon,
+                transform: isExpanded ? 'translateX(0.25rem)' : 'translateX(0)',
+              }} />
+            )}
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

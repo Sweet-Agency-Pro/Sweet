@@ -145,16 +145,26 @@ function Navigation() {
               style={{
                 ...styles.burgerButton,
                 ...(isScrolled && styles.burgerButtonScrolled),
+                ...(isMenuOpen && styles.burgerButtonOpen),
               }}
-              onClick={() => setIsMenuOpen(true)}
-              aria-label="Ouvrir le menu"
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             >
-              <Menu
-                style={{
-                  ...styles.burgerIcon,
-                  ...(isScrolled && styles.burgerIconScrolled),
-                }}
-              />
+              {isMenuOpen ? (
+                <X
+                  style={{
+                    ...styles.burgerIcon,
+                    ...styles.burgerIconOpen,
+                  }}
+                />
+              ) : (
+                <Menu
+                  style={{
+                    ...styles.burgerIcon,
+                    ...(isScrolled && styles.burgerIconScrolled),
+                  }}
+                />
+              )}
             </button>
           )}
         </div>

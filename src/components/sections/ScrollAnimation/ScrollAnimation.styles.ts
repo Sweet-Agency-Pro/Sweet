@@ -22,7 +22,7 @@ export const sectionStyles: Record<string, CSSProperties> = {
     backgroundColor: colors.white,
   },
   sectionMobile: {
-    height: '60vh',
+    height: '90vh',
   },
 };
 
@@ -77,9 +77,10 @@ export const revealStyles: Record<string, CSSProperties> = {
     justifyContent: 'center',
     width: '100%',
     maxWidth: '102rem',
+    perspective: '1200px',
   },
   revealWindowMobile: {
-    height: '10rem',
+    height: 'clamp(6rem, 20vw, 14rem)',
   },
   revealWindowLines: {
     position: 'absolute',
@@ -103,10 +104,10 @@ export const revealStyles: Record<string, CSSProperties> = {
     willChange: 'transform',
   },
   revealTextMobile: {
-    fontSize: '6rem',
+    fontSize: 'clamp(4rem, 22vw, 8rem)',
   },
   revealTextTablet: {
-    fontSize: '12rem',
+    fontSize: 'clamp(8rem, 16vw, 14rem)',
   },
 };
 
