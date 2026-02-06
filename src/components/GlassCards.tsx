@@ -2,9 +2,6 @@ import { CSSProperties } from 'react';
 import { useWindowSize } from '../hooks/useWindowSize';
 import theme from '../styles/theme';
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
 function GlassCards() {
   const { isMobile, isTablet } = useWindowSize();
   const isCompact = isMobile || isTablet;
@@ -22,7 +19,6 @@ function GlassCards() {
           ...styles.cardsContainer,
           ...(isCompact && styles.cardsContainerMobile),
         }}>
-          {/* Backend Card */}
           <div style={{
             ...styles.cardBackend,
             ...(isCompact && styles.cardMobile),
@@ -77,7 +73,6 @@ function GlassCards() {
             </div>
           </div>
 
-          {/* Architecture Card */}
           <div style={{
             ...styles.cardArchitecture,
             ...(isCompact && styles.cardMobile),
@@ -117,7 +112,6 @@ function GlassCards() {
             </div>
           </div>
 
-          {/* Frontend Card */}
           <div style={{
             ...styles.cardFrontend,
             ...(isCompact && styles.cardMobile),
@@ -184,20 +178,17 @@ function GlassCards() {
 
 const { colors, spacing, typography, borderRadius, transitions, hexToRgba } = theme;
 
-// =============================================================================
-// STYLES
-// =============================================================================
 const styles: Record<string, CSSProperties> = {
   container: {
     position: 'relative',
-    height: '43.75rem', // 700px
-    perspective: '62.5rem', // 1000px
+    height: '43.75rem',
+    perspective: '62.5rem',
   },
   containerMobile: {
     height: 'auto',
     perspective: 'none',
-    marginTop: spacing[8],
-    paddingLeft: spacing[5], // 1.25rem lateral safety
+    marginTop: spacing[20],
+    paddingLeft: spacing[5],
     paddingRight: spacing[5],
   },
   cardsWrapper: {
@@ -221,39 +212,23 @@ const styles: Record<string, CSSProperties> = {
     transformStyle: 'preserve-3d',
   },
   cardsContainerMobile: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: spacing[4],
-    maxWidth: '100%',
-    transformStyle: 'flat',
-  },
-  // --- Mobile card overrides (stacked, no 3D) ---
-  cardMobile: {
     position: 'relative',
-    width: '100%',
-    height: 'auto',
-    transform: 'none',
-    borderRadius: '1.5rem',
+    maxWidth: '100%',
+    height: '14rem',
+  },
+  cardMobile: {
+    height: '14rem',
   },
   cardInnerMobile: {
-    position: 'relative',
-    minHeight: '7rem',
-    padding: spacing[5],
-    borderRadius: '1.5rem',
   },
   cardLabelMobile: {
-    position: 'relative',
-    bottom: 'auto',
-    left: 'auto',
-    marginTop: spacing[4],
   },
-  // Backend Card (back layer)
   cardBackend: {
     position: 'absolute',
     width: '100%',
     height: '20rem',
     borderRadius: borderRadius['2xl'],
-    transform: 'translateZ(-5rem) rotateY(-8deg) rotateX(5deg)',
+    transform: 'translateZ(-6rem) rotateX(3deg)',
     transformStyle: 'preserve-3d',
     transition: `all ${transitions.duration.slower} ${transitions.timing.ease}`,
   },
@@ -263,61 +238,46 @@ const styles: Record<string, CSSProperties> = {
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: hexToRgba(colors.slate[800], 0.4),
-    backdropFilter: 'blur(0.25rem)',
-    WebkitBackdropFilter: 'blur(0.25rem)',
-    border: `1px solid ${hexToRgba(colors.white, 0.1)}`,
+    background: `linear-gradient(to bottom right, ${hexToRgba(colors.slate[800], 0.9)}, ${hexToRgba(colors.slate[900], 0.9)})`,
+    backdropFilter: 'blur(1.5rem)',
+    WebkitBackdropFilter: 'blur(1.5rem)',
+    border: `1px solid ${hexToRgba(colors.white, 0.2)}`,
     borderRadius: borderRadius['2xl'],
-    padding: spacing[6],
     overflow: 'hidden',
+    boxShadow: '0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25)',
   },
   codeContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: spacing[3],
-    fontFamily: 'monospace',
+    padding: spacing[6],
+    fontFamily: 'Monaco, Consolas, "Courier New", monospace',
     fontSize: typography.fontSize.xs,
-    color: colors.slate[400],
+    lineHeight: typography.lineHeight.relaxed,
   },
   codeLine: {
-    opacity: 0.6,
+    marginBottom: spacing[1],
   },
   codeLineIndent: {
-    opacity: 0.6,
     paddingLeft: spacing[4],
+    marginBottom: spacing[1],
   },
   codeComment: {
-    opacity: 0.4,
-    paddingTop: spacing[4],
-    color: colors.slate[500],
+    marginTop: spacing[4],
   },
   cardLabel: {
     position: 'absolute',
-    bottom: spacing[4],
+    bottom: spacing[6],
     left: spacing[6],
     fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.slate[500],
-    textTransform: 'uppercase',
-    letterSpacing: typography.letterSpacing.wider,
-  },
-  cardLabelLight: {
-    position: 'absolute',
-    bottom: spacing[4],
-    left: spacing[6],
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semibold,
+    fontWeight: typography.fontWeight.medium,
     color: colors.slate[400],
     textTransform: 'uppercase',
-    letterSpacing: typography.letterSpacing.wider,
+    letterSpacing: '0.05em',
   },
-  // Architecture Card (middle layer)
   cardArchitecture: {
     position: 'absolute',
     width: '100%',
     height: '20rem',
     borderRadius: borderRadius['2xl'],
-    transform: 'translateZ(-2.5rem) rotateY(-6deg) rotateX(4deg)',
+    transform: 'translateZ(-3rem) rotateY(2deg) rotateX(3deg)',
     transformStyle: 'preserve-3d',
     transition: `all ${transitions.duration.slower} ${transitions.timing.ease}`,
   },
@@ -327,15 +287,26 @@ const styles: Record<string, CSSProperties> = {
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: hexToRgba(colors.slate[700], 0.5),
-    backdropFilter: 'blur(0.75rem)',
-    WebkitBackdropFilter: 'blur(0.75rem)',
-    border: `1px solid ${hexToRgba(colors.white, 0.15)}`,
+    backgroundColor: hexToRgba(colors.white, 0.05),
+    backdropFilter: 'blur(1.5rem)',
+    WebkitBackdropFilter: 'blur(1.5rem)',
+    border: `1px solid ${hexToRgba(colors.white, 0.2)}`,
     borderRadius: borderRadius['2xl'],
-    padding: spacing[6],
     overflow: 'hidden',
+    boxShadow: '0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25)',
+  },
+  cardLabelLight: {
+    position: 'absolute',
+    bottom: spacing[6],
+    left: spacing[6],
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.medium,
+    color: hexToRgba(colors.white, 0.5),
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
   },
   archContent: {
+    padding: spacing[6],
     display: 'flex',
     flexDirection: 'column',
     gap: spacing[4],
@@ -402,7 +373,6 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: hexToRgba(colors.white, 0.1),
     borderRadius: borderRadius.default,
   },
-  // Frontend Card (front layer)
   cardFrontend: {
     position: 'absolute',
     width: '100%',
@@ -574,7 +544,6 @@ const styles: Record<string, CSSProperties> = {
   },
 };
 
-// Code highlighting colors
 const codeColors = {
   purple: colors.purple[400],
   cyan: colors.cyan[300],

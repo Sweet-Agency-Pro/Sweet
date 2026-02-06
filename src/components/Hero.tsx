@@ -276,6 +276,7 @@ const styles: Record<string, CSSProperties> = {
     gap: spacing[10],
   },
   titleMobile: {
+    marginTop: spacing[16],
     fontSize: typography.fontSize['6xl'],
   },
   titleTablet: {
