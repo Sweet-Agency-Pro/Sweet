@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProjects } from '../hooks/useProjects';
+import { useWindowSize } from '../hooks/useWindowSize';
 import { X, ExternalLink, Sparkles, Beaker, Award, ArrowRight, Quote } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import theme from '../styles/theme';
@@ -14,6 +15,8 @@ const { colors, spacing, typography, borderRadius, transitions, hexToRgba } = th
 // =============================================================================
 function PortfolioPreview() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { isMobile, isTablet } = useWindowSize();
+  const isMobileOrTablet = isMobile || isTablet;
 
   // Use consolidated hook
   const { data: projects, loading, error } = useProjects();
@@ -28,7 +31,10 @@ function PortfolioPreview() {
       {/* Background texture */}
       <div style={styles.backgroundTexture} />
 
-      <div style={styles.container}>
+      <div style={{
+        ...styles.container,
+        ...(isMobileOrTablet && styles.containerMobile),
+      }}>
         {/* Header */}
         <motion.div
           style={styles.header}
@@ -42,12 +48,19 @@ function PortfolioPreview() {
             <span style={styles.badgeText}>Portfolio</span>
           </div>
 
-          <h2 style={styles.title}>
+          <h2 style={{
+            ...styles.title,
+            ...(isMobile && styles.titleMobile),
+            ...(isTablet && styles.titleTablet),
+          }}>
             Projets qui
             <span style={styles.titleGradient}> inspirent</span>
           </h2>
 
-          <p style={styles.description}>
+          <p style={{
+            ...styles.description,
+            ...(isMobileOrTablet && styles.descriptionMobile),
+          }}>
             De la production client aux concepts exploratoires du Sweet Lab,
             découvrez comment nous repoussons les limites du possible.
           </p>
@@ -73,7 +86,10 @@ function PortfolioPreview() {
           <motion.div
             layoutId={`card-container-${flagship.id}`}
             onClick={() => setSelectedId(flagship.id)}
-            style={styles.flagshipCard}
+            style={{
+              ...styles.flagshipCard,
+              ...(isMobileOrTablet && styles.flagshipCardMobile),
+            }}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -82,14 +98,20 @@ function PortfolioPreview() {
           >
             <div style={styles.flagshipGlow} />
             <motion.div layoutId={`card-inner-${flagship.id}`} style={styles.flagshipInner}>
-              <div style={styles.flagshipContent}>
+              <div style={{
+                ...styles.flagshipContent,
+                ...(isMobileOrTablet && styles.flagshipContentMobile),
+              }}>
                 <div style={styles.flagshipLeft}>
                   <motion.div layoutId={`card-tag-${flagship.id}`} style={styles.productionTag}>
                     <Sparkles style={styles.tagIcon} />
                     <span>Production</span>
                   </motion.div>
 
-                  <motion.h3 layoutId={`card-title-${flagship.id}`} style={styles.flagshipTitle}>
+                  <motion.h3 layoutId={`card-title-${flagship.id}`} style={{
+                    ...styles.flagshipTitle,
+                    ...(isMobile && styles.flagshipTitleMobile),
+                  }}>
                     {flagship.name}
                   </motion.h3>
 
@@ -97,20 +119,28 @@ function PortfolioPreview() {
                     {flagship.hook}
                   </motion.p>
 
-                  <div style={styles.flagshipTechRow}>
-                    {flagship.tech.map((t: string) => (
+                  <div style={{
+                    ...styles.flagshipTechRow,
+                    ...(isMobile && styles.flagshipTechRowMobile),
+                  }}>
+                    {flagship.tech.slice(0, isMobile ? 3 : flagship.tech.length).map((t: string) => (
                       <span key={t} style={styles.techBadge}>
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  <button style={styles.flagshipCta}>
+                  <button style={{
+                    ...styles.flagshipCta,
+                    ...(isMobileOrTablet && styles.flagshipCtaMobile),
+                  }}>
                     <span>Explorer le projet</span>
                     <ArrowRight style={styles.ctaIcon} />
                   </button>
                 </div>
 
+                {/* Hide visual on mobile */}
+                {!isMobile && (
                 <div style={styles.flagshipVisual}>
                   <div
                     style={{
@@ -133,6 +163,7 @@ function PortfolioPreview() {
                     </div>
                   </div>
                 </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
@@ -140,18 +171,28 @@ function PortfolioPreview() {
 
         {/* Lab Section Header */}
         <motion.div
-          style={styles.labHeader}
+          style={{
+            ...styles.labHeader,
+            ...(isMobile && styles.labHeaderMobile),
+          }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <Beaker style={styles.labIcon} />
-          <span style={styles.labTitle}>Sweet Lab — Concepts Exploratoires</span>
+          <span style={{
+            ...styles.labTitle,
+            ...(isMobile && styles.labTitleMobile),
+          }}>Sweet Lab — Concepts Exploratoires</span>
         </motion.div>
 
         {/* Concepts Grid */}
-        <div style={styles.conceptsGrid}>
+        <div style={{
+          ...styles.conceptsGrid,
+          ...(isMobile && styles.conceptsGridMobile),
+          ...(isTablet && styles.conceptsGridTablet),
+        }}>
           {concepts.map((project, index) => (
             <motion.div
               key={project.id}
@@ -237,11 +278,17 @@ function PortfolioPreview() {
             {/* Modal */}
             <motion.div
               layoutId={`card-container-${selectedId}`}
-              style={styles.modal}
+              style={{
+                ...styles.modal,
+                ...(isMobileOrTablet && styles.modalMobileContainer),
+              }}
             >
               <motion.div
                 layoutId={`card-inner-${selectedId}`}
-                style={styles.modalInner}
+                style={{
+                  ...styles.modalInner,
+                  ...(isMobileOrTablet && styles.modalInnerMobile),
+                }}
               >
                 {/* Close button */}
                 <button style={styles.closeButton} onClick={() => setSelectedId(null)}>
@@ -249,7 +296,10 @@ function PortfolioPreview() {
                 </button>
 
                 {/* Modal content */}
-                <div style={styles.modalContent}>
+                <div style={{
+                  ...styles.modalContent,
+                  ...(isMobileOrTablet && styles.modalContentMobile),
+                }}>
                   {/* Left side - Info */}
                   <div style={styles.modalInfo}>
                     <motion.div
@@ -405,7 +455,7 @@ const styles: Record<string, CSSProperties> = {
     right: 0,
     bottom: 0,
     backgroundImage: `radial-gradient(${hexToRgba(colors.slate[300], 0.3)} 1px, transparent 1px)`,
-    backgroundSize: '24px 24px',
+    backgroundSize: '1.5rem 1.5rem',
     pointerEvents: 'none',
   },
   container: {
@@ -598,7 +648,7 @@ const styles: Record<string, CSSProperties> = {
     width: '80%',
     backgroundColor: colors.white,
     borderRadius: borderRadius.xl,
-    boxShadow: `0 25px 50px -12px ${hexToRgba(colors.slate[900], 0.2)}`,
+    boxShadow: `0 1.5625rem 3.125rem -0.75rem ${hexToRgba(colors.slate[900], 0.2)}`,
     overflow: 'hidden',
   },
   mockupHeader: {
@@ -759,8 +809,8 @@ const styles: Record<string, CSSProperties> = {
     right: 0,
     bottom: 0,
     backgroundColor: hexToRgba(colors.slate[900], 0.6),
-    backdropFilter: 'blur(8px)',
-    WebkitBackdropFilter: 'blur(8px)',
+    backdropFilter: 'blur(0.5rem)',
+    WebkitBackdropFilter: 'blur(0.5rem)',
     zIndex: 100,
   },
   modal: {
@@ -778,7 +828,7 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: colors.white,
     borderRadius: '2rem',
     overflow: 'hidden',
-    boxShadow: `0 25px 50px -12px ${hexToRgba(colors.slate[900], 0.25)}, 0 0 0 1px ${hexToRgba(colors.slate[200], 0.5)}`,
+    boxShadow: `0 1.5625rem 3.125rem -0.75rem ${hexToRgba(colors.slate[900], 0.25)}, 0 0 0 1px ${hexToRgba(colors.slate[200], 0.5)}`,
   },
   closeButton: {
     position: 'absolute',
@@ -851,7 +901,7 @@ const styles: Record<string, CSSProperties> = {
     padding: spacing[5],
     backgroundColor: colors.teal[50],
     borderRadius: borderRadius.xl,
-    borderLeft: `4px solid ${colors.teal[500]}`,
+    borderLeft: `0.25rem solid ${colors.teal[500]}`,
   },
   quoteIcon: {
     position: 'absolute',
@@ -939,7 +989,7 @@ const styles: Record<string, CSSProperties> = {
     width: '85%',
     backgroundColor: colors.white,
     borderRadius: borderRadius.xl,
-    boxShadow: `0 25px 50px -12px ${hexToRgba(colors.slate[900], 0.25)}`,
+    boxShadow: `0 1.5625rem 3.125rem -0.75rem ${hexToRgba(colors.slate[900], 0.25)}`,
     overflow: 'hidden',
   },
   modalMockupContent: {
@@ -999,6 +1049,73 @@ const styles: Record<string, CSSProperties> = {
     borderRadius: borderRadius.lg,
     marginBottom: spacing[6],
     textAlign: 'center' as const,
+  },
+
+  // -------------------------------------------------------------------------
+  // MOBILE & TABLET STYLES
+  // -------------------------------------------------------------------------
+  containerMobile: {
+    paddingLeft: spacing[5],
+    paddingRight: spacing[5],
+  },
+  titleMobile: {
+    fontSize: typography.fontSize['3xl'],
+  },
+  titleTablet: {
+    fontSize: typography.fontSize['4xl'],
+  },
+  descriptionMobile: {
+    fontSize: typography.fontSize.base,
+    maxWidth: '100%',
+  },
+  flagshipCardMobile: {
+    marginBottom: spacing[8],
+  },
+  flagshipContentMobile: {
+    gridTemplateColumns: '1fr',
+    gap: spacing[6],
+  },
+  flagshipTitleMobile: {
+    fontSize: typography.fontSize['2xl'],
+  },
+  flagshipTechRowMobile: {
+    flexWrap: 'wrap',
+  },
+  flagshipCtaMobile: {
+    width: '100%',
+    minHeight: spacing[11], // 44px touch target
+  },
+  labHeaderMobile: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: spacing[2],
+  },
+  labTitleMobile: {
+    fontSize: typography.fontSize.sm,
+  },
+  conceptsGridMobile: {
+    gridTemplateColumns: '1fr',
+    gap: spacing[4],
+  },
+  conceptsGridTablet: {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: spacing[5],
+  },
+  modalMobileContainer: {
+    width: '95vw',
+    maxWidth: '100%',
+    maxHeight: '95vh',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+  modalInnerMobile: {
+    borderRadius: borderRadius.xl,
+  },
+  modalContentMobile: {
+    gridTemplateColumns: '1fr',
+    maxHeight: '80vh',
+    overflowY: 'auto',
   },
 };
 

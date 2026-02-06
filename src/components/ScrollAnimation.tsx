@@ -1,5 +1,6 @@
 import { useRef, CSSProperties } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useWindowSize } from '../hooks/useWindowSize';
 import theme from '../styles/theme';
 
 // =============================================================================
@@ -7,6 +8,8 @@ import theme from '../styles/theme';
 // =============================================================================
 function ScrollAnimation() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { isMobile, isTablet } = useWindowSize();
+  const isMobileOrTablet = isMobile || isTablet;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -28,28 +31,41 @@ function ScrollAnimation() {
   );
 
   return (
-    <section ref={sectionRef} style={styles.section}>
+    <section ref={sectionRef} style={{
+      ...styles.section,
+      ...(isMobileOrTablet && styles.sectionMobile),
+    }}>
       {/* Background */}
       <div style={styles.backgroundContainer}>
-        <div style={styles.backgroundBlob}></div>
+        <div style={{
+          ...styles.backgroundBlob,
+          ...(isMobileOrTablet && styles.backgroundBlobMobile),
+        }}></div>
       </div>
 
-      {/* Decorative corners */}
-      <div style={styles.decorativeElements}>
-        <div style={styles.cornerTL}></div>
-        <div style={styles.cornerTR}></div>
-        <div style={styles.cornerBL}></div>
-        <div style={styles.cornerBR}></div>
-      </div>
+      {/* Decorative corners - hidden on mobile */}
+      {!isMobile && (
+        <div style={styles.decorativeElements}>
+          <div style={styles.cornerTL}></div>
+          <div style={styles.cornerTR}></div>
+          <div style={styles.cornerBL}></div>
+          <div style={styles.cornerBR}></div>
+        </div>
+      )}
 
       {/* Main reveal container */}
       <div style={styles.revealContainer}>
         {/* The masking window */}
-        <div style={styles.revealWindow}>
+        <div style={{
+          ...styles.revealWindow,
+          ...(isMobileOrTablet && styles.revealWindowMobile),
+        }}>
           {/* Animated text - only visible within the window */}
           <motion.div
             style={{
               ...styles.revealText,
+              ...(isMobile && styles.revealTextMobile),
+              ...(isTablet && styles.revealTextTablet),
               y: textY,
               opacity: textOpacity,
               scale: textScale,
@@ -66,7 +82,10 @@ function ScrollAnimation() {
             opacity: textOpacity,
           }}
         >
-          <p style={styles.subtitle}>Agence Web Créative</p>
+          <p style={{
+            ...styles.subtitle,
+            ...(isMobile && styles.subtitleMobile),
+          }}>Agence Web Créative</p>
         </motion.div>
       </div>
     </section>
@@ -200,6 +219,30 @@ const styles: Record<string, CSSProperties> = {
     color: colors.slate[500],
     fontWeight: typography.fontWeight.light,
     letterSpacing: typography.letterSpacing.wide,
+  },
+
+  // -------------------------------------------------------------------------
+  // MOBILE & TABLET STYLES
+  // -------------------------------------------------------------------------
+  sectionMobile: {
+    height: '60vh',
+  },
+  backgroundBlobMobile: {
+    width: '25rem',
+    height: '25rem',
+    filter: 'blur(5rem)',
+  },
+  revealWindowMobile: {
+    height: '10rem',
+  },
+  revealTextMobile: {
+    fontSize: '6rem',
+  },
+  revealTextTablet: {
+    fontSize: '12rem',
+  },
+  subtitleMobile: {
+    fontSize: typography.fontSize.base,
   },
 };
 

@@ -1,9 +1,12 @@
 import { Store, BarChart3, Palette, ArrowRight, Sparkles } from 'lucide-react';
 import { CSSProperties, useState } from 'react';
+import { useWindowSize } from '../hooks/useWindowSize';
 import theme from '../styles/theme';
 
 function ServicesPreview() {
   const [hoveredService, setHoveredService] = useState<number | null>(null);
+  const { isMobile, isTablet } = useWindowSize();
+  const isMobileOrTablet = isMobile || isTablet;
 
   const services = [
     {
@@ -40,7 +43,10 @@ function ServicesPreview() {
 
   return (
     <section id="services" style={styles.section}>
-      <div style={styles.container}>
+      <div style={{
+        ...styles.container,
+        ...(isMobileOrTablet && styles.containerMobile),
+      }}>
         {/* Header */}
         <div style={styles.header}>
           <div style={styles.badge}>
@@ -48,18 +54,29 @@ function ServicesPreview() {
             <span style={styles.badgeText}>Nos Services</span>
           </div>
 
-          <h2 style={styles.title}>
+          <h2 style={{
+            ...styles.title,
+            ...(isMobile && styles.titleMobile),
+            ...(isTablet && styles.titleTablet),
+          }}>
             Solutions Numériques<br/>
             <span style={styles.titleGradient}>Sur Mesure</span>
           </h2>
 
-          <p style={styles.description}>
+          <p style={{
+            ...styles.description,
+            ...(isMobileOrTablet && styles.descriptionMobile),
+          }}>
             Trois piliers pour construire votre présence en ligne : du site vitrine à l'e-commerce, en passant par l'administration complète de votre écosystème digital.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div style={styles.grid}>
+        <div style={{
+          ...styles.grid,
+          ...(isMobile && styles.gridMobile),
+          ...(isTablet && styles.gridTablet),
+        }}>
           {services.map((service) => {
             const IconComponent = service.icon;
             const isHovered = hoveredService === service.id;
@@ -112,7 +129,7 @@ function ServicesPreview() {
                       style={{
                         ...styles.cardResume,
                         opacity: isHovered ? 1 : 0,
-                        maxHeight: isHovered ? '200px' : '0px',
+                        maxHeight: isHovered ? '12.5rem' : '0',
                       }}
                     >
                       <p style={styles.resumeText}>{service.resume}</p>
@@ -150,7 +167,7 @@ function ServicesPreview() {
                       <span>En savoir plus</span>
                       <ArrowRight style={{
                         ...styles.arrowIcon,
-                        transform: isHovered ? 'translateX(4px)' : 'translateX(0)',
+                        transform: isHovered ? 'translateX(0.25rem)' : 'translateX(0)',
                       }} />
                     </button>
                   </div>
@@ -161,14 +178,23 @@ function ServicesPreview() {
         </div>
 
         {/* CTA Section */}
-        <div style={styles.ctaSection}>
+        <div style={{
+          ...styles.ctaSection,
+          ...(isMobileOrTablet && styles.ctaSectionMobile),
+        }}>
           <div style={styles.ctaContent}>
-            <h3 style={styles.ctaTitle}>Prêt à transformer votre présence numérique ?</h3>
+            <h3 style={{
+              ...styles.ctaTitle,
+              ...(isMobile && styles.ctaTitleMobile),
+            }}>Prêt à transformer votre présence numérique ?</h3>
             <p style={styles.ctaDescription}>
               Parlons ensemble de comment nos solutions peuvent propulser votre activité vers l'avant.
             </p>
           </div>
-          <button style={styles.ctaButton}>
+          <button style={{
+            ...styles.ctaButton,
+            ...(isMobileOrTablet && styles.ctaButtonMobile),
+          }}>
             <div style={styles.ctaButtonBg}></div>
             <div style={styles.ctaButtonHover}></div>
             <span style={styles.ctaButtonContent}>
@@ -261,11 +287,11 @@ const styles: Record<string, CSSProperties> = {
   },
   cardWrapper: {
     position: 'relative',
-    perspective: '1000px',
+    perspective: '62.5rem',
     transition: `transform ${transitions.duration.medium} ${transitions.timing.ease}`,
   },
   cardWrapperHovered: {
-    transform: 'translateY(-8px)',
+    transform: 'translateY(-0.5rem)',
   },
   cardGlow: {
     position: 'absolute',
@@ -450,6 +476,44 @@ const styles: Record<string, CSSProperties> = {
   ctaButtonIcon: {
     width: spacing[5],
     height: spacing[5],
+  },
+
+  // -------------------------------------------------------------------------
+  // MOBILE & TABLET STYLES
+  // -------------------------------------------------------------------------
+  containerMobile: {
+    paddingLeft: spacing[5],
+    paddingRight: spacing[5],
+  },
+  titleMobile: {
+    fontSize: typography.fontSize['3xl'],
+  },
+  titleTablet: {
+    fontSize: typography.fontSize['4xl'],
+  },
+  descriptionMobile: {
+    fontSize: typography.fontSize.base,
+    maxWidth: '100%',
+  },
+  gridMobile: {
+    gridTemplateColumns: '1fr',
+    gap: spacing[6],
+  },
+  gridTablet: {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: spacing[6],
+  },
+  ctaSectionMobile: {
+    flexDirection: 'column',
+    textAlign: 'center',
+    gap: spacing[6],
+  },
+  ctaTitleMobile: {
+    fontSize: typography.fontSize.xl,
+  },
+  ctaButtonMobile: {
+    width: '100%',
+    minHeight: spacing[11], // 44px touch target
   },
 };
 

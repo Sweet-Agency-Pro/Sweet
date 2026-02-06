@@ -2,41 +2,70 @@ import { ArrowRight } from 'lucide-react';
 import { CSSProperties } from 'react';
 import Navigation from './Navigation';
 import GlassCards from './GlassCards';
+import { useWindowSize } from '../hooks/useWindowSize';
 import theme from '../styles/theme';
 
 // =============================================================================
 // COMPONENT
 // =============================================================================
 function Hero() {
+  const { isMobile, isTablet, isDesktop } = useWindowSize();
+  const isMobileOrTablet = isMobile || isTablet;
+
   return (
     <div id="hero-section" style={styles.hero}>
       {/* Background blobs */}
       <div style={styles.backgroundContainer}>
-        <div style={styles.bgBlob1}></div>
-        <div style={styles.bgBlob2}></div>
+        <div style={{
+          ...styles.bgBlob1,
+          ...(isMobileOrTablet && styles.bgBlob1Mobile),
+        }}></div>
+        <div style={{
+          ...styles.bgBlob2,
+          ...(isMobileOrTablet && styles.bgBlob2Mobile),
+        }}></div>
         <div style={styles.bgBlob3}></div>
       </div>
 
       <Navigation />
 
-      <main style={styles.main}>
-        <div style={styles.grid}>
+      <main style={{
+        ...styles.main,
+        ...(isMobileOrTablet && styles.mainMobile),
+      }}>
+        <div style={{
+          ...styles.grid,
+          ...(isMobileOrTablet && styles.gridMobile),
+        }}>
           {/* Left content */}
           <div style={styles.content}>
             <div style={styles.textContent}>
-              <h1 style={styles.title}>
+              <h1 style={{
+                ...styles.title,
+                ...(isMobile && styles.titleMobile),
+                ...(isTablet && styles.titleTablet),
+              }}>
                 Agence web<br />
                 <span style={styles.titleGradient}>
                   Sweet.
                 </span>
               </h1>
-              <p style={styles.description}>
+              <p style={{
+                ...styles.description,
+                ...(isMobileOrTablet && styles.descriptionMobile),
+              }}>
                 Derrière chaque interface élégante se cache une technologie solide. Nous rendons le web plus simple, plus beau, plus Sweet.
               </p>
             </div>
 
-            <div style={styles.buttonContainer}>
-              <button style={styles.primaryButton}>
+            <div style={{
+              ...styles.buttonContainer,
+              ...(isMobile && styles.buttonContainerMobile),
+            }}>
+              <button style={{
+                ...styles.primaryButton,
+                ...(isMobile && styles.primaryButtonMobile),
+              }}>
                 <div style={styles.primaryButtonBg}></div>
                 <div style={styles.primaryButtonHover}></div>
                 <span style={styles.primaryButtonContent}>
@@ -45,14 +74,20 @@ function Hero() {
                 </span>
               </button>
 
-              <button style={styles.secondaryButton}>
+              <button style={{
+                ...styles.secondaryButton,
+                ...(isMobile && styles.secondaryButtonMobile),
+              }}>
                 Voir les Projets
               </button>
             </div>
+
+            {/* GlassCards – displayed below buttons on mobile/tablet */}
+            {isMobileOrTablet && <GlassCards />}
           </div>
 
-          {/* Right content - Glass Cards */}
-          <GlassCards />
+          {/* Right content - Glass Cards - Desktop only */}
+          {isDesktop && <GlassCards />}
         </div>
       </main>
     </div>
@@ -225,6 +260,53 @@ const styles: Record<string, CSSProperties> = {
     border: 'none',
     background: 'transparent',
     fontSize: typography.fontSize.base,
+  },
+
+  // -------------------------------------------------------------------------
+  // MOBILE STYLES
+  // -------------------------------------------------------------------------
+  mainMobile: {
+    paddingTop: spacing[16],
+    paddingBottom: spacing[16],
+    paddingLeft: spacing[5],
+    paddingRight: spacing[5],
+  },
+  gridMobile: {
+    gridTemplateColumns: '1fr',
+    gap: spacing[10],
+  },
+  titleMobile: {
+    fontSize: typography.fontSize['6xl'],
+  },
+  titleTablet: {
+    fontSize: typography.fontSize['5xl'],
+  },
+  descriptionMobile: {
+    fontSize: typography.fontSize.lg,
+    maxWidth: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  buttonContainerMobile: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: spacing[3],
+  },
+  primaryButtonMobile: {
+    minHeight: spacing[11], // 44px touch target
+  },
+  secondaryButtonMobile: {
+    minHeight: spacing[11], // 44px touch target
+  },
+  bgBlob1Mobile: {
+    width: '16rem',
+    height: '16rem',
+    left: '-4rem',
+  },
+  bgBlob2Mobile: {
+    width: '20rem',
+    height: '20rem',
+    right: '-5rem',
   },
 };
 

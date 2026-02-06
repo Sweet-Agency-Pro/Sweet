@@ -60,10 +60,34 @@ body {
   color: var(--color-slate-900);
   background-color: var(--color-white);
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+}
+
+html {
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+/* =============================================================================
+   MOBILE-FIRST VIEWPORT SAFETY
+   ============================================================================= */
+
+/* Ensure content doesn't overflow viewport */
+#root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Touch target minimum size (44px x 44px) */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 2.75rem; /* 44px */
+    min-width: 2.75rem;
+  }
 }
 
 /* =============================================================================

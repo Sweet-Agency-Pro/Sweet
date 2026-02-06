@@ -1,17 +1,36 @@
 import { CSSProperties } from 'react';
+import { useWindowSize } from '../hooks/useWindowSize';
 import theme from '../styles/theme';
 
 // =============================================================================
 // COMPONENT
 // =============================================================================
 function GlassCards() {
+  const { isMobile, isTablet } = useWindowSize();
+  const isCompact = isMobile || isTablet;
+
   return (
-    <div style={styles.container}>
-      <div style={styles.cardsWrapper}>
-        <div style={styles.cardsContainer}>
+    <div style={{
+      ...styles.container,
+      ...(isCompact && styles.containerMobile),
+    }}>
+      <div style={{
+        ...styles.cardsWrapper,
+        ...(isCompact && styles.cardsWrapperMobile),
+      }}>
+        <div style={{
+          ...styles.cardsContainer,
+          ...(isCompact && styles.cardsContainerMobile),
+        }}>
           {/* Backend Card */}
-          <div style={styles.cardBackend}>
-            <div style={styles.cardBackendInner}>
+          <div style={{
+            ...styles.cardBackend,
+            ...(isCompact && styles.cardMobile),
+          }}>
+            <div style={{
+              ...styles.cardBackendInner,
+              ...(isCompact && styles.cardInnerMobile),
+            }}>
               <div style={styles.codeContent}>
                 <div style={styles.codeLine}>
                   <span style={{ color: codeColors.purple }}>const</span>{' '}
@@ -37,23 +56,36 @@ function GlassCards() {
                   <span style={{ color: codeColors.yellow }}>3000</span>);
                 </div>
                 <div style={styles.codeLine}>{'}'}</div>
-                <div style={styles.codeComment}>
-                  <span style={{ color: colors.slate[500] }}>// PostgreSQL + Redis</span>
-                </div>
-                <div style={{ opacity: 0.4 }}>
-                  <span style={{ color: colors.slate[500] }}>// Architecture Microservices</span>
-                </div>
-                <div style={{ opacity: 0.4 }}>
-                  <span style={{ color: colors.slate[500] }}>// APIs GraphQL + REST</span>
-                </div>
+                {!isCompact && (
+                  <>
+                    <div style={styles.codeComment}>
+                      <span style={{ color: colors.slate[500] }}>// PostgreSQL + Redis</span>
+                    </div>
+                    <div style={{ opacity: 0.4 }}>
+                      <span style={{ color: colors.slate[500] }}>// Architecture Microservices</span>
+                    </div>
+                    <div style={{ opacity: 0.4 }}>
+                      <span style={{ color: colors.slate[500] }}>// APIs GraphQL + REST</span>
+                    </div>
+                  </>
+                )}
               </div>
-              <div style={styles.cardLabel}>Couche Backend</div>
+              <div style={{
+                ...styles.cardLabel,
+                ...(isCompact && styles.cardLabelMobile),
+              }}>Couche Backend</div>
             </div>
           </div>
 
           {/* Architecture Card */}
-          <div style={styles.cardArchitecture}>
-            <div style={styles.cardArchitectureInner}>
+          <div style={{
+            ...styles.cardArchitecture,
+            ...(isCompact && styles.cardMobile),
+          }}>
+            <div style={{
+              ...styles.cardArchitectureInner,
+              ...(isCompact && styles.cardInnerMobile),
+            }}>
               <div style={styles.archContent}>
                 <div style={styles.archHeader}>
                   <div style={styles.archHeaderBar1}></div>
@@ -63,24 +95,37 @@ function GlassCards() {
                   <div style={styles.archBox}></div>
                   <div style={styles.archBox}></div>
                 </div>
-                <div style={styles.archLines}>
-                  <div style={styles.archLine1}></div>
-                  <div style={styles.archLine2}></div>
-                  <div style={styles.archLine3}></div>
-                </div>
-                <div style={styles.archGrid3}>
-                  <div style={styles.archBoxSmall}></div>
-                  <div style={styles.archBoxSmall}></div>
-                  <div style={styles.archBoxSmall}></div>
-                </div>
+                {!isCompact && (
+                  <>
+                    <div style={styles.archLines}>
+                      <div style={styles.archLine1}></div>
+                      <div style={styles.archLine2}></div>
+                      <div style={styles.archLine3}></div>
+                    </div>
+                    <div style={styles.archGrid3}>
+                      <div style={styles.archBoxSmall}></div>
+                      <div style={styles.archBoxSmall}></div>
+                      <div style={styles.archBoxSmall}></div>
+                    </div>
+                  </>
+                )}
               </div>
-              <div style={styles.cardLabelLight}>Couche Architecture</div>
+              <div style={{
+                ...styles.cardLabelLight,
+                ...(isCompact && styles.cardLabelMobile),
+              }}>Couche Architecture</div>
             </div>
           </div>
 
           {/* Frontend Card */}
-          <div style={styles.cardFrontend}>
-            <div style={styles.cardFrontendInner}>
+          <div style={{
+            ...styles.cardFrontend,
+            ...(isCompact && styles.cardMobile),
+          }}>
+            <div style={{
+              ...styles.cardFrontendInner,
+              ...(isCompact && styles.cardInnerMobile),
+            }}>
               <div style={styles.cardFrontendGradient}></div>
               <div style={styles.frontendContent}>
                 <div style={styles.frontendHeader}>
@@ -109,20 +154,24 @@ function GlassCards() {
                       <div style={styles.frontendCardBox}></div>
                     </div>
                   </div>
-                  <div style={styles.frontendMiniCards}>
-                    <div style={styles.frontendMiniCard}>
-                      <div style={styles.frontendMiniCardBar}></div>
-                      <div style={styles.frontendMiniCardGradient1}></div>
-                    </div>
-                    <div style={styles.frontendMiniCard}>
-                      <div style={styles.frontendMiniCardBar}></div>
-                      <div style={styles.frontendMiniCardGradient2}></div>
-                    </div>
-                  </div>
-                  <div style={styles.frontendFooter}>
-                    <div style={styles.frontendFooterBar}></div>
-                    <div style={styles.frontendFooterBox}></div>
-                  </div>
+                  {!isCompact && (
+                    <>
+                      <div style={styles.frontendMiniCards}>
+                        <div style={styles.frontendMiniCard}>
+                          <div style={styles.frontendMiniCardBar}></div>
+                          <div style={styles.frontendMiniCardGradient1}></div>
+                        </div>
+                        <div style={styles.frontendMiniCard}>
+                          <div style={styles.frontendMiniCardBar}></div>
+                          <div style={styles.frontendMiniCardGradient2}></div>
+                        </div>
+                      </div>
+                      <div style={styles.frontendFooter}>
+                        <div style={styles.frontendFooterBar}></div>
+                        <div style={styles.frontendFooterBox}></div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -144,6 +193,13 @@ const styles: Record<string, CSSProperties> = {
     height: '43.75rem', // 700px
     perspective: '62.5rem', // 1000px
   },
+  containerMobile: {
+    height: 'auto',
+    perspective: 'none',
+    marginTop: spacing[8],
+    paddingLeft: spacing[5], // 1.25rem lateral safety
+    paddingRight: spacing[5],
+  },
   cardsWrapper: {
     position: 'absolute',
     top: '12rem',
@@ -154,11 +210,42 @@ const styles: Record<string, CSSProperties> = {
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
+  cardsWrapperMobile: {
+    position: 'relative',
+    top: 0,
+  },
   cardsContainer: {
     position: 'relative',
     width: '100%',
     maxWidth: '34rem',
     transformStyle: 'preserve-3d',
+  },
+  cardsContainerMobile: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[4],
+    maxWidth: '100%',
+    transformStyle: 'flat',
+  },
+  // --- Mobile card overrides (stacked, no 3D) ---
+  cardMobile: {
+    position: 'relative',
+    width: '100%',
+    height: 'auto',
+    transform: 'none',
+    borderRadius: '1.5rem',
+  },
+  cardInnerMobile: {
+    position: 'relative',
+    minHeight: '7rem',
+    padding: spacing[5],
+    borderRadius: '1.5rem',
+  },
+  cardLabelMobile: {
+    position: 'relative',
+    bottom: 'auto',
+    left: 'auto',
+    marginTop: spacing[4],
   },
   // Backend Card (back layer)
   cardBackend: {
