@@ -71,8 +71,8 @@ const ContactInfo: React.FC = () => {
     {
       icon: <EmailIcon size={22} />,
       label: 'Email',
-      value: 'hello@sweetagency.com',
-      href: 'mailto:hello@sweetagency.com',
+      value: 'contact@agence-sweet.com',
+      href: 'mailto:contact@agence-sweet.com',
     },
     {
       icon: <PhoneIcon size={22} />,
@@ -83,7 +83,7 @@ const ContactInfo: React.FC = () => {
     {
       icon: <LocationIcon size={22} />,
       label: 'Adresse',
-      value: 'Paris, France',
+      value: 'Strasbourg, France',
     },
   ];
 
