@@ -278,7 +278,7 @@ export const flagshipStyles: Record<string, CSSProperties> = {
 export const mockupStyles: Record<string, CSSProperties> = {
   mockupHeader: {
     padding: spacing[3],
-    backgroundColor: colors.slate[100],
+    backgroundColor: colors.slate[150],
     borderBottom: `1px solid ${colors.slate[200]}`,
   },
   mockupDots: {

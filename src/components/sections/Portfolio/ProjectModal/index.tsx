@@ -3,6 +3,7 @@
  * Modal overlay for project details
  */
 
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
@@ -16,7 +17,12 @@ interface ProjectModalProps {
 }
 
 function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: ProjectModalProps) {
+  const [imageError, setImageError] = useState(false);
+
   if (!selectedId || !project) return null;
+
+  const hasPreviewImage = project.previewUrl && !imageError;
+  console.log('Rendering ProjectModal for:', project.name, 'Has preview image:', hasPreviewImage);
 
   return (
     <AnimatePresence>
@@ -161,32 +167,57 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                       background: project.colorAccent.gradient,
                     }}
                   />
-                  <div style={styles.modalMockup}>
-                    <div style={styles.mockupHeader}>
-                      <div style={styles.mockupDots}>
-                        <span style={{ ...styles.mockupDot, backgroundColor: '#ff5f57' }} />
-                        <span style={{ ...styles.mockupDot, backgroundColor: '#febc2e' }} />
-                        <span style={{ ...styles.mockupDot, backgroundColor: '#28c840' }} />
+                  
+                  {/* Preview image or fallback mockup */}
+                  {hasPreviewImage ? (
+                    <div style={styles.modalMockup}>
+                      <div style={styles.mockupHeader}>
+                        <div style={styles.mockupDots}>
+                          <span style={{ ...styles.mockupDot, backgroundColor: '#ff5f57' }} />
+                          <span style={{ ...styles.mockupDot, backgroundColor: '#febc2e' }} />
+                          <span style={{ ...styles.mockupDot, backgroundColor: '#28c840' }} />
+                        </div>
                       </div>
-                    </div>
-                    <div style={styles.modalMockupContent}>
-                      <div
+                      <img
+                        src={project.previewUrl}
+                        alt={`Preview de ${project.name}`}
                         style={{
-                          ...styles.mockupAccentBar,
-                          background: project.colorAccent.gradient,
+                          width: '100%',
+                          height: 'auto',
+                          display: 'block',
+                          objectFit: 'cover',
                         }}
+                        onError={() => setImageError(true)}
                       />
-                      <div style={styles.mockupLine} />
-                      <div style={{ ...styles.mockupLine, width: '70%' }} />
-                      <div style={{ ...styles.mockupLine, width: '50%' }} />
-                      <div style={styles.mockupBlockLarge} />
-                      <div style={styles.mockupGrid}>
-                        <div style={styles.mockupGridItem} />
-                        <div style={styles.mockupGridItem} />
-                        <div style={styles.mockupGridItem} />
+                    </div>
+                  ) : (
+                    <div style={styles.modalMockup}>
+                      <div style={styles.mockupHeader}>
+                        <div style={styles.mockupDots}>
+                          <span style={{ ...styles.mockupDot, backgroundColor: '#ff5f57' }} />
+                          <span style={{ ...styles.mockupDot, backgroundColor: '#febc2e' }} />
+                          <span style={{ ...styles.mockupDot, backgroundColor: '#28c840' }} />
+                        </div>
+                      </div>
+                      <div style={styles.modalMockupContent}>
+                        <div
+                          style={{
+                            ...styles.mockupAccentBar,
+                            background: project.colorAccent.gradient,
+                          }}
+                        />
+                        <div style={styles.mockupLine} />
+                        <div style={{ ...styles.mockupLine, width: '70%' }} />
+                        <div style={{ ...styles.mockupLine, width: '50%' }} />
+                        <div style={styles.mockupBlockLarge} />
+                        <div style={styles.mockupGrid}>
+                          <div style={styles.mockupGridItem} />
+                          <div style={styles.mockupGridItem} />
+                          <div style={styles.mockupGridItem} />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </motion.div>
               </div>
             </motion.div>

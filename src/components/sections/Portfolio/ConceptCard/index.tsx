@@ -3,6 +3,7 @@
  * Individual concept/lab project card
  */
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Beaker, ArrowRight } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
@@ -15,6 +16,8 @@ interface ConceptCardProps {
 }
 
 function ConceptCard({ project, index, onClick }: ConceptCardProps) {
+  const [imageError, setImageError] = useState(false);
+  const hasPreviewImage = project.previewUrl && !imageError;
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
@@ -27,13 +30,28 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       whileHover={{ y: -6, scale: 1.02 }}
     >
       <motion.div layoutId={`card-inner-${project.id}`} style={styles.conceptInner}>
-        {/* Visual accent bar */}
-        <div
-          style={{
-            ...styles.conceptAccent,
-            background: project.colorAccent.gradient,
-          }}
-        />
+        {/* Preview image or accent bar */}
+        {hasPreviewImage ? (
+          <img
+            src={project.previewUrl}
+            alt={`Preview de ${project.name}`}
+            style={{
+              width: '100%',
+              height: '8rem',
+              objectFit: 'cover',
+              borderRadius: '0.75rem 0.75rem 0 0',
+              marginBottom: '1rem',
+            }}
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div
+            style={{
+              ...styles.conceptAccent,
+              background: project.colorAccent.gradient,
+            }}
+          />
+        )}
 
         <motion.div layoutId={`card-tag-${project.id}`} style={styles.conceptTag}>
           {project.type === 'production' ? (

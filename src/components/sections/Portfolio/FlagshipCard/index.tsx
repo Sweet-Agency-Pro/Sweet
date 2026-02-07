@@ -3,6 +3,7 @@
  * Featured project card with visual mockup
  */
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
@@ -16,6 +17,8 @@ interface FlagshipCardProps {
 }
 
 function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: FlagshipCardProps) {
+  const [imageError, setImageError] = useState(false);
+  const hasPreviewImage = project.previewUrl && !imageError;
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
@@ -88,11 +91,25 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
                     <span style={{ ...styles.mockupDot, backgroundColor: '#28c840' }} />
                   </div>
                 </div>
-                <div style={styles.mockupContent}>
-                  <div style={styles.mockupLine} />
-                  <div style={{ ...styles.mockupLine, width: '60%' }} />
-                  <div style={styles.mockupBlock} />
-                </div>
+                {hasPreviewImage ? (
+                  <img
+                    src={project.previewUrl}
+                    alt={`Preview de ${project.name}`}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      display: 'block',
+                      objectFit: 'cover',
+                    }}
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div style={styles.mockupContent}>
+                    <div style={styles.mockupLine} />
+                    <div style={{ ...styles.mockupLine, width: '60%' }} />
+                    <div style={styles.mockupBlock} />
+                  </div>
+                )}
               </div>
             </div>
           )}
