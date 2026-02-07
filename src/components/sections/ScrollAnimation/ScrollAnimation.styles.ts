@@ -70,7 +70,7 @@ export const revealStyles: Record<string, CSSProperties> = {
   },
   revealWindow: {
     position: 'relative',
-    height: '20rem',
+    height: 'min(60vh, 30rem)',
     overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
@@ -91,7 +91,7 @@ export const revealStyles: Record<string, CSSProperties> = {
     pointerEvents: 'none',
   },
   revealText: {
-    fontSize: '30rem',
+    fontSize: 'clamp(4rem, 20vw, 30rem)',
     fontWeight: typography.fontWeight.black,
     color: 'transparent',
     backgroundClip: 'text',
@@ -104,10 +104,10 @@ export const revealStyles: Record<string, CSSProperties> = {
     willChange: 'transform',
   },
   revealTextMobile: {
-    fontSize: 'clamp(4rem, 22vw, 8rem)',
+    fontSize: 'clamp(2rem, 16vw, 6rem)',
   },
   revealTextTablet: {
-    fontSize: 'clamp(8rem, 16vw, 14rem)',
+    fontSize: 'clamp(3.5rem, 14vw, 12rem)',
   },
 };
 
