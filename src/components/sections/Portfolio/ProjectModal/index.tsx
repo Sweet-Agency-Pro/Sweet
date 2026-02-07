@@ -3,24 +3,21 @@
  * Modal overlay for project details
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
 
 interface ProjectModalProps {
-  project: Project | undefined;
-  selectedId: string | null;
+  project: Project;
+  selectedId: string;
   isMobileOrTablet: boolean;
   onClose: () => void;
 }
 
 function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: ProjectModalProps) {
-  if (!selectedId || !project) return null;
 
   return (
-    <AnimatePresence>
-      {selectedId && project && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -41,10 +38,15 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
           >
             <motion.div
               layoutId={`card-inner-${selectedId}`}
+              layout
               style={{
                 ...styles.modalInner,
                 ...(isMobileOrTablet && styles.modalInnerMobile),
               }}
+              initial={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
+              animate={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
+              exit={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }} 
+              transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             >
               {/* Close button */}
               <button style={styles.closeButton} onClick={onClose}>
@@ -187,8 +189,6 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
             </motion.div>
           </motion.div>
         </>
-      )}
-    </AnimatePresence>
   );
 }
 

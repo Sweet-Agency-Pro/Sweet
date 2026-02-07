@@ -140,8 +140,15 @@ export const flagshipStyles: Record<string, CSSProperties> = {
     backgroundColor: colors.white,
     borderRadius: '2rem',
     border: `1px solid ${colors.slate[200]}`,
+    
+    // --- CORRECTIFS GPU (AJOUTÉS) ---
     overflow: 'hidden',
+    transform: 'translateZ(0)', // Force le GPU
+    willChange: 'transform, border-radius', // Optimisation
+    // --------------------------------
+    
     zIndex: 1,
+    boxShadow: `0 0.625rem 2.5rem -0.5rem ${hexToRgba(colors.slate[900], 0.15)}, 0 0.25rem 1rem -0.25rem ${hexToRgba(colors.slate[900], 0.1)}`,
   },
   flagshipContent: {
     display: 'grid',
@@ -368,7 +375,14 @@ export const conceptStyles: Record<string, CSSProperties> = {
     display: 'flex',
     flexDirection: 'column',
     gap: spacing[4],
+    
+    // --- CORRECTIFS GPU (AJOUTÉS) ---
     overflow: 'hidden',
+    transform: 'translateZ(0)',
+    willChange: 'transform, border-radius',
+    // --------------------------------
+
+    boxShadow: `0 0.5rem 2rem -0.375rem ${hexToRgba(colors.slate[900], 0.12)}, 0 0.25rem 0.75rem -0.25rem ${hexToRgba(colors.slate[900], 0.08)}`,
   },
   conceptAccent: {
     position: 'absolute',
@@ -445,7 +459,7 @@ export const conceptStyles: Record<string, CSSProperties> = {
 };
 
 // =============================================================================
-// MODAL STYLES
+// MODAL STYLES (CORRIGÉ ANIMATION BORDUR & 4K)
 // =============================================================================
 export const modalStyles: Record<string, CSSProperties> = {
   backdrop: {
@@ -454,35 +468,47 @@ export const modalStyles: Record<string, CSSProperties> = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: hexToRgba(colors.slate[900], 0.6),
+    backgroundColor: hexToRgba(colors.slate[900], 0.7),
     backdropFilter: 'blur(0.5rem)',
     WebkitBackdropFilter: 'blur(0.5rem)',
     zIndex: 100,
   },
   modal: {
     position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: 'auto',
     width: '90vw',
-    maxWidth: '72rem',
-    maxHeight: '90vh',
+    maxWidth: '100rem',
+    height: 'fit-content',
+    maxHeight: '92vh',
     zIndex: 101,
+    display: 'flex',
+    flexDirection: 'column',
+    pointerEvents: 'none',
   },
   modalMobileContainer: {
     width: '95vw',
-    maxWidth: '100%',
     maxHeight: '95vh',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
   },
   modalInner: {
     position: 'relative',
     backgroundColor: colors.white,
     borderRadius: '2rem',
+    
+    // ON NETTOIE ICI : Pas de clipPath
     overflow: 'hidden',
-    boxShadow: `0 1.5625rem 3.125rem -0.75rem ${hexToRgba(colors.slate[900], 0.25)}, 0 0 0 1px ${hexToRgba(colors.slate[200], 0.5)}`,
+    transform: 'translateZ(0)',
+    willChange: 'transform, opacity, border-radius', 
+    backfaceVisibility: 'hidden',
+
+    boxShadow: `0 25px 50px -12px ${hexToRgba(colors.slate[900], 0.25)}`,
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '100%',
+    pointerEvents: 'auto',
   },
   modalInnerMobile: {
     borderRadius: borderRadius.xl,
@@ -496,12 +522,13 @@ export const modalStyles: Record<string, CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.slate[100],
-    border: 'none',
+    backgroundColor: colors.white,
+    border: `1px solid ${colors.slate[200]}`,
     borderRadius: borderRadius.full,
     cursor: 'pointer',
-    zIndex: 10,
+    zIndex: 50,
     transition: `all ${transitions.duration.medium} ${transitions.timing.ease}`,
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
   },
   closeIcon: {
     width: spacing[5],
@@ -510,19 +537,26 @@ export const modalStyles: Record<string, CSSProperties> = {
   },
   modalContent: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    minHeight: '32rem',
+    gridTemplateColumns: '1fr 1.2fr',
+    overflowY: 'auto',
+    overscrollBehavior: 'contain',
+    
+    // Sécurité supplémentaire : on s'assure que le contenu respecte la découpe
+    borderRadius: 'inherit', 
+    WebkitMaskImage: '-webkit-radial-gradient(white, black)', // Fix bug Safari overflow
   },
   modalContentMobile: {
-    gridTemplateColumns: '1fr',
-    maxHeight: '80vh',
+    display: 'flex',
+    flexDirection: 'column-reverse',
     overflowY: 'auto',
+    maxHeight: '85vh',
   },
   modalInfo: {
-    padding: spacing[12],
+    padding: spacing[10],
     display: 'flex',
     flexDirection: 'column',
     gap: spacing[5],
+    backgroundColor: colors.white,
   },
   modalConceptTag: {
     display: 'inline-flex',
@@ -637,6 +671,10 @@ export const modalStyles: Record<string, CSSProperties> = {
     justifyContent: 'center',
     background: `linear-gradient(135deg, ${colors.slate[100]}, ${colors.slate[50]})`,
     overflow: 'hidden',
+    minHeight: '20rem',
+    // Correction supplémentaire pour l'image qui pourrait passer par dessus le bord
+    borderTopRightRadius: '2rem',
+    borderBottomRightRadius: '2rem',
   },
   modalGradientOrb: {
     position: 'absolute',
