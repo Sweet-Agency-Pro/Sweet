@@ -90,7 +90,7 @@ function CTAButtons({ isMobile }: { isMobile: boolean }) {
 // MAIN COMPONENT
 // =============================================================================
 function Hero() {
-  const { isMobile, isTablet, isDesktop } = useWindowSize();
+  const { isMobile, isTablet, isDesktop, isLargeDesktop } = useWindowSize();
   const isMobileOrTablet = isMobile || isTablet;
 
   return (
@@ -101,6 +101,7 @@ function Hero() {
       <main style={{
         ...styles.main,
         ...(isMobileOrTablet && styles.mainMobile),
+        ...(isLargeDesktop && styles.mainLargeDesktop),
       }}>
         <div style={{
           ...styles.grid,

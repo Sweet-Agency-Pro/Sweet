@@ -17,16 +17,22 @@ export const containerStyles: Record<string, CSSProperties> = {
     minHeight: '100vh',
     overflow: 'hidden',
     background: gradients.heroBackground,
+    display: 'flex',
+    flexDirection: 'column',
   },
   main: {
     position: 'relative',
-    maxWidth: '87.5rem',
+    width: '100%',
+    maxWidth: '80rem',
     marginLeft: 'auto',
     marginRight: 'auto',
     paddingLeft: spacing[6],
     paddingRight: spacing[6],
     paddingTop: spacing[32],
     paddingBottom: spacing[24],
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
   },
   mainMobile: {
     paddingTop: spacing[16],
@@ -34,11 +40,17 @@ export const containerStyles: Record<string, CSSProperties> = {
     paddingLeft: spacing[5],
     paddingRight: spacing[5],
   },
+  mainLargeDesktop: {
+    maxWidth: '90rem',
+    paddingLeft: spacing[12],
+    paddingRight: spacing[12],
+  },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: spacing[20],
+    gap: spacing[16],
     alignItems: 'center',
+    width: '100%',
   },
   gridMobile: {
     gridTemplateColumns: '1fr',
@@ -116,7 +128,7 @@ export const contentStyles: Record<string, CSSProperties> = {
     gap: spacing[6],
   },
   title: {
-    fontSize: typography.fontSize['7xl'],
+    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
     fontWeight: typography.fontWeight.black,
     color: colors.white,
     lineHeight: typography.lineHeight.tight,
@@ -125,10 +137,10 @@ export const contentStyles: Record<string, CSSProperties> = {
   },
   titleMobile: {
     marginTop: spacing[16],
-    fontSize: typography.fontSize['6xl'],
+    fontSize: 'clamp(3rem, 8vw, 3rem)',
   },
   titleTablet: {
-    fontSize: typography.fontSize['5xl'],
+    fontSize: 'clamp(2.25rem, 6vw, 3.5rem)',
   },
   titleGradient: {
     color: 'transparent',
@@ -137,7 +149,7 @@ export const contentStyles: Record<string, CSSProperties> = {
     backgroundImage: `linear-gradient(to right, ${colors.teal[300]}, ${colors.cyan[300]}, ${colors.blue[300]})`,
   },
   description: {
-    fontSize: typography.fontSize.xl,
+    fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
     color: colors.slate[300],
     fontWeight: typography.fontWeight.light,
     lineHeight: typography.lineHeight.relaxed,

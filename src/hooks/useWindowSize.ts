@@ -7,6 +7,7 @@ export const BREAKPOINTS = {
   mobile: 768,    // < 768px
   tablet: 1024,   // 768px - 1024px
   desktop: 1024,  // > 1024px
+  largeDesktop: 1440, // > 1440px (scaling reference)
 } as const;
 
 // =============================================================================
@@ -18,6 +19,7 @@ export interface WindowSize {
   isMobile: boolean;
   isTablet: boolean;
   isDesktop: boolean;
+  isLargeDesktop: boolean;
 }
 
 // =============================================================================
@@ -33,6 +35,7 @@ export function useWindowSize(): WindowSize {
         isMobile: false,
         isTablet: false,
         isDesktop: true,
+        isLargeDesktop: false,
       };
     }
     
@@ -43,6 +46,7 @@ export function useWindowSize(): WindowSize {
       isMobile: width < BREAKPOINTS.mobile,
       isTablet: width >= BREAKPOINTS.mobile && width < BREAKPOINTS.tablet,
       isDesktop: width >= BREAKPOINTS.desktop,
+      isLargeDesktop: width >= BREAKPOINTS.largeDesktop,
     };
   });
 
@@ -62,6 +66,7 @@ export function useWindowSize(): WindowSize {
           isMobile: width < BREAKPOINTS.mobile,
           isTablet: width >= BREAKPOINTS.mobile && width < BREAKPOINTS.tablet,
           isDesktop: width >= BREAKPOINTS.desktop,
+          isLargeDesktop: width >= BREAKPOINTS.largeDesktop,
         });
       }, 100);
     };

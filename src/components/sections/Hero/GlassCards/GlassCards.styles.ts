@@ -24,8 +24,10 @@ export const codeColors = {
 export const containerStyles: Record<string, CSSProperties> = {
   container: {
     position: 'relative',
-    height: '43.75rem',
+    height: 'clamp(20rem, 40vw, 28rem)',
     perspective: '62.5rem',
+    width: '100%',
+    maxWidth: '32rem',
   },
   containerMobile: {
     height: 'auto',
@@ -33,10 +35,11 @@ export const containerStyles: Record<string, CSSProperties> = {
     marginTop: spacing[20],
     paddingLeft: spacing[5],
     paddingRight: spacing[5],
+    maxWidth: '100%',
   },
   cardsWrapper: {
     position: 'absolute',
-    top: '12rem',
+    top: 'clamp(4rem, 10vw, 8rem)',
     right: 0,
     bottom: 0,
     left: 0,
@@ -51,7 +54,7 @@ export const containerStyles: Record<string, CSSProperties> = {
   cardsContainer: {
     position: 'relative',
     width: '100%',
-    maxWidth: '34rem',
+    maxWidth: '28rem',
     transformStyle: 'preserve-3d',
   },
   cardsContainerMobile: {
@@ -99,7 +102,7 @@ export const backendCardStyles: Record<string, CSSProperties> = {
   cardBackend: {
     position: 'absolute',
     width: '100%',
-    height: '20rem',
+    height: 'clamp(14rem, 18vw, 18rem)',
     borderRadius: borderRadius['2xl'],
     transform: 'translateZ(-6rem) rotateX(3deg)',
     transformStyle: 'preserve-3d',
@@ -144,7 +147,7 @@ export const architectureCardStyles: Record<string, CSSProperties> = {
   cardArchitecture: {
     position: 'absolute',
     width: '100%',
-    height: '20rem',
+    height: 'clamp(14rem, 18vw, 18rem)',
     borderRadius: borderRadius['2xl'],
     transform: 'translateZ(-3rem) rotateY(2deg) rotateX(3deg)',
     transformStyle: 'preserve-3d',
@@ -241,7 +244,7 @@ export const frontendCardStyles: Record<string, CSSProperties> = {
   cardFrontend: {
     position: 'absolute',
     width: '100%',
-    height: '20rem',
+    height: 'clamp(14rem, 18vw, 18rem)',
     borderRadius: borderRadius['2xl'],
     transform: 'translateZ(0) rotateY(-4deg) rotateX(3deg)',
     transformStyle: 'preserve-3d',
