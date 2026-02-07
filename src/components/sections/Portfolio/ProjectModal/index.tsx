@@ -3,21 +3,24 @@
  * Modal overlay for project details
  */
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
 
 interface ProjectModalProps {
-  project: Project;
-  selectedId: string;
+  project: Project | undefined;
+  selectedId: string | null;
   isMobileOrTablet: boolean;
   onClose: () => void;
 }
 
 function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: ProjectModalProps) {
+  if (!selectedId || !project) return null;
 
   return (
+    <AnimatePresence>
+      {selectedId && project && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -189,6 +192,8 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
             </motion.div>
           </motion.div>
         </>
+      )}
+    </AnimatePresence>
   );
 }
 

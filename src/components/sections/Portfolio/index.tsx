@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Award, Beaker } from 'lucide-react';
 
 import { useProjects } from '../../../hooks/useProjects';
@@ -173,16 +173,12 @@ function PortfolioPreview() {
       </div>
 
       {/* Modal */}
-      <AnimatePresence>
-        {selectedId && selectedProject && (
-          <ProjectModal
-            project={selectedProject}
-            selectedId={selectedId}
-            isMobileOrTablet={isMobileOrTablet}
-            onClose={() => setSelectedId(null)}
-          />
-        )}
-      </AnimatePresence>
+      <ProjectModal
+        project={selectedProject}
+        selectedId={selectedId}
+        isMobileOrTablet={isMobileOrTablet}
+        onClose={() => setSelectedId(null)}
+      />
     </section>
   );
 }
