@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback, CSSProperties } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { styles } from '../Contact.styles';
 
@@ -94,6 +94,9 @@ function ContactForm({ isMobile }: ContactFormProps) {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<FormStatus>('idle');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  
+  // Nouvel état pour gérer l'animation de secousse
+  const [isShaking, setIsShaking] = useState(false);
 
   // Handle input change with real-time validation for touched fields
   const handleChange = useCallback((field: keyof FormData, value: string) => {
@@ -136,7 +139,11 @@ function ContactForm({ isMobile }: ContactFormProps) {
       message: true,
     });
 
+    // Si erreur, on déclenche l'animation "Shake"
     if (Object.keys(formErrors).length > 0) {
+      setIsShaking(true);
+      // On retire l'état secousse après la fin de l'animation (500ms)
+      setTimeout(() => setIsShaking(false), 500);
       return;
     }
 
@@ -150,8 +157,8 @@ function ContactForm({ isMobile }: ContactFormProps) {
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       setTouched({});
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setStatus('idle'), 5000);
+      // Reset success message after 15 seconds
+      setTimeout(() => setStatus('idle'), 15000);
     } catch {
       setStatus('error');
       setTimeout(() => setStatus('idle'), 5000);
@@ -317,6 +324,18 @@ function ContactForm({ isMobile }: ContactFormProps) {
             ...styles.submitButton,
             ...(status === 'loading' && styles.submitButtonDisabled),
           }}
+          // Animation de secousse (Error Shake)
+          animate={isShaking ? { 
+            x: [0, -10, 10, -10, 10, 0],
+            boxShadow: [
+              "0 0 0 0 rgba(239, 68, 68, 0)", 
+              "0 0 0.5rem 0.25rem rgba(239, 68, 68, 0.4)", // Glow rouge
+              "0 0 0 0 rgba(239, 68, 68, 0)"
+            ]
+          } : { x: 0 }}
+          transition={{ duration: 0.5 }}
+          
+          // État Hover (uniquement si pas en loading)
           whileHover={
             status !== 'loading'
               ? {
@@ -326,7 +345,8 @@ function ContactForm({ isMobile }: ContactFormProps) {
                 }
               : {}
           }
-          whileTap={status !== 'loading' ? { scale: 0.98 } : {}}
+          // Feedback de pression plus marqué (0.95 au lieu de 0.98)
+          whileTap={status !== 'loading' ? { scale: 0.95 } : {}}
         >
           {status === 'loading' ? (
             <>
@@ -342,34 +362,54 @@ function ContactForm({ isMobile }: ContactFormProps) {
         </motion.button>
 
         {/* Success Message */}
-        {status === 'success' && (
-          <motion.div
-            style={styles.successMessage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-          >
-            <CheckCircle style={styles.successIcon} />
-            <span style={styles.successText}>
-              Message envoyé avec succès ! Nous vous répondrons sous 24h.
-            </span>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {status === 'success' && (
+            <motion.div
+              key="success"
+              style={styles.successMessage}
+              initial={{ opacity: 0, y: 20, scale: 0.95, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+              exit={{
+                opacity: 0,
+                y: -10,
+                scale: 0.9,
+                filter: 'blur(6px)',
+                transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+              }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+            >
+              <CheckCircle style={styles.successIcon} />
+              <span style={styles.successText}>
+                Message envoyé avec succès ! Nous vous répondrons sous 24h.
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Error Message */}
-        {status === 'error' && (
-          <motion.div
-            style={styles.errorBox}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-          >
-            <AlertCircle style={styles.errorIcon} />
-            <span style={styles.errorText}>
-              Une erreur est survenue. Veuillez réessayer ou nous contacter directement.
-            </span>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {status === 'error' && (
+            <motion.div
+              key="error"
+              style={styles.errorBox}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{
+                opacity: 0,
+                y: -10,
+                scale: 0.9,
+                filter: 'blur(6px)',
+                transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+              }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <AlertCircle style={styles.errorIcon} />
+              <span style={styles.errorText}>
+                Une erreur est survenue. Veuillez réessayer ou nous contacter directement.
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </form>
 
       {/* CSS for spinner animation */}
