@@ -1,76 +1,67 @@
-import { ArrowRight } from 'lucide-react';
+/**
+ * Hero Styles
+ * Separated style definitions for the Hero section
+ */
+
 import { CSSProperties } from 'react';
-import Navigation from './Navigation';
-import GlassCards from './GlassCards';
-import theme from '../styles/theme';
-
-// =============================================================================
-// COMPONENT
-// =============================================================================
-function Hero() {
-  return (
-    <div id="hero-section" style={styles.hero}>
-      {/* Background blobs */}
-      <div style={styles.backgroundContainer}>
-        <div style={styles.bgBlob1}></div>
-        <div style={styles.bgBlob2}></div>
-        <div style={styles.bgBlob3}></div>
-      </div>
-
-      <Navigation />
-
-      <main style={styles.main}>
-        <div style={styles.grid}>
-          {/* Left content */}
-          <div style={styles.content}>
-            <div style={styles.textContent}>
-              <h1 style={styles.title}>
-                Agence web<br />
-                <span style={styles.titleGradient}>
-                  Sweet.
-                </span>
-              </h1>
-              <p style={styles.description}>
-                Derrière chaque interface élégante se cache une technologie solide. Nous rendons le web plus simple, plus beau, plus Sweet.
-              </p>
-            </div>
-
-            <div style={styles.buttonContainer}>
-              <button style={styles.primaryButton}>
-                <div style={styles.primaryButtonBg}></div>
-                <div style={styles.primaryButtonHover}></div>
-                <span style={styles.primaryButtonContent}>
-                  Nos Services
-                  <ArrowRight style={styles.buttonIcon} />
-                </span>
-              </button>
-
-              <button style={styles.secondaryButton}>
-                Voir les Projets
-              </button>
-            </div>
-          </div>
-
-          {/* Right content - Glass Cards */}
-          <GlassCards />
-        </div>
-      </main>
-    </div>
-  );
-}
+import theme from '../../../styles/theme';
 
 const { colors, spacing, typography, borderRadius, transitions, gradients, hexToRgba } = theme;
 
 // =============================================================================
-// STYLES
+// CONTAINER STYLES
 // =============================================================================
-const styles: Record<string, CSSProperties> = {
+export const containerStyles: Record<string, CSSProperties> = {
   hero: {
     position: 'relative',
     minHeight: '100vh',
     overflow: 'hidden',
     background: gradients.heroBackground,
+    display: 'flex',
+    flexDirection: 'column',
   },
+  main: {
+    position: 'relative',
+    width: '100%',
+    maxWidth: '80rem',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingLeft: spacing[6],
+    paddingRight: spacing[6],
+    paddingTop: spacing[32],
+    paddingBottom: spacing[24],
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  mainMobile: {
+    paddingTop: spacing[16],
+    paddingBottom: spacing[16],
+    paddingLeft: spacing[5],
+    paddingRight: spacing[5],
+  },
+  mainLargeDesktop: {
+    maxWidth: '90rem',
+    paddingLeft: spacing[12],
+    paddingRight: spacing[12],
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: spacing[16],
+    alignItems: 'center',
+    width: '100%',
+  },
+  gridMobile: {
+    gridTemplateColumns: '1fr',
+    gap: spacing[10],
+  },
+};
+
+// =============================================================================
+// BACKGROUND BLOB STYLES
+// =============================================================================
+export const backgroundStyles: Record<string, CSSProperties> = {
   backgroundContainer: {
     position: 'absolute',
     top: 0,
@@ -89,6 +80,11 @@ const styles: Record<string, CSSProperties> = {
     borderRadius: '50%',
     filter: 'blur(7.5rem)',
   },
+  bgBlob1Mobile: {
+    width: '16rem',
+    height: '16rem',
+    left: '-4rem',
+  },
   bgBlob2: {
     position: 'absolute',
     top: '33%',
@@ -98,6 +94,11 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: hexToRgba(colors.slate[600], 0.15),
     borderRadius: '50%',
     filter: 'blur(8.75rem)',
+  },
+  bgBlob2Mobile: {
+    width: '20rem',
+    height: '20rem',
+    right: '-5rem',
   },
   bgBlob3: {
     position: 'absolute',
@@ -109,22 +110,12 @@ const styles: Record<string, CSSProperties> = {
     borderRadius: '50%',
     filter: 'blur(6.25rem)',
   },
-  main: {
-    position: 'relative',
-    maxWidth: '87.5rem',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingLeft: spacing[6],
-    paddingRight: spacing[6],
-    paddingTop: spacing[32],
-    paddingBottom: spacing[24],
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: spacing[20],
-    alignItems: 'center',
-  },
+};
+
+// =============================================================================
+// CONTENT STYLES
+// =============================================================================
+export const contentStyles: Record<string, CSSProperties> = {
   content: {
     display: 'flex',
     flexDirection: 'column',
@@ -137,12 +128,19 @@ const styles: Record<string, CSSProperties> = {
     gap: spacing[6],
   },
   title: {
-    fontSize: typography.fontSize['7xl'],
+    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
     fontWeight: typography.fontWeight.black,
     color: colors.white,
     lineHeight: typography.lineHeight.tight,
     letterSpacing: typography.letterSpacing.normal,
     margin: 0,
+  },
+  titleMobile: {
+    marginTop: spacing[16],
+    fontSize: 'clamp(3rem, 8vw, 3rem)',
+  },
+  titleTablet: {
+    fontSize: 'clamp(2.25rem, 6vw, 3.5rem)',
   },
   titleGradient: {
     color: 'transparent',
@@ -151,17 +149,34 @@ const styles: Record<string, CSSProperties> = {
     backgroundImage: `linear-gradient(to right, ${colors.teal[300]}, ${colors.cyan[300]}, ${colors.blue[300]})`,
   },
   description: {
-    fontSize: typography.fontSize.xl,
+    fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
     color: colors.slate[300],
     fontWeight: typography.fontWeight.light,
     lineHeight: typography.lineHeight.relaxed,
     maxWidth: '28rem',
     margin: 0,
   },
+  descriptionMobile: {
+    fontSize: typography.fontSize.lg,
+    maxWidth: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+};
+
+// =============================================================================
+// BUTTON STYLES
+// =============================================================================
+export const buttonStyles: Record<string, CSSProperties> = {
   buttonContainer: {
     display: 'flex',
     flexWrap: 'wrap',
     gap: spacing[4],
+  },
+  buttonContainerMobile: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: spacing[3],
   },
   primaryButton: {
     position: 'relative',
@@ -175,6 +190,9 @@ const styles: Record<string, CSSProperties> = {
     cursor: 'pointer',
     border: 'none',
     background: 'transparent',
+  },
+  primaryButtonMobile: {
+    minHeight: spacing[11],
   },
   primaryButtonBg: {
     position: 'absolute',
@@ -226,6 +244,17 @@ const styles: Record<string, CSSProperties> = {
     background: 'transparent',
     fontSize: typography.fontSize.base,
   },
+  secondaryButtonMobile: {
+    minHeight: spacing[11],
+  },
 };
 
-export default Hero;
+// =============================================================================
+// MERGED STYLES EXPORT
+// =============================================================================
+export const styles: Record<string, CSSProperties> = {
+  ...containerStyles,
+  ...backgroundStyles,
+  ...contentStyles,
+  ...buttonStyles,
+};

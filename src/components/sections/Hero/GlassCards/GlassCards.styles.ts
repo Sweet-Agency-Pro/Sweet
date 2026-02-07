@@ -1,152 +1,45 @@
+/**
+ * GlassCards Styles
+ * Separated style definitions for the 3D glassmorphism cards
+ */
+
 import { CSSProperties } from 'react';
-import theme from '../styles/theme';
-
-// =============================================================================
-// COMPONENT
-// =============================================================================
-function GlassCards() {
-  return (
-    <div style={styles.container}>
-      <div style={styles.cardsWrapper}>
-        <div style={styles.cardsContainer}>
-          {/* Backend Card */}
-          <div style={styles.cardBackend}>
-            <div style={styles.cardBackendInner}>
-              <div style={styles.codeContent}>
-                <div style={styles.codeLine}>
-                  <span style={{ color: codeColors.purple }}>const</span>{' '}
-                  <span style={{ color: codeColors.cyan }}>buildAPI</span> ={' '}
-                  <span style={{ color: codeColors.yellow }}>async</span> () =&gt; {'{'}
-                </div>
-                <div style={styles.codeLineIndent}>
-                  <span style={{ color: codeColors.purple }}>const</span> server ={' '}
-                  <span style={{ color: codeColors.cyan }}>express</span>();
-                </div>
-                <div style={styles.codeLineIndent}>
-                  <span style={{ color: codeColors.purple }}>await</span>{' '}
-                  <span style={{ color: codeColors.cyan }}>database</span>.
-                  <span style={{ color: codeColors.green }}>connect</span>();
-                </div>
-                <div style={styles.codeLineIndent}>
-                  server.<span style={{ color: codeColors.green }}>use</span>(
-                  <span style={{ color: codeColors.cyan }}>middleware</span>);
-                </div>
-                <div style={styles.codeLineIndent}>
-                  <span style={{ color: codeColors.purple }}>return</span> server.
-                  <span style={{ color: codeColors.green }}>listen</span>(
-                  <span style={{ color: codeColors.yellow }}>3000</span>);
-                </div>
-                <div style={styles.codeLine}>{'}'}</div>
-                <div style={styles.codeComment}>
-                  <span style={{ color: colors.slate[500] }}>// PostgreSQL + Redis</span>
-                </div>
-                <div style={{ opacity: 0.4 }}>
-                  <span style={{ color: colors.slate[500] }}>// Architecture Microservices</span>
-                </div>
-                <div style={{ opacity: 0.4 }}>
-                  <span style={{ color: colors.slate[500] }}>// APIs GraphQL + REST</span>
-                </div>
-              </div>
-              <div style={styles.cardLabel}>Couche Backend</div>
-            </div>
-          </div>
-
-          {/* Architecture Card */}
-          <div style={styles.cardArchitecture}>
-            <div style={styles.cardArchitectureInner}>
-              <div style={styles.archContent}>
-                <div style={styles.archHeader}>
-                  <div style={styles.archHeaderBar1}></div>
-                  <div style={styles.archHeaderBar2}></div>
-                </div>
-                <div style={styles.archGrid2}>
-                  <div style={styles.archBox}></div>
-                  <div style={styles.archBox}></div>
-                </div>
-                <div style={styles.archLines}>
-                  <div style={styles.archLine1}></div>
-                  <div style={styles.archLine2}></div>
-                  <div style={styles.archLine3}></div>
-                </div>
-                <div style={styles.archGrid3}>
-                  <div style={styles.archBoxSmall}></div>
-                  <div style={styles.archBoxSmall}></div>
-                  <div style={styles.archBoxSmall}></div>
-                </div>
-              </div>
-              <div style={styles.cardLabelLight}>Couche Architecture</div>
-            </div>
-          </div>
-
-          {/* Frontend Card */}
-          <div style={styles.cardFrontend}>
-            <div style={styles.cardFrontendInner}>
-              <div style={styles.cardFrontendGradient}></div>
-              <div style={styles.frontendContent}>
-                <div style={styles.frontendHeader}>
-                  <div style={styles.frontendHeaderLeft}>
-                    <div style={styles.frontendAvatar}></div>
-                    <div style={styles.frontendAvatarText}>
-                      <div style={styles.frontendAvatarBar1}></div>
-                      <div style={styles.frontendAvatarBar2}></div>
-                    </div>
-                  </div>
-                  <div style={styles.frontendDots}>
-                    <div style={styles.frontendDot}></div>
-                    <div style={styles.frontendDot}></div>
-                    <div style={styles.frontendDot}></div>
-                  </div>
-                </div>
-                <div style={styles.frontendBody}>
-                  <div style={styles.frontendCard}>
-                    <div style={styles.frontendCardHeader}>
-                      <div style={styles.frontendCardHeaderBar1}></div>
-                      <div style={styles.frontendCardHeaderBar2}></div>
-                    </div>
-                    <div style={styles.frontendCardGrid}>
-                      <div style={styles.frontendCardBox}></div>
-                      <div style={styles.frontendCardBox}></div>
-                      <div style={styles.frontendCardBox}></div>
-                    </div>
-                  </div>
-                  <div style={styles.frontendMiniCards}>
-                    <div style={styles.frontendMiniCard}>
-                      <div style={styles.frontendMiniCardBar}></div>
-                      <div style={styles.frontendMiniCardGradient1}></div>
-                    </div>
-                    <div style={styles.frontendMiniCard}>
-                      <div style={styles.frontendMiniCardBar}></div>
-                      <div style={styles.frontendMiniCardGradient2}></div>
-                    </div>
-                  </div>
-                  <div style={styles.frontendFooter}>
-                    <div style={styles.frontendFooterBar}></div>
-                    <div style={styles.frontendFooterBox}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import theme from '../../../../styles/theme';
 
 const { colors, spacing, typography, borderRadius, transitions, hexToRgba } = theme;
 
 // =============================================================================
-// STYLES
+// CODE COLORS
 // =============================================================================
-const styles: Record<string, CSSProperties> = {
+export const codeColors = {
+  purple: colors.purple[400],
+  cyan: colors.cyan[300],
+  yellow: '#fde047',
+  green: '#4ade80',
+};
+
+// =============================================================================
+// CONTAINER STYLES
+// =============================================================================
+export const containerStyles: Record<string, CSSProperties> = {
   container: {
     position: 'relative',
-    height: '43.75rem', // 700px
-    perspective: '62.5rem', // 1000px
+    height: 'clamp(20rem, 40vw, 28rem)',
+    perspective: '62.5rem',
+    width: '100%',
+    maxWidth: '32rem',
+  },
+  containerMobile: {
+    height: 'auto',
+    perspective: 'none',
+    marginTop: spacing[20],
+    paddingLeft: spacing[5],
+    paddingRight: spacing[5],
+    maxWidth: '100%',
   },
   cardsWrapper: {
     position: 'absolute',
-    top: '12rem',
+    top: 'clamp(4rem, 10vw, 8rem)',
     right: 0,
     bottom: 0,
     left: 0,
@@ -154,19 +47,64 @@ const styles: Record<string, CSSProperties> = {
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
+  cardsWrapperMobile: {
+    position: 'relative',
+    top: 0,
+  },
   cardsContainer: {
     position: 'relative',
     width: '100%',
-    maxWidth: '34rem',
+    maxWidth: '28rem',
     transformStyle: 'preserve-3d',
   },
-  // Backend Card (back layer)
+  cardsContainerMobile: {
+    position: 'relative',
+    maxWidth: '100%',
+    height: '14rem',
+  },
+};
+
+// =============================================================================
+// CARD BASE STYLES
+// =============================================================================
+export const cardBaseStyles: Record<string, CSSProperties> = {
+  cardMobile: {
+    height: '14rem',
+  },
+  cardInnerMobile: {},
+  cardLabelMobile: {},
+  cardLabel: {
+    position: 'absolute',
+    bottom: spacing[6],
+    left: spacing[6],
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.medium,
+    color: colors.slate[400],
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  },
+  cardLabelLight: {
+    position: 'absolute',
+    bottom: spacing[6],
+    left: spacing[6],
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.medium,
+    color: hexToRgba(colors.white, 0.5),
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+  },
+};
+
+// =============================================================================
+// BACKEND CARD STYLES
+// =============================================================================
+export const backendCardStyles: Record<string, CSSProperties> = {
   cardBackend: {
     position: 'absolute',
     width: '100%',
-    height: '20rem',
+    height: 'clamp(14rem, 18vw, 18rem)',
     borderRadius: borderRadius['2xl'],
-    transform: 'translateZ(-5rem) rotateY(-8deg) rotateX(5deg)',
+    transform: 'translateZ(-6rem) rotateX(3deg)',
     transformStyle: 'preserve-3d',
     transition: `all ${transitions.duration.slower} ${transitions.timing.ease}`,
   },
@@ -176,61 +114,42 @@ const styles: Record<string, CSSProperties> = {
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: hexToRgba(colors.slate[800], 0.4),
-    backdropFilter: 'blur(0.25rem)',
-    WebkitBackdropFilter: 'blur(0.25rem)',
-    border: `1px solid ${hexToRgba(colors.white, 0.1)}`,
+    background: `linear-gradient(to bottom right, ${hexToRgba(colors.slate[800], 0.9)}, ${hexToRgba(colors.slate[900], 0.9)})`,
+    backdropFilter: 'blur(1.5rem)',
+    WebkitBackdropFilter: 'blur(1.5rem)',
+    border: `1px solid ${hexToRgba(colors.white, 0.2)}`,
     borderRadius: borderRadius['2xl'],
-    padding: spacing[6],
     overflow: 'hidden',
+    boxShadow: '0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25)',
   },
   codeContent: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: spacing[3],
-    fontFamily: 'monospace',
+    padding: spacing[6],
+    fontFamily: 'Monaco, Consolas, "Courier New", monospace',
     fontSize: typography.fontSize.xs,
-    color: colors.slate[400],
+    lineHeight: typography.lineHeight.relaxed,
   },
   codeLine: {
-    opacity: 0.6,
+    marginBottom: spacing[1],
   },
   codeLineIndent: {
-    opacity: 0.6,
     paddingLeft: spacing[4],
+    marginBottom: spacing[1],
   },
   codeComment: {
-    opacity: 0.4,
-    paddingTop: spacing[4],
-    color: colors.slate[500],
+    marginTop: spacing[4],
   },
-  cardLabel: {
-    position: 'absolute',
-    bottom: spacing[4],
-    left: spacing[6],
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.slate[500],
-    textTransform: 'uppercase',
-    letterSpacing: typography.letterSpacing.wider,
-  },
-  cardLabelLight: {
-    position: 'absolute',
-    bottom: spacing[4],
-    left: spacing[6],
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.slate[400],
-    textTransform: 'uppercase',
-    letterSpacing: typography.letterSpacing.wider,
-  },
-  // Architecture Card (middle layer)
+};
+
+// =============================================================================
+// ARCHITECTURE CARD STYLES
+// =============================================================================
+export const architectureCardStyles: Record<string, CSSProperties> = {
   cardArchitecture: {
     position: 'absolute',
     width: '100%',
-    height: '20rem',
+    height: 'clamp(14rem, 18vw, 18rem)',
     borderRadius: borderRadius['2xl'],
-    transform: 'translateZ(-2.5rem) rotateY(-6deg) rotateX(4deg)',
+    transform: 'translateZ(-3rem) rotateY(2deg) rotateX(3deg)',
     transformStyle: 'preserve-3d',
     transition: `all ${transitions.duration.slower} ${transitions.timing.ease}`,
   },
@@ -240,15 +159,16 @@ const styles: Record<string, CSSProperties> = {
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: hexToRgba(colors.slate[700], 0.5),
-    backdropFilter: 'blur(0.75rem)',
-    WebkitBackdropFilter: 'blur(0.75rem)',
-    border: `1px solid ${hexToRgba(colors.white, 0.15)}`,
+    backgroundColor: hexToRgba(colors.white, 0.05),
+    backdropFilter: 'blur(1.5rem)',
+    WebkitBackdropFilter: 'blur(1.5rem)',
+    border: `1px solid ${hexToRgba(colors.white, 0.2)}`,
     borderRadius: borderRadius['2xl'],
-    padding: spacing[6],
     overflow: 'hidden',
+    boxShadow: '0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25)',
   },
   archContent: {
+    padding: spacing[6],
     display: 'flex',
     flexDirection: 'column',
     gap: spacing[4],
@@ -315,11 +235,16 @@ const styles: Record<string, CSSProperties> = {
     backgroundColor: hexToRgba(colors.white, 0.1),
     borderRadius: borderRadius.default,
   },
-  // Frontend Card (front layer)
+};
+
+// =============================================================================
+// FRONTEND CARD STYLES
+// =============================================================================
+export const frontendCardStyles: Record<string, CSSProperties> = {
   cardFrontend: {
     position: 'absolute',
     width: '100%',
-    height: '20rem',
+    height: 'clamp(14rem, 18vw, 18rem)',
     borderRadius: borderRadius['2xl'],
     transform: 'translateZ(0) rotateY(-4deg) rotateX(3deg)',
     transformStyle: 'preserve-3d',
@@ -487,12 +412,13 @@ const styles: Record<string, CSSProperties> = {
   },
 };
 
-// Code highlighting colors
-const codeColors = {
-  purple: colors.purple[400],
-  cyan: colors.cyan[300],
-  yellow: '#fde047',
-  green: '#4ade80',
+// =============================================================================
+// MERGED STYLES EXPORT
+// =============================================================================
+export const styles: Record<string, CSSProperties> = {
+  ...containerStyles,
+  ...cardBaseStyles,
+  ...backendCardStyles,
+  ...architectureCardStyles,
+  ...frontendCardStyles,
 };
-
-export default GlassCards;

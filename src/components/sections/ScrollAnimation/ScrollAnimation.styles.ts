@@ -1,84 +1,17 @@
-import { useRef, CSSProperties } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import theme from '../styles/theme';
+/**
+ * ScrollAnimation Styles
+ * Separated style definitions for the parallax text animation section
+ */
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
-function ScrollAnimation() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-
-  const textY = useTransform(scrollYProgress, [0, 1], ['100%', '-100%']);
-
-  const textOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.5, 0.8, 1],
-    [0, 1, 1, 1, 0]
-  );
-
-  const textScale = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.5, 0.7, 1],
-    [0.9, 1, 1, 1, 0.9]
-  );
-
-  return (
-    <section ref={sectionRef} style={styles.section}>
-      {/* Background */}
-      <div style={styles.backgroundContainer}>
-        <div style={styles.backgroundBlob}></div>
-      </div>
-
-      {/* Decorative corners */}
-      <div style={styles.decorativeElements}>
-        <div style={styles.cornerTL}></div>
-        <div style={styles.cornerTR}></div>
-        <div style={styles.cornerBL}></div>
-        <div style={styles.cornerBR}></div>
-      </div>
-
-      {/* Main reveal container */}
-      <div style={styles.revealContainer}>
-        {/* The masking window */}
-        <div style={styles.revealWindow}>
-          {/* Animated text - only visible within the window */}
-          <motion.div
-            style={{
-              ...styles.revealText,
-              y: textY,
-              opacity: textOpacity,
-              scale: textScale,
-            }}
-          >
-            SWEET
-          </motion.div>
-        </div>
-
-        {/* Subtitle */}
-        <motion.div
-          style={{
-            ...styles.subtitleContainer,
-            opacity: textOpacity,
-          }}
-        >
-          <p style={styles.subtitle}>Agence Web Créative</p>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
+import { CSSProperties } from 'react';
+import theme from '../../../styles/theme';
 
 const { colors, spacing, typography, gradients, hexToRgba } = theme;
 
 // =============================================================================
-// STYLES
+// SECTION STYLES
 // =============================================================================
-const styles: Record<string, CSSProperties> = {
+export const sectionStyles: Record<string, CSSProperties> = {
   section: {
     position: 'relative',
     height: '90vh',
@@ -88,6 +21,15 @@ const styles: Record<string, CSSProperties> = {
     overflow: 'hidden',
     backgroundColor: colors.white,
   },
+  sectionMobile: {
+    height: '90vh',
+  },
+};
+
+// =============================================================================
+// BACKGROUND STYLES
+// =============================================================================
+export const backgroundStyles: Record<string, CSSProperties> = {
   backgroundContainer: {
     position: 'absolute',
     top: 0,
@@ -107,6 +49,17 @@ const styles: Record<string, CSSProperties> = {
     borderRadius: '50%',
     filter: 'blur(10rem)',
   },
+  backgroundBlobMobile: {
+    width: '25rem',
+    height: '25rem',
+    filter: 'blur(5rem)',
+  },
+};
+
+// =============================================================================
+// REVEAL CONTAINER STYLES
+// =============================================================================
+export const revealStyles: Record<string, CSSProperties> = {
   revealContainer: {
     position: 'relative',
     width: '100%',
@@ -117,13 +70,17 @@ const styles: Record<string, CSSProperties> = {
   },
   revealWindow: {
     position: 'relative',
-    height: '20rem',
+    height: 'min(60vh, 30rem)',
     overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     maxWidth: '102rem',
+    perspective: '1200px',
+  },
+  revealWindowMobile: {
+    height: 'clamp(6rem, 20vw, 14rem)',
   },
   revealWindowLines: {
     position: 'absolute',
@@ -134,7 +91,7 @@ const styles: Record<string, CSSProperties> = {
     pointerEvents: 'none',
   },
   revealText: {
-    fontSize: '30rem',
+    fontSize: 'clamp(4rem, 20vw, 30rem)',
     fontWeight: typography.fontWeight.black,
     color: 'transparent',
     backgroundClip: 'text',
@@ -146,6 +103,18 @@ const styles: Record<string, CSSProperties> = {
     userSelect: 'none',
     willChange: 'transform',
   },
+  revealTextMobile: {
+    fontSize: 'clamp(2rem, 16vw, 6rem)',
+  },
+  revealTextTablet: {
+    fontSize: 'clamp(3.5rem, 14vw, 12rem)',
+  },
+};
+
+// =============================================================================
+// DECORATIVE CORNER STYLES
+// =============================================================================
+export const decorativeStyles: Record<string, CSSProperties> = {
   decorativeElements: {
     position: 'absolute',
     top: 0,
@@ -191,6 +160,12 @@ const styles: Record<string, CSSProperties> = {
     borderBottom: `0.0625rem solid ${hexToRgba(colors.teal[500], 0.3)}`,
     borderRight: `0.0625rem solid ${hexToRgba(colors.teal[500], 0.3)}`,
   },
+};
+
+// =============================================================================
+// SUBTITLE STYLES
+// =============================================================================
+export const subtitleStyles: Record<string, CSSProperties> = {
   subtitleContainer: {
     marginTop: spacing[6],
     textAlign: 'center',
@@ -201,6 +176,18 @@ const styles: Record<string, CSSProperties> = {
     fontWeight: typography.fontWeight.light,
     letterSpacing: typography.letterSpacing.wide,
   },
+  subtitleMobile: {
+    fontSize: typography.fontSize.base,
+  },
 };
 
-export default ScrollAnimation;
+// =============================================================================
+// MERGED STYLES EXPORT
+// =============================================================================
+export const styles: Record<string, CSSProperties> = {
+  ...sectionStyles,
+  ...backgroundStyles,
+  ...revealStyles,
+  ...decorativeStyles,
+  ...subtitleStyles,
+};
