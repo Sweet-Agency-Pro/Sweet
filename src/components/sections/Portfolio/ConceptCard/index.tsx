@@ -18,6 +18,8 @@ interface ConceptCardProps {
 function ConceptCard({ project, index, onClick }: ConceptCardProps) {
   const [imageError, setImageError] = useState(false);
   const hasPreviewImage = project.previewUrl && !imageError;
+  const accent = project.colorAccent?.primary || '#0f9aa7';
+  const accentLight = project.colorAccent?.light || 'rgba(15, 154, 167, 0.12)';
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
@@ -76,8 +78,9 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
               key={t}
               style={{
                 ...styles.conceptTechBadge,
-                borderColor: project.colorAccent.primary,
-                color: project.colorAccent.primary,
+                borderColor: accent,
+                color: accent,
+                backgroundColor: accentLight,
               }}
             >
               {t}

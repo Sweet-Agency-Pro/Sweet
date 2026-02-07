@@ -19,6 +19,8 @@ interface FlagshipCardProps {
 function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: FlagshipCardProps) {
   const [imageError, setImageError] = useState(false);
   const hasPreviewImage = project.previewUrl && !imageError;
+  const accent = project.colorAccent?.primary || '#0f9aa7';
+  const accentLight = project.colorAccent?.light || 'rgba(15, 154, 167, 0.12)';
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
@@ -61,7 +63,17 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
               ...(isMobile && styles.flagshipTechRowMobile),
             }}>
               {project.tech.slice(0, isMobile ? 3 : project.tech.length).map((t: string) => (
-                <span key={t} style={styles.techBadge}>{t}</span>
+                <span
+                  key={t}
+                  style={{
+                    ...styles.techBadge,
+                    backgroundColor: accentLight,
+                    borderColor: accent,
+                    color: accent,
+                  }}
+                >
+                  {t}
+                </span>
               ))}
             </div>
 
