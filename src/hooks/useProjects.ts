@@ -30,61 +30,46 @@ export function useProjects() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any | null>(null);
 
-  const candidates = ['projects_portfolio', 'projects_portfoliio', 'projects', 'projects_portfoliio'];
+  const table_name = 'projects_portfolio';
 
   const fetch = useCallback(async () => {
     setLoading(true);
     setError(null);
 
-    let lastError: any = null;
+    try {
+      const { data: rows, error } = await supabase
+        .from(table_name)
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    for (const table of candidates) {
-      try {
-        const { data: rows, error } = await supabase
-          .from(table)
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) {
-          lastError = error;
-          continue;
-        }
-
-        if (rows && rows.length) {
-          // Map DB row to expected shape (light mapping)
-          const mapped: Project[] = rows.map((r: any) => ({
-            id: r.id,
-            name: r.name,
-            hook: r.hook,
-            story: r.story,
-            benefit: r.benefit ?? undefined,
-            tech: r.tech ?? [],
-            type: r.type,
-            colorAccent: r.color_accent ?? {},
-            isFlagship: r.is_flagship ?? false,
-            previewUrl: r.preview_url ?? undefined,
-          }));
-
-          setData(mapped);
-          setLoading(false);
-          return { rows: mapped, table };
-        }
-
-        // If rows is an empty array it's still a successful query — return it
-        if (rows && rows.length === 0) {
-          setData([]);
-          setLoading(false);
-          return { rows: [], table };
-        }
-      } catch (e) {
-        lastError = e;
-        continue;
+      if (error) {
+        throw error;
       }
-    }
 
-    setError(lastError || new Error('No projects table found'));
-    setLoading(false);
-    return { rows: [], table: null };
+      if (rows) {
+        // Map DB row to expected shape (light mapping)
+        const mapped: Project[] = rows.map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          hook: r.hook,
+          story: r.story,
+          benefit: r.benefit ?? undefined,
+          tech: r.tech ?? [],
+          type: r.type,
+          colorAccent: r.color_accent ?? {},
+          isFlagship: r.is_flagship ?? false,
+          previewUrl: r.preview_url ?? undefined,
+        }));
+
+        setData(mapped);
+      }
+    } catch (e) {
+      console.error("Erreur chargement projets:", e);
+      setError(e);
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
