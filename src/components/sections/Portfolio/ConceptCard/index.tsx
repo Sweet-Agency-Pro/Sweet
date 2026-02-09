@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, Beaker, ArrowRight } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
+import theme from '../../../../styles/theme';
 
 interface ConceptCardProps {
   project: Project;
@@ -33,7 +34,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
       whileHover={{ y: -6, scale: 1.02 }}
     >
-      <motion.div layoutId={`card-inner-${project.id}`} style={styles.conceptInner}>
+      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${theme.hexToRgba(accent, 0.2)}` }}>
         {/* Preview image or accent bar */}
         {hasPreviewImage ? (
           <img

@@ -117,7 +117,7 @@ a, button {
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.3rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -126,7 +126,6 @@ a, button {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-slate-800);
-  border-radius: 0.25rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
