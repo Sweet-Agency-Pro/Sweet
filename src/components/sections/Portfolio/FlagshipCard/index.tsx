@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
+import theme from '../../../../styles/theme';
 import type { Project } from '../../../../hooks/useProjects';
 
 interface FlagshipCardProps {
@@ -20,7 +21,9 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
   const [imageError, setImageError] = useState(false);
   const hasPreviewImage = project.previewUrl && !imageError;
   const accent = project.colorAccent?.primary || '#0f9aa7';
+  const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
   const accentLight = project.colorAccent?.light || 'rgba(15, 154, 167, 0.12)';
+  const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
@@ -35,14 +38,20 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
       transition={{ duration: 0.7, delay: 0.1 }}
       whileHover={{ y: -8 }}
     >
-      <div style={styles.flagshipGlow} />
+      <div style={{
+        ...styles.flagshipGlow,
+        background: `linear-gradient(135deg, ${theme.hexToRgba(accent, 0.15)}, ${theme.hexToRgba(accentSecondary, 0.1)})`,
+      }} />
       <motion.div layoutId={`card-inner-${project.id}`} style={styles.flagshipInner}>
         <div style={{
           ...styles.flagshipContent,
           ...(isMobileOrTablet && styles.flagshipContentMobile),
         }}>
           <div style={styles.flagshipLeft}>
-            <motion.div layoutId={`card-tag-${project.id}`} style={styles.productionTag}>
+            <motion.div layoutId={`card-tag-${project.id}`} style={{
+              ...styles.productionTag,
+              background: gradient,
+            }}>
               <Sparkles style={styles.tagIcon} />
               <span>Production</span>
             </motion.div>
@@ -80,6 +89,7 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
             <button style={{
               ...styles.flagshipCta,
               ...(isMobileOrTablet && styles.flagshipCtaMobile),
+              background: gradient,
             }}>
               <span>Explorer le projet</span>
               <ArrowRight style={styles.ctaIcon} />

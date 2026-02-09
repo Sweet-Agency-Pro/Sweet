@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
+import { hexToRgba } from '../../Services/Services.styles';
 
 interface ProjectModalProps {
   project: Project | undefined;
@@ -22,7 +23,10 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
   if (!selectedId || !project) return null;
 
   const hasPreviewImage = project.previewUrl && !imageError;
-  console.log('Rendering ProjectModal for:', project.name, 'Has preview image:', hasPreviewImage);
+  const accent = project.colorAccent?.primary || '#0f9aa7';
+  const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
+  const gradientOp = project.colorAccent?.gradient || `linear-gradient(135deg, ${hexToRgba(accent, 0.8)}, ${hexToRgba(accentSecondary, 0.8)})`;
+  const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
 
   return (
     <AnimatePresence>
@@ -73,8 +77,11 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                     layoutId={`card-tag-${selectedId}`}
                     style={
                       project.type === 'production'
-                        ? styles.productionTag
-                        : styles.modalConceptTag
+                        ? { ...styles.productionTag, background: gradientOp }
+                        : {
+                            ...styles.modalConceptTag,
+                            background: gradientOp,
+                          }
                     }
                   >
                     {project.type === 'production' ? (
@@ -82,7 +89,7 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                     ) : (
                       <Beaker style={styles.tagIcon} />
                     )}
-                    <span>{project.type === 'production' ? 'Production' : 'Concept'}</span>
+                    <span style={{ color: 'white' }}>{project.type === 'production' ? 'Production' : 'Concept'}</span>
                   </motion.div>
 
                   <motion.h3 layoutId={`card-title-${selectedId}`} style={styles.modalTitle}>
@@ -143,6 +150,7 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                       ...styles.modalCta,
                       background:
                         project.colorAccent.gradient ||
+                        gradient ||
                         project.colorAccent.primary ||
                         '#14b8a6',
                       ...(project.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),

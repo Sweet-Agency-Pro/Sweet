@@ -19,7 +19,9 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
   const [imageError, setImageError] = useState(false);
   const hasPreviewImage = project.previewUrl && !imageError;
   const accent = project.colorAccent?.primary || '#0f9aa7';
+  const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
   const accentLight = project.colorAccent?.light || 'rgba(15, 154, 167, 0.12)';
+  const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
@@ -50,7 +52,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
           <div
             style={{
               ...styles.conceptAccent,
-              background: project.colorAccent.gradient,
+              background: gradient,
             }}
           />
         )}
