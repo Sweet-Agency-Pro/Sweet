@@ -40,7 +40,9 @@ function AdminServices() {
   }, [load]);
 
   const handleCreate = async (payload: Partial<DbService>) => {
-    await createService(payload);
+    const maxId = services.length > 0 ? Math.max(...services.map(s => parseInt(s.id))) : 0;
+    const newId = (maxId + 1).toString();
+    await createService({ ...payload, id: newId });
     await load();
   };
 
@@ -91,7 +93,8 @@ function AdminServices() {
           <table style={s.table}>
             <thead>
               <tr style={s.tableHead}>
-                <th style={s.th}>Titre</th>
+                <th style={s.th}>Accroche</th>
+                <th style={s.th}>Tagline</th>
                 <th style={s.th}>Icône</th>
                 <th style={s.th}>Position</th>
                 <th style={s.th}>Statut</th>
@@ -101,7 +104,12 @@ function AdminServices() {
             <tbody>
               {services.map((svc) => (
                 <tr key={svc.id}>
-                  <td style={s.td}>{svc.title}</td>
+                  <td style={s.td}>{svc.accroche}</td>
+                  <td style={s.td}>
+                    <span style={{ color: theme.colors.slate[400] }}>
+                      {svc.tagline || '—'}
+                    </span>
+                  </td>
                   <td style={s.td}>
                     <span style={{ color: theme.colors.slate[400] }}>
                       {svc.icon_name || '—'}

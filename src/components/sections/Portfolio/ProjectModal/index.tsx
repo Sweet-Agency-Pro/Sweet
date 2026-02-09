@@ -141,13 +141,22 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                   <motion.button
                     style={{
                       ...styles.modalCta,
-                      background: project.colorAccent.gradient,
+                      background:
+                        project.colorAccent.gradient ||
+                        project.colorAccent.primary ||
+                        '#14b8a6',
+                      ...(project.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),
                     }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={project.externalUrl ? { scale: 1.03 } : {}}
+                    whileTap={project.externalUrl ? { scale: 0.98 } : {}}
+                    onClick={() => {
+                      if (project.externalUrl) {
+                        window.open(project.externalUrl, '_blank', 'noopener');
+                      }
+                    }}
                   >
                     <span>Voir le projet</span>
                     <ExternalLink style={styles.modalCtaIcon} />

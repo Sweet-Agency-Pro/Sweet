@@ -29,6 +29,7 @@ export interface Service {
   features: string[];
   colorAccent: ColorAccent;
   glowColor: string;
+  redirectUrl?: string;
 }
 
 export const services: Service[] = [

@@ -7,6 +7,7 @@ import { useState, useCallback, CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { styles } from '../Contact.styles';
+import { insertContact } from '../../../../services/adminService';
 
 // =============================================================================
 // TYPES
@@ -150,8 +151,13 @@ function ContactForm({ isMobile }: ContactFormProps) {
     setStatus('loading');
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await insertContact({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || null,
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });

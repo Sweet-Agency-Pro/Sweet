@@ -9,7 +9,11 @@
  */
 
 import { useRef, useState, type CSSProperties } from 'react';
-import { X, Upload, ImageIcon } from 'lucide-react';
+import {
+  X,
+  Upload,
+  ImageIcon,
+} from 'lucide-react';
 import theme from '../../../styles/theme';
 import * as s from '../admin.styles';
 import type { DbProject } from '../../../services/adminService';
@@ -42,6 +46,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
   const [primaryColor, setPrimaryColor] = useState(initial?.color_accent?.primary ?? '#14b8a6');
   const [secondaryColor, setSecondaryColor] = useState(initial?.color_accent?.secondary ?? '');
   const [isFlagship, setIsFlagship] = useState(initial?.is_flagship ?? false);
+  const [externalUrl, setExternalUrl] = useState(initial?.external_url ?? '');
 
   const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [previewLocal, setPreviewLocal] = useState<string | null>(null);
@@ -90,6 +95,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
           type,
           color_accent: colorAccent,
           is_flagship: isFlagship,
+          external_url: externalUrl || null,
         },
         previewFile,
         deleteOld
@@ -228,12 +234,34 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
               style={styles.colorPicker}
               title="Couleur personnalisée"
             />
+            <button
+              type="button"
+              style={{ ...s.btnGhost, ...s.btnSmall }}
+              onClick={() => setPrimaryColor('#14b8a6')}
+            >
+              Réinitialiser
+            </button>
           </div>
         </div>
 
         <div style={s.formGroup}>
           <label style={s.formLabel}>Couleur secondaire (optionnel)</label>
           <div style={styles.colorRow}>
+            {DEFAULT_COLORS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setSecondaryColor(c)}
+                style={{
+                  ...s.colorSwatch(c),
+                  outline:
+                    secondaryColor === c
+                      ? `2px solid ${theme.colors.white}`
+                      : 'none',
+                  outlineOffset: '2px',
+                }}
+              />
+            ))}
             <input
               type="color"
               value={secondaryColor || '#000000'}
@@ -251,6 +279,17 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
               </button>
             )}
           </div>
+        </div>
+
+        {/* URL externe */}
+        <div style={s.formGroup}>
+          <label style={s.formLabel}>URL externe ("Voir le projet")</label>
+          <input
+            style={s.formInput}
+            value={externalUrl}
+            onChange={(e) => setExternalUrl(e.target.value)}
+            placeholder="https://mon-projet.com"
+          />
         </div>
 
         {/* Preview Image */}

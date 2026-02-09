@@ -10,11 +10,14 @@ import supabase from '../lib/supabaseClient';
 // =============================================================================
 export interface DbService {
   id: string;
-  title: string;
-  description: string | null;
+  accroche: string;
+  tagline: string | null;
+  resume: string | null;
+  features: string[];
+  color_accent: Record<string, string> | null;
+  glow_color: string | null;
   icon_name: string | null;
-  cta_label: string | null;
-  cta_url: string | null;
+  redirect_url: string | null;
   position: number;
   is_public: boolean;
   created_at: string;
@@ -37,6 +40,7 @@ export interface DbProject {
   };
   is_flagship: boolean;
   preview_url: string | null;
+  external_url: string | null;
   created_at: string;
 }
 
@@ -64,7 +68,7 @@ export async function fetchServices(): Promise<DbService[]> {
 }
 
 export async function createService(
-  payload: Partial<Omit<DbService, 'id' | 'created_at' | 'updated_at'>>
+  payload: Partial<Omit<DbService, 'created_at' | 'updated_at'>>
 ): Promise<DbService> {
   const { data, error } = await supabase
     .from('services')

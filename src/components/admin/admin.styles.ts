@@ -153,7 +153,7 @@ export const formInput: CSSProperties = {
 
 export const formTextarea: CSSProperties = {
   ...formInput,
-  minHeight: '6rem',
+  minHeight: '10rem',
   resize: 'vertical',
   fontFamily: 'inherit',
 };

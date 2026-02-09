@@ -6,7 +6,7 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { styles, colors } from '../Services.styles';
+import { styles, colors, hexToRgba } from '../Services.styles';
 import type { Service } from '../services.data';
 
 interface ServiceCardProps {
@@ -52,20 +52,22 @@ function ServiceCard({ service, isHovered, isMobile, onHover, onLeave }: Service
       <div style={{
         ...styles.cardInner,
         ...(isMobile && styles.cardInnerMobile),
-        borderColor: isExpanded ? service.colorAccent[400] : colors.slate[200],
+        // UNIFORMITÉ 1 : La bordure de la carte prend la couleur d'accent (500) quand elle est ouverte
+        borderColor: isExpanded ? service.colorAccent[500] : colors.slate[200],
       }}>
         {/* Icon */}
         <div style={{
           ...styles.iconContainer,
           ...(isMobile && styles.iconContainerMobile),
-          backgroundColor: service.colorAccent[50],
-          borderColor: service.colorAccent[200],
+          // UNIFORMITÉ 2 : Fond et bordure de l'icône utilisent toujours la couleur d'accent
+          backgroundColor: hexToRgba(service.colorAccent[500], 0.15), 
+          borderColor: service.colorAccent[500],
         }}>
           <IconComponent
             style={{
               ...styles.icon,
               ...(isMobile && styles.iconMobile),
-              color: service.colorAccent[600],
+              color: service.colorAccent[500],
             }}
           />
         </div>
@@ -103,6 +105,7 @@ function ServiceCard({ service, isHovered, isMobile, onHover, onLeave }: Service
           >
             {service.features.map((feature, idx) => (
               <div key={idx} style={styles.feature}>
+                {/* UNIFORMITÉ 3 : Les points features utilisent la couleur d'accent (500) */}
                 <div style={{
                   ...styles.featureDot,
                   backgroundColor: service.colorAccent[500],
@@ -116,14 +119,22 @@ function ServiceCard({ service, isHovered, isMobile, onHover, onLeave }: Service
         {/* Footer */}
         <div style={{
           ...styles.cardFooter,
-          borderTopColor: isExpanded ? service.colorAccent[200] : colors.slate[100],
+          // UNIFORMITÉ 4 : La barre de séparation se colore quand la carte est ouverte
+          borderTopColor: isExpanded ? service.colorAccent[500] : colors.slate[100],
         }}>
           <button
             style={{
               ...styles.learnMoreButton,
-              color: isExpanded ? service.colorAccent[600] : colors.slate[600],
+              // UNIFORMITÉ 5 : Le texte et l'icône prennent la couleur d'accent (600)
+              color: isExpanded ? service.colorAccent[500] : colors.slate[600],
             }}
-            onClick={isMobile ? () => setIsOpen((prev) => !prev) : undefined}
+            onClick={
+              isMobile
+                ? () => setIsOpen((prev) => !prev)
+                : service.redirectUrl
+                  ? () => window.open(service.redirectUrl, '_blank', 'noopener')
+                  : undefined
+            }
           >
             <span>{isMobile && isOpen ? 'Réduire' : 'En savoir plus'}</span>
             {isMobile ? (
@@ -132,12 +143,16 @@ function ServiceCard({ service, isHovered, isMobile, onHover, onLeave }: Service
                   ...styles.arrowIcon,
                   transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                   transition: 'transform 0.3s ease',
+                  // L'icône chevron suit aussi la couleur
+                  color: isExpanded ? service.colorAccent[500] : 'inherit',
                 }}
               />
             ) : (
               <ArrowRight style={{
                 ...styles.arrowIcon,
                 transform: isExpanded ? 'translateX(0.25rem)' : 'translateX(0)',
+                // L'icône flèche suit aussi la couleur
+                color: isExpanded ? service.colorAccent[500] : 'inherit',
               }} />
             )}
           </button>

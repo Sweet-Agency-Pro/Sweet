@@ -17,6 +17,7 @@ export type Project = {
   };
   isFlagship?: boolean;
   previewUrl?: string;
+  externalUrl?: string;
 };
 
 /**
@@ -59,6 +60,7 @@ export function useProjects() {
           colorAccent: r.color_accent ?? {},
           isFlagship: r.is_flagship ?? false,
           previewUrl: r.preview_url ?? undefined,
+          externalUrl: r.external_url ?? undefined,
         }));
 
         setData(mapped);
