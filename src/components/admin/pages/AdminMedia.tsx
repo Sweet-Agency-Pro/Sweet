@@ -1,13 +1,16 @@
 /**
  * AdminMedia
  * Media browser — shows all project preview images from the storage bucket.
+ * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Trash2, ExternalLink, RefreshCw, FolderOpen } from 'lucide-react';
 import theme from '../../../styles/theme';
+import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
 import * as s from '../admin.styles';
+import type { AdminResponsive } from '../admin.styles';
 import supabase from '../../../lib/supabaseClient';
 
 interface MediaItem {
@@ -30,11 +33,12 @@ function formatBytes(bytes: number) {
 function AdminMedia() {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { isMobile, is4K } = useWindowSize();
+  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      // list all top-level folders (= project ids)
       const { data: folders, error: fError } = await supabase.storage
         .from(BUCKET)
         .list('', { limit: 500, sortBy: { column: 'name', order: 'asc' } });
@@ -45,7 +49,6 @@ function AdminMedia() {
 
       for (const folder of folders ?? []) {
         if (!folder.id && folder.name) {
-          // it's a folder
           const { data: files } = await supabase.storage
             .from(BUCKET)
             .list(folder.name, { limit: 50 });
@@ -90,7 +93,6 @@ function AdminMedia() {
       return;
     }
 
-    // also clear preview_url on the project
     await supabase
       .from('projects_portfolio')
       .update({ preview_url: null })
@@ -99,59 +101,90 @@ function AdminMedia() {
     await load();
   };
 
+  const baseFontSize = is4K ? theme.typography.fontSize.base : theme.typography.fontSize.sm;
+  const smallFontSize = is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs;
+
+  const gridStyle: CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: isMobile
+      ? 'repeat(auto-fill, minmax(160px, 1fr))'
+      : is4K
+        ? 'repeat(auto-fill, minmax(360px, 1fr))'
+        : 'repeat(auto-fill, minmax(260px, 1fr))',
+    gap: is4K ? theme.spacing[7] : theme.spacing[5],
+  };
+
   return (
     <AdminLayout title="Médias">
-      <div style={s.pageHeader}>
-        <div style={s.pageTitle}>Bibliothèque média</div>
-        <button type="button" style={s.btnGhost} onClick={load}>
-          <RefreshCw size={16} />
+      <div style={s.pageHeaderR(r)}>
+        <div style={s.pageTitleR(r)}>Bibliothèque média</div>
+        <button type="button" style={s.btnGhostR(r)} onClick={load}>
+          <RefreshCw size={is4K ? 20 : 16} />
           Rafraîchir
         </button>
       </div>
 
       {loading ? (
-        <div style={s.glassPanel}>
+        <div style={s.glassPanelR(r)}>
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : items.length === 0 ? (
-        <div style={s.emptyState}>
-          <FolderOpen size={40} />
+        <div style={s.emptyStateR(r)}>
+          <FolderOpen size={is4K ? 52 : 40} />
           <div>Aucun fichier média</div>
-          <p style={{ color: theme.colors.slate[500], fontSize: theme.typography.fontSize.sm }}>
+          <p style={{ color: theme.colors.slate[500], fontSize: baseFontSize }}>
             Uploadez des images depuis la page Projets
           </p>
         </div>
       ) : (
-        <div style={styles.grid}>
+        <div style={gridStyle}>
           {items.map((item) => (
-            <div key={item.path} style={styles.card}>
+            <div key={item.path} style={{
+              ...s.glassPanelR(r),
+              padding: 0,
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
               <div style={styles.imgWrap}>
                 <img src={item.publicUrl} alt={item.name} style={styles.img} />
               </div>
-              <div style={styles.info}>
-                <div style={styles.projectId}>{item.projectId}</div>
-                <div style={styles.fileName}>{item.name}</div>
-                <div style={styles.meta}>
+              <div style={{
+                padding: `${is4K ? theme.spacing[5] : theme.spacing[4]} ${is4K ? theme.spacing[6] : theme.spacing[5]}`,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: theme.spacing[1],
+                flex: 1,
+              }}>
+                <div style={{ fontSize: smallFontSize, color: theme.colors.teal[400], fontWeight: theme.typography.fontWeight.medium }}>{item.projectId}</div>
+                <div style={{ fontSize: baseFontSize, color: theme.colors.white, wordBreak: 'break-all' }}>{item.name}</div>
+                <div style={{ fontSize: smallFontSize, color: theme.colors.slate[500] }}>
                   {formatBytes(item.size)}
                   {item.createdAt &&
                     ` · ${new Date(item.createdAt).toLocaleDateString('fr-FR')}`}
                 </div>
               </div>
-              <div style={styles.actions}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: theme.spacing[2],
+                padding: `${theme.spacing[3]} ${is4K ? theme.spacing[6] : theme.spacing[5]}`,
+                borderTop: `1px solid ${theme.hexToRgba(theme.colors.slate[700], 0.3)}`,
+              }}>
                 <a
                   href={item.publicUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ ...s.btnGhost, ...s.btnSmall, textDecoration: 'none' }}
+                  style={{ ...s.btnGhostR(r), ...s.btnSmallR(r), textDecoration: 'none' }}
                 >
-                  <ExternalLink size={14} />
+                  <ExternalLink size={is4K ? 18 : 14} />
                 </a>
                 <button
                   type="button"
-                  style={{ ...s.btnDanger, ...s.btnSmall }}
+                  style={{ ...s.btnDangerR(r), ...s.btnSmallR(r) }}
                   onClick={() => handleDelete(item)}
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={is4K ? 18 : 14} />
                 </button>
               </div>
             </div>
@@ -166,18 +199,6 @@ function AdminMedia() {
 // Local styles
 // =============================================================================
 const styles: Record<string, CSSProperties> = {
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-    gap: theme.spacing[5],
-  },
-  card: {
-    ...s.glassPanel,
-    padding: 0,
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-  },
   imgWrap: {
     width: '100%',
     aspectRatio: '16/9',
@@ -190,34 +211,6 @@ const styles: Record<string, CSSProperties> = {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-  },
-  info: {
-    padding: `${theme.spacing[4]} ${theme.spacing[5]}`,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing[1],
-    flex: 1,
-  },
-  projectId: {
-    fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.teal[400],
-    fontWeight: theme.typography.fontWeight.medium,
-  },
-  fileName: {
-    fontSize: theme.typography.fontSize.sm,
-    color: theme.colors.white,
-    wordBreak: 'break-all',
-  },
-  meta: {
-    fontSize: theme.typography.fontSize.xs,
-    color: theme.colors.slate[500],
-  },
-  actions: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: theme.spacing[2],
-    padding: `${theme.spacing[3]} ${theme.spacing[5]}`,
-    borderTop: `1px solid ${theme.hexToRgba(theme.colors.slate[700], 0.3)}`,
   },
 };
 

@@ -1,6 +1,7 @@
 /**
  * ServiceFormModal
  * Modal for creating / editing a service.
+ * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useState, type CSSProperties } from 'react';
@@ -19,7 +20,9 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import theme from '../../../styles/theme';
+import { useWindowSize } from '../../../hooks/useWindowSize';
 import * as s from '../admin.styles';
+import type { AdminResponsive } from '../admin.styles';
 import type { DbService } from '../../../services/adminService';
 
 // =============================================================================
@@ -114,6 +117,8 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
   const [isPublic, setIsPublic] = useState(initial?.is_public ?? false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { isMobile, is4K } = useWindowSize();
+  const r: AdminResponsive = { isMobile, is4K };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,24 +156,24 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
   return (
     <div style={s.modalOverlay} onClick={onClose}>
       <form
-        style={{ ...s.modalContent, maxWidth: '680px' }}
+        style={{ ...s.modalContentR(r), maxWidth: is4K ? '900px' : '680px' }}
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
       >
         <div style={s.modalHeader}>
-          <div style={s.modalTitle}>
+          <div style={s.modalTitleR(r)}>
             {initial ? 'Modifier le service' : 'Nouveau service'}
           </div>
           <button type="button" onClick={onClose} style={localStyles.closeBtn}>
-            <X size={18} />
+            <X size={is4K ? 22 : 18} />
           </button>
         </div>
 
         {/* Accroche */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Accroche *</label>
+          <label style={s.formLabelR(r)}>Accroche *</label>
           <input
-            style={s.formInput}
+            style={s.formInputR(r)}
             value={accroche}
             onChange={(e) => setAccroche(e.target.value)}
             required
@@ -178,9 +183,9 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
 
         {/* Tagline */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Tagline</label>
+          <label style={s.formLabelR(r)}>Tagline</label>
           <input
-            style={s.formInput}
+            style={s.formInputR(r)}
             value={tagline}
             onChange={(e) => setTagline(e.target.value)}
             placeholder="Courte phrase d'accroche"
@@ -189,9 +194,9 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
 
         {/* Résumé */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Résumé</label>
+          <label style={s.formLabelR(r)}>Résumé</label>
           <textarea
-            style={s.formTextarea}
+            style={s.formTextareaR(r)}
             value={resume}
             onChange={(e) => setResume(e.target.value)}
             placeholder="Description détaillée du service…"
@@ -200,9 +205,9 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
 
         {/* Features */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Features (séparées par des virgules)</label>
+          <label style={s.formLabelR(r)}>Features (séparées par des virgules)</label>
           <input
-            style={s.formInput}
+            style={s.formInputR(r)}
             value={featuresRaw}
             onChange={(e) => setFeaturesRaw(e.target.value)}
             placeholder="Design personnalisé, Optimisation SEO, Performance"
@@ -211,8 +216,12 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
 
         {/* Icône — grille visuelle */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Icône</label>
-          <div style={localStyles.iconGrid}>
+          <label style={s.formLabelR(r)}>Icône</label>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : is4K ? 'repeat(5, 1fr)' : 'repeat(5, 1fr)',
+            gap: theme.spacing[2],
+          }}>
             {ICON_OPTIONS.map((opt) => {
               const isSelected = iconName === opt.name;
               return (
@@ -236,7 +245,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
 
         {/* Color Accent — picker */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Couleur d'accent</label>
+          <label style={s.formLabelR(r)}>Couleur d'accent</label>
           <div style={localStyles.colorRow}>
             {DEFAULT_COLORS.map((c) => (
               <button
@@ -259,7 +268,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
             />
             <button
               type="button"
-              style={{ ...s.btnGhost, ...s.btnSmall }}
+              style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
               onClick={() => setAccentColor('#14b8a6')}
             >
               Réinitialiser
@@ -269,7 +278,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
 
         {/* Glow Color — picker */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Couleur de glow</label>
+          <label style={s.formLabelR(r)}>Couleur de glow</label>
           <div style={localStyles.colorRow}>
             {DEFAULT_COLORS.map((c) => (
               <button
@@ -292,7 +301,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
             />
             <button
               type="button"
-              style={{ ...s.btnGhost, ...s.btnSmall }}
+              style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
               onClick={() => setGlowColor('none')}
             >
               Réinitialiser
@@ -301,20 +310,20 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
         </div>
 
         {/* Position + Redirect URL */}
-        <div style={s.grid2}>
+        <div style={s.grid2R(r)}>
           <div style={s.formGroup}>
-            <label style={s.formLabel}>Position</label>
+            <label style={s.formLabelR(r)}>Position</label>
             <input
-              style={s.formInput}
+              style={s.formInputR(r)}
               type="number"
               value={position}
               onChange={(e) => setPosition(Number(e.target.value))}
             />
           </div>
           <div style={s.formGroup}>
-            <label style={s.formLabel}>URL de redirection</label>
+            <label style={s.formLabelR(r)}>URL de redirection</label>
             <input
-              style={s.formInput}
+              style={s.formInputR(r)}
               value={redirectUrl}
               onChange={(e) => setRedirectUrl(e.target.value)}
               placeholder="/services/site-vitrine"
@@ -329,7 +338,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
             checked={isPublic}
             onChange={(e) => setIsPublic(e.target.checked)}
           />
-          <span style={{ color: theme.colors.slate[200], fontSize: theme.typography.fontSize.sm }}>
+          <span style={{ color: theme.colors.slate[200], fontSize: is4K ? theme.typography.fontSize.lg : theme.typography.fontSize.sm }}>
             Publier (visible sur le site)
           </span>
         </label>
@@ -337,10 +346,10 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
         {error && <div style={localStyles.errorMsg}>{error}</div>}
 
         <div style={localStyles.actions}>
-          <button type="button" onClick={onClose} style={s.btnGhost}>
+          <button type="button" onClick={onClose} style={s.btnGhostR(r)}>
             Annuler
           </button>
-          <button type="submit" style={s.btnPrimary} disabled={saving}>
+          <button type="submit" style={s.btnPrimaryR(r)} disabled={saving}>
             {saving ? 'Enregistrement…' : 'Enregistrer'}
           </button>
         </div>
@@ -358,11 +367,6 @@ const localStyles: Record<string, CSSProperties> = {
     border: 'none',
     color: theme.colors.slate[400],
     cursor: 'pointer',
-  },
-  iconGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(5, 1fr)',
-    gap: theme.spacing[2],
   },
   iconBtn: {
     display: 'flex',

@@ -1,6 +1,7 @@
 /**
  * AdminContacts
  * Inbox view for contact messages with status management.
+ * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
@@ -15,8 +16,10 @@ import {
   Inbox,
 } from 'lucide-react';
 import theme from '../../../styles/theme';
+import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
 import * as s from '../admin.styles';
+import type { AdminResponsive } from '../admin.styles';
 import {
   fetchContacts,
   updateContactStatus,
@@ -50,6 +53,8 @@ function AdminContacts() {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const { isMobile, is4K } = useWindowSize();
+  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -86,16 +91,32 @@ function AdminContacts() {
       ? contacts
       : contacts.filter((c) => c.status === filterStatus);
 
+  const baseFontSize = is4K ? theme.typography.fontSize.base : theme.typography.fontSize.sm;
+  const smallFontSize = is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs;
+
   return (
     <AdminLayout title="Messages">
-      <div style={s.pageHeader}>
-        <div style={s.pageTitle}>Boîte de réception</div>
+      <div style={{
+        ...s.pageHeaderR(r),
+        ...(isMobile ? { flexDirection: 'column', gap: theme.spacing[3] } : {}),
+      }}>
+        <div style={s.pageTitleR(r)}>Boîte de réception</div>
 
         {/* Status filter */}
-        <div style={styles.filterRow}>
+        <div style={{
+          display: 'flex',
+          gap: theme.spacing[2],
+          flexWrap: 'wrap',
+        }}>
           <button
             type="button"
-            style={filterStatus === 'all' ? styles.filterActive : styles.filter}
+            style={filterStatus === 'all' ? {
+              ...styles.filterActive,
+              fontSize: smallFontSize,
+            } : {
+              ...styles.filter,
+              fontSize: smallFontSize,
+            }}
             onClick={() => setFilterStatus('all')}
           >
             Tous ({contacts.length})
@@ -108,8 +129,8 @@ function AdminContacts() {
                 type="button"
                 style={
                   filterStatus === opt.value
-                    ? { ...styles.filterActive, color: opt.color }
-                    : styles.filter
+                    ? { ...styles.filterActive, color: opt.color, fontSize: smallFontSize }
+                    : { ...styles.filter, fontSize: smallFontSize }
                 }
                 onClick={() => setFilterStatus(opt.value)}
               >
@@ -121,12 +142,12 @@ function AdminContacts() {
       </div>
 
       {loading ? (
-        <div style={s.glassPanel}>
+        <div style={s.glassPanelR(r)}>
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : filtered.length === 0 ? (
-        <div style={s.emptyState}>
-          <Inbox size={40} />
+        <div style={s.emptyStateR(r)}>
+          <Inbox size={is4K ? 52 : 40} />
           <div>Aucun message</div>
         </div>
       ) : (
@@ -137,46 +158,75 @@ function AdminContacts() {
             const StatusIcon = meta.icon;
 
             return (
-              <div key={msg.id} style={styles.card}>
+              <div key={msg.id} style={{
+                ...s.glassPanelR(r),
+                padding: isMobile ? theme.spacing[4] : is4K ? theme.spacing[7] : theme.spacing[5],
+                display: 'flex',
+                flexDirection: 'column',
+                gap: theme.spacing[3],
+                transition: `border-color ${theme.transitions.duration.fast}`,
+              }}>
                 {/* Header row */}
                 <div
-                  style={styles.cardHeader}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: isMobile ? 'flex-start' : 'center',
+                    cursor: 'pointer',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    gap: isMobile ? theme.spacing[2] : undefined,
+                  }}
                   onClick={() => toggleExpand(msg.id)}
                 >
                   <div style={styles.cardLeft}>
-                    <StatusIcon size={18} color={meta.color} />
+                    <StatusIcon size={is4K ? 22 : 18} color={meta.color} />
                     <div>
-                      <div style={styles.cardName}>{msg.name}</div>
-                      <div style={styles.cardEmail}>{msg.email}</div>
+                      <div style={{ ...styles.cardName, fontSize: baseFontSize }}>{msg.name}</div>
+                      <div style={{ ...styles.cardEmail, fontSize: smallFontSize }}>{msg.email}</div>
                     </div>
                   </div>
                   <div style={styles.cardRight}>
-                    <span style={s.badge(meta.color)}>{meta.label}</span>
-                    <span style={styles.cardDate}>{formatDate(msg.created_at)}</span>
+                    <span style={s.badge(meta.color, r)}>{meta.label}</span>
+                    {!isMobile && (
+                      <span style={{ ...styles.cardDate, fontSize: smallFontSize }}>{formatDate(msg.created_at)}</span>
+                    )}
                     {isOpen ? (
-                      <ChevronUp size={16} color={theme.colors.slate[400]} />
+                      <ChevronUp size={is4K ? 20 : 16} color={theme.colors.slate[400]} />
                     ) : (
-                      <ChevronDown size={16} color={theme.colors.slate[400]} />
+                      <ChevronDown size={is4K ? 20 : 16} color={theme.colors.slate[400]} />
                     )}
                   </div>
                 </div>
 
                 {/* Subject */}
-                <div style={styles.cardSubject}>{msg.subject}</div>
+                <div style={{
+                  fontWeight: theme.typography.fontWeight.semibold,
+                  color: theme.colors.slate[200],
+                  fontSize: baseFontSize,
+                }}>{msg.subject}</div>
 
                 {/* Expanded body */}
                 {isOpen && (
                   <div style={styles.cardBody}>
                     {msg.phone && (
-                      <div style={styles.cardPhone}>
+                      <div style={{ color: theme.colors.slate[300], fontSize: baseFontSize }}>
                         Tél : {msg.phone}
                       </div>
                     )}
-                    <div style={styles.cardMessage}>{msg.message}</div>
-                    <div style={styles.cardActions}>
-                      {/* Status dropdown */}
+                    <div style={{
+                      color: theme.colors.slate[200],
+                      fontSize: baseFontSize,
+                      lineHeight: 1.7,
+                      whiteSpace: 'pre-wrap',
+                    }}>{msg.message}</div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: theme.spacing[3],
+                      flexWrap: isMobile ? 'wrap' : undefined,
+                    }}>
                       <select
-                        style={s.formSelect}
+                        style={s.formSelectR(r)}
                         value={msg.status}
                         onChange={(e) =>
                           handleStatusChange(msg.id, e.target.value)
@@ -190,10 +240,10 @@ function AdminContacts() {
                       </select>
                       <button
                         type="button"
-                        style={s.btnDanger}
+                        style={s.btnDangerR(r)}
                         onClick={() => handleDelete(msg.id)}
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={is4K ? 18 : 14} />
                         Supprimer
                       </button>
                     </div>
@@ -212,11 +262,6 @@ function AdminContacts() {
 // Local styles
 // =============================================================================
 const styles: Record<string, CSSProperties> = {
-  filterRow: {
-    display: 'flex',
-    gap: theme.spacing[2],
-    flexWrap: 'wrap',
-  },
   filter: {
     padding: `${theme.spacing[1.5]} ${theme.spacing[4]}`,
     borderRadius: theme.borderRadius.full,
@@ -241,20 +286,6 @@ const styles: Record<string, CSSProperties> = {
     flexDirection: 'column',
     gap: theme.spacing[3],
   },
-  card: {
-    ...s.glassPanel,
-    padding: theme.spacing[5],
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing[3],
-    transition: `border-color ${theme.transitions.duration.fast}`,
-  },
-  cardHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    cursor: 'pointer',
-  },
   cardLeft: {
     display: 'flex',
     alignItems: 'center',
@@ -278,32 +309,12 @@ const styles: Record<string, CSSProperties> = {
     color: theme.colors.slate[500],
     fontSize: theme.typography.fontSize.xs,
   },
-  cardSubject: {
-    fontWeight: theme.typography.fontWeight.semibold,
-    color: theme.colors.slate[200],
-    fontSize: theme.typography.fontSize.sm,
-  },
   cardBody: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing[4],
     paddingTop: theme.spacing[3],
     borderTop: `1px solid ${theme.hexToRgba(theme.colors.slate[700], 0.35)}`,
-  },
-  cardPhone: {
-    color: theme.colors.slate[300],
-    fontSize: theme.typography.fontSize.sm,
-  },
-  cardMessage: {
-    color: theme.colors.slate[200],
-    fontSize: theme.typography.fontSize.sm,
-    lineHeight: 1.7,
-    whiteSpace: 'pre-wrap',
-  },
-  cardActions: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing[3],
   },
 };
 

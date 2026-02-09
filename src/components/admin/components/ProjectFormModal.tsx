@@ -15,7 +15,9 @@ import {
   ImageIcon,
 } from 'lucide-react';
 import theme from '../../../styles/theme';
+import { useWindowSize } from '../../../hooks/useWindowSize';
 import * as s from '../admin.styles';
+import type { AdminResponsive } from '../admin.styles';
 import type { DbProject } from '../../../services/adminService';
 
 const DEFAULT_COLORS = [
@@ -56,6 +58,8 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const { isMobile, is4K } = useWindowSize();
+  const r: AdminResponsive = { isMobile, is4K };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -113,25 +117,25 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
   return (
     <div style={s.modalOverlay} onClick={onClose}>
       <form
-        style={{ ...s.modalContent, maxWidth: '680px' }}
+        style={{ ...s.modalContentR(r), maxWidth: is4K ? '900px' : '680px' }}
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
       >
         <div style={s.modalHeader}>
-          <div style={s.modalTitle}>
+          <div style={s.modalTitleR(r)}>
             {initial ? 'Modifier le projet' : 'Nouveau projet'}
           </div>
           <button type="button" onClick={onClose} style={styles.closeBtn}>
-            <X size={18} />
+            <X size={is4K ? 22 : 18} />
           </button>
         </div>
 
         {/* ID + Name */}
-        <div style={s.grid2}>
+        <div style={s.grid2R(r)}>
           <div style={s.formGroup}>
-            <label style={s.formLabel}>ID (slug) *</label>
+            <label style={s.formLabelR(r)}>ID (slug) *</label>
             <input
-              style={s.formInput}
+              style={s.formInputR(r)}
               value={id}
               onChange={(e) => setId(e.target.value)}
               required
@@ -140,9 +144,9 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
             />
           </div>
           <div style={s.formGroup}>
-            <label style={s.formLabel}>Nom *</label>
+            <label style={s.formLabelR(r)}>Nom *</label>
             <input
-              style={s.formInput}
+              style={s.formInputR(r)}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -153,9 +157,9 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
 
         {/* Hook (accroche) */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Accroche (hook)</label>
+          <label style={s.formLabelR(r)}>Accroche (hook)</label>
           <input
-            style={s.formInput}
+            style={s.formInputR(r)}
             value={hook}
             onChange={(e) => setHook(e.target.value)}
             placeholder="Phrase d'accroche courte…"
@@ -164,9 +168,9 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
 
         {/* Story */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Story</label>
+          <label style={s.formLabelR(r)}>Story</label>
           <textarea
-            style={s.formTextarea}
+            style={s.formTextareaR(r)}
             value={story}
             onChange={(e) => setStory(e.target.value)}
             placeholder="L'histoire du projet…"
@@ -175,9 +179,9 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
 
         {/* Benefit */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Bénéfice</label>
+          <label style={s.formLabelR(r)}>Bénéfice</label>
           <textarea
-            style={{ ...s.formTextarea, minHeight: '5rem' }}
+            style={{ ...s.formTextareaR(r), minHeight: is4K ? '7rem' : '5rem' }}
             value={benefit}
             onChange={(e) => setBenefit(e.target.value)}
             placeholder="Le bénéfice principal…"
@@ -185,20 +189,20 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
         </div>
 
         {/* Tech + Type */}
-        <div style={s.grid2}>
+        <div style={s.grid2R(r)}>
           <div style={s.formGroup}>
-            <label style={s.formLabel}>Technologies (séparées par ,)</label>
+            <label style={s.formLabelR(r)}>Technologies (séparées par ,)</label>
             <input
-              style={s.formInput}
+              style={s.formInputR(r)}
               value={tech}
               onChange={(e) => setTech(e.target.value)}
               placeholder="React, TypeScript, Supabase"
             />
           </div>
           <div style={s.formGroup}>
-            <label style={s.formLabel}>Type</label>
+            <label style={s.formLabelR(r)}>Type</label>
             <select
-              style={s.formSelect}
+              style={s.formSelectR(r)}
               value={type}
               onChange={(e) => setType(e.target.value as 'production' | 'concept')}
             >
@@ -210,7 +214,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
 
         {/* Color Accent */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Couleur primaire</label>
+          <label style={s.formLabelR(r)}>Couleur primaire</label>
           <div style={styles.colorRow}>
             {DEFAULT_COLORS.map((c) => (
               <button
@@ -236,7 +240,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
             />
             <button
               type="button"
-              style={{ ...s.btnGhost, ...s.btnSmall }}
+              style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
               onClick={() => setPrimaryColor('#14b8a6')}
             >
               Réinitialiser
@@ -245,7 +249,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
         </div>
 
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Couleur secondaire (optionnel)</label>
+          <label style={s.formLabelR(r)}>Couleur secondaire (optionnel)</label>
           <div style={styles.colorRow}>
             {DEFAULT_COLORS.map((c) => (
               <button
@@ -272,10 +276,10 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
             {secondaryColor && (
               <button
                 type="button"
-                style={{ ...s.btnGhost, ...s.btnSmall }}
+                style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
                 onClick={() => setSecondaryColor('')}
               >
-                <X size={12} /> Retirer
+                <X size={is4K ? 16 : 12} /> Retirer
               </button>
             )}
           </div>
@@ -283,9 +287,9 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
 
         {/* URL externe */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>URL externe ("Voir le projet")</label>
+          <label style={s.formLabelR(r)}>URL externe ("Voir le projet")</label>
           <input
-            style={s.formInput}
+            style={s.formInputR(r)}
             value={externalUrl}
             onChange={(e) => setExternalUrl(e.target.value)}
             placeholder="https://mon-projet.com"
@@ -294,7 +298,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
 
         {/* Preview Image */}
         <div style={s.formGroup}>
-          <label style={s.formLabel}>Image preview</label>
+          <label style={s.formLabelR(r)}>Image preview</label>
           {displayedPreview ? (
             <div style={s.imagePreview}>
               <img src={displayedPreview} alt="preview" style={s.imagePreviewImg} />
@@ -326,10 +330,10 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
           {displayedPreview && (
             <button
               type="button"
-              style={{ ...s.btnGhost, ...s.btnSmall, marginTop: theme.spacing[2] }}
+              style={{ ...s.btnGhostR(r), ...s.btnSmallR(r), marginTop: theme.spacing[2] }}
               onClick={() => fileRef.current?.click()}
             >
-              <Upload size={14} />
+              <Upload size={is4K ? 18 : 14} />
               Remplacer l'image
             </button>
           )}
@@ -342,7 +346,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
             checked={isFlagship}
             onChange={(e) => setIsFlagship(e.target.checked)}
           />
-          <span style={{ color: theme.colors.slate[200], fontSize: theme.typography.fontSize.sm }}>
+          <span style={{ color: theme.colors.slate[200], fontSize: is4K ? theme.typography.fontSize.lg : theme.typography.fontSize.sm }}>
             Projet phare (flagship — mis en avant sur le site)
           </span>
         </label>
@@ -350,10 +354,10 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
         {error && <div style={styles.errorMsg}>{error}</div>}
 
         <div style={styles.actions}>
-          <button type="button" onClick={onClose} style={s.btnGhost}>
+          <button type="button" onClick={onClose} style={s.btnGhostR(r)}>
             Annuler
           </button>
-          <button type="submit" style={s.btnPrimary} disabled={saving}>
+          <button type="submit" style={s.btnPrimaryR(r)} disabled={saving}>
             {saving ? 'Enregistrement…' : 'Enregistrer'}
           </button>
         </div>

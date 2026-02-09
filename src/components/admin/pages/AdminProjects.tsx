@@ -1,13 +1,16 @@
 /**
  * AdminProjects
  * CRUD page for portfolio projects with preview upload.
+ * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Plus, Pencil, Trash2, Image } from 'lucide-react';
 import theme from '../../../styles/theme';
+import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
 import * as s from '../admin.styles';
+import type { AdminResponsive } from '../admin.styles';
 import ProjectFormModal from '../components/ProjectFormModal';
 import {
   fetchProjects,
@@ -24,6 +27,8 @@ function AdminProjects() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<DbProject | null>(null);
   const [creating, setCreating] = useState(false);
+  const { isMobile, is4K } = useWindowSize();
+  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -56,7 +61,6 @@ function AdminProjects() {
 
     // handle preview
     if (deleteOldPreview && !file) {
-      // just delete
       await deletePreview(saved.id);
       await updateProject(saved.id, { preview_url: null });
     } else if (file) {
@@ -87,139 +91,147 @@ function AdminProjects() {
 
   return (
     <AdminLayout title="Projets">
-      <div style={s.pageHeader}>
-        <div style={s.pageTitle}>Portfolio</div>
+      <div style={s.pageHeaderR(r)}>
+        <div style={s.pageTitleR(r)}>Portfolio</div>
         <button
           type="button"
-          style={s.btnPrimary}
+          style={s.btnPrimaryR(r)}
           onClick={() => setCreating(true)}
         >
-          <Plus size={16} />
+          <Plus size={is4K ? 20 : 16} />
           Nouveau projet
         </button>
       </div>
 
       {loading ? (
-        <div style={s.glassPanel}>
+        <div style={s.glassPanelR(r)}>
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : projects.length === 0 ? (
-        <div style={s.emptyState}>
+        <div style={s.emptyStateR(r)}>
           <div>Aucun projet</div>
           <button
             type="button"
-            style={s.btnPrimary}
+            style={s.btnPrimaryR(r)}
             onClick={() => setCreating(true)}
           >
-            <Plus size={16} />
+            <Plus size={is4K ? 20 : 16} />
             Créer un premier projet
           </button>
         </div>
       ) : (
-        <div style={s.glassPanel}>
-          <table style={s.table}>
-            <thead>
-              <tr style={s.tableHead}>
-                <th style={s.th}>Preview</th>
-                <th style={s.th}>Nom</th>
-                <th style={s.th}>Type</th>
-                <th style={s.th}>Tech</th>
-                <th style={s.th}>Couleur</th>
-                <th style={s.th}>Statut</th>
-                <th style={{ ...s.th, textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((proj) => (
-                <tr key={proj.id}>
-                  <td style={s.td}>
-                    {proj.preview_url ? (
-                      <img
-                        src={proj.preview_url}
-                        alt=""
-                        style={styles.thumb}
-                      />
-                    ) : (
-                      <div style={styles.noThumb}>
-                        <Image size={16} color={theme.colors.slate[600]} />
-                      </div>
-                    )}
-                  </td>
-                  <td style={s.td}>
-                    <div style={{ fontWeight: theme.typography.fontWeight.medium }}>
-                      {proj.name}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: theme.typography.fontSize.xs,
-                        color: theme.colors.slate[500],
-                      }}
-                    >
-                      {proj.id}
-                    </div>
-                  </td>
-                  <td style={s.td}>
-                    <span
-                      style={
-                        proj.type === 'production'
-                          ? s.badge(theme.colors.teal[400])
-                          : s.badge(theme.colors.blue[400])
-                      }
-                    >
-                      {proj.type === 'production' ? 'Production' : 'Concept'}
-                    </span>
-                  </td>
-                  <td style={s.td}>
-                    <div style={styles.techList}>
-                      {(proj.tech ?? []).slice(0, 3).map((t) => (
-                        <span key={t} style={styles.techBadge}>{t}</span>
-                      ))}
-                      {(proj.tech ?? []).length > 3 && (
-                        <span style={{ color: theme.colors.slate[500], fontSize: theme.typography.fontSize.xs }}>
-                          +{proj.tech.length - 3}
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td style={s.td}>
-                    <div
-                      style={{
-                        ...s.colorSwatch(proj.color_accent?.primary ?? '#14b8a6'),
-                        width: '1.5rem',
-                        height: '1.5rem',
-                      }}
-                      title={proj.color_accent?.primary}
-                    />
-                  </td>
-                  <td style={s.td}>
-                    {proj.is_flagship ? (
-                      <span style={s.badge('#f59e0b')}>⭐ Flagship</span>
-                    ) : (
-                      <span style={s.badgeDraft}>Standard</span>
-                    )}
-                  </td>
-                  <td style={{ ...s.td, textAlign: 'right' }}>
-                    <div style={styles.actionRow}>
-                      <button
-                        type="button"
-                        style={{ ...s.btnGhost, ...s.btnSmall }}
-                        onClick={() => setEditing(proj)}
-                      >
-                        <Pencil size={14} />
-                      </button>
-                      <button
-                        type="button"
-                        style={{ ...s.btnDanger, ...s.btnSmall }}
-                        onClick={() => handleDelete(proj.id)}
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </td>
+        <div style={s.glassPanelR(r)}>
+          <div style={s.tableWrap(r)}>
+            <table style={s.tableR(r)}>
+              <thead>
+                <tr style={s.tableHead}>
+                  {!isMobile && <th style={s.thR(r)}>Preview</th>}
+                  <th style={s.thR(r)}>Nom</th>
+                  <th style={s.thR(r)}>Type</th>
+                  {!isMobile && <th style={s.thR(r)}>Tech</th>}
+                  {!isMobile && <th style={s.thR(r)}>Couleur</th>}
+                  <th style={s.thR(r)}>Statut</th>
+                  <th style={{ ...s.thR(r), textAlign: 'right' }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {projects.map((proj) => (
+                  <tr key={proj.id}>
+                    {!isMobile && (
+                      <td style={s.tdR(r)}>
+                        {proj.preview_url ? (
+                          <img
+                            src={proj.preview_url}
+                            alt=""
+                            style={styles.thumb}
+                          />
+                        ) : (
+                          <div style={styles.noThumb}>
+                            <Image size={is4K ? 20 : 16} color={theme.colors.slate[600]} />
+                          </div>
+                        )}
+                      </td>
+                    )}
+                    <td style={s.tdR(r)}>
+                      <div style={{ fontWeight: theme.typography.fontWeight.medium }}>
+                        {proj.name}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs,
+                          color: theme.colors.slate[500],
+                        }}
+                      >
+                        {proj.id}
+                      </div>
+                    </td>
+                    <td style={s.tdR(r)}>
+                      <span
+                        style={
+                          proj.type === 'production'
+                            ? s.badge(theme.colors.teal[400], r)
+                            : s.badge(theme.colors.blue[400], r)
+                        }
+                      >
+                        {proj.type === 'production' ? 'Production' : 'Concept'}
+                      </span>
+                    </td>
+                    {!isMobile && (
+                      <td style={s.tdR(r)}>
+                        <div style={styles.techList}>
+                          {(proj.tech ?? []).slice(0, 3).map((t) => (
+                            <span key={t} style={styles.techBadge}>{t}</span>
+                          ))}
+                          {(proj.tech ?? []).length > 3 && (
+                            <span style={{ color: theme.colors.slate[500], fontSize: theme.typography.fontSize.xs }}>
+                              +{proj.tech.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    )}
+                    {!isMobile && (
+                      <td style={s.tdR(r)}>
+                        <div
+                          style={{
+                            ...s.colorSwatch(proj.color_accent?.primary ?? '#14b8a6'),
+                            width: is4K ? '2rem' : '1.5rem',
+                            height: is4K ? '2rem' : '1.5rem',
+                          }}
+                          title={proj.color_accent?.primary}
+                        />
+                      </td>
+                    )}
+                    <td style={s.tdR(r)}>
+                      {proj.is_flagship ? (
+                        <span style={s.badge('#f59e0b', r)}>⭐ Flagship</span>
+                      ) : (
+                        <span style={s.badgeDraft}>Standard</span>
+                      )}
+                    </td>
+                    <td style={{ ...s.tdR(r), textAlign: 'right' }}>
+                      <div style={styles.actionRow}>
+                        <button
+                          type="button"
+                          style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
+                          onClick={() => setEditing(proj)}
+                        >
+                          <Pencil size={is4K ? 18 : 14} />
+                        </button>
+                        <button
+                          type="button"
+                          style={{ ...s.btnDangerR(r), ...s.btnSmallR(r) }}
+                          onClick={() => handleDelete(proj.id)}
+                        >
+                          <Trash2 size={is4K ? 18 : 14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

@@ -8,6 +8,7 @@ export const BREAKPOINTS = {
   tablet: 1024,   // 768px - 1024px
   desktop: 1024,  // > 1024px
   largeDesktop: 1440, // > 1440px (scaling reference)
+  ultraWide: 2560, // 4K/5K displays
 } as const;
 
 // =============================================================================
@@ -20,6 +21,7 @@ export interface WindowSize {
   isTablet: boolean;
   isDesktop: boolean;
   isLargeDesktop: boolean;
+  is4K: boolean;
 }
 
 // =============================================================================
@@ -36,6 +38,7 @@ export function useWindowSize(): WindowSize {
         isTablet: false,
         isDesktop: true,
         isLargeDesktop: false,
+        is4K: false,
       };
     }
     
@@ -47,6 +50,7 @@ export function useWindowSize(): WindowSize {
       isTablet: width >= BREAKPOINTS.mobile && width < BREAKPOINTS.tablet,
       isDesktop: width >= BREAKPOINTS.desktop,
       isLargeDesktop: width >= BREAKPOINTS.largeDesktop,
+      is4K: width >= BREAKPOINTS.ultraWide,
     };
   });
 
@@ -67,6 +71,7 @@ export function useWindowSize(): WindowSize {
           isTablet: width >= BREAKPOINTS.mobile && width < BREAKPOINTS.tablet,
           isDesktop: width >= BREAKPOINTS.desktop,
           isLargeDesktop: width >= BREAKPOINTS.largeDesktop,
+          is4K: width >= BREAKPOINTS.ultraWide,
         });
       }, 100);
     };

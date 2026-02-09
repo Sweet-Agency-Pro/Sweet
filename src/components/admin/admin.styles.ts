@@ -1,10 +1,25 @@
 /**
  * Admin Shared Styles
  * Reusable style objects for all admin pages — follows the site's visual DNA.
+ * Supports responsive layouts: mobile, FHD, 4K/5K.
  */
 
 import type { CSSProperties } from 'react';
 import theme from '../../styles/theme';
+
+// =============================================================================
+// RESPONSIVE HELPERS
+// =============================================================================
+export interface AdminResponsive {
+  isMobile: boolean;
+  is4K: boolean;
+}
+
+/** Scale a rem value for 4K */
+const s4K = (base: string, factor = 1.35): string => {
+  const num = parseFloat(base);
+  return `${(num * factor).toFixed(3)}rem`;
+};
 
 // =============================================================================
 // GLASS PANEL
@@ -18,6 +33,12 @@ export const glassPanel: CSSProperties = {
   WebkitBackdropFilter: 'blur(16px)',
 };
 
+export const glassPanelR = (r: AdminResponsive): CSSProperties => ({
+  ...glassPanel,
+  padding: r.isMobile ? theme.spacing[4] : r.is4K ? theme.spacing[12] : theme.spacing[8],
+  borderRadius: r.isMobile ? theme.borderRadius.xl : theme.borderRadius['2xl'],
+});
+
 // =============================================================================
 // STAT CARD
 // =============================================================================
@@ -29,16 +50,34 @@ export const statCard: CSSProperties = {
   gap: theme.spacing[2],
 };
 
+export const statCardR = (r: AdminResponsive): CSSProperties => ({
+  ...glassPanelR(r),
+  padding: r.isMobile ? theme.spacing[4] : r.is4K ? theme.spacing[8] : theme.spacing[6],
+  display: 'flex',
+  flexDirection: 'column',
+  gap: r.is4K ? theme.spacing[3] : theme.spacing[2],
+});
+
 export const statValue: CSSProperties = {
   fontSize: theme.typography.fontSize['3xl'],
   fontWeight: theme.typography.fontWeight.bold,
   color: theme.colors.white,
 };
 
+export const statValueR = (r: AdminResponsive): CSSProperties => ({
+  ...statValue,
+  fontSize: r.isMobile ? theme.typography.fontSize['2xl'] : r.is4K ? theme.typography.fontSize['5xl'] : theme.typography.fontSize['3xl'],
+});
+
 export const statLabel: CSSProperties = {
   fontSize: theme.typography.fontSize.sm,
   color: theme.colors.slate[300],
 };
+
+export const statLabelR = (r: AdminResponsive): CSSProperties => ({
+  ...statLabel,
+  fontSize: r.is4K ? theme.typography.fontSize.lg : theme.typography.fontSize.sm,
+});
 
 // =============================================================================
 // DATA TABLE
@@ -47,6 +86,18 @@ export const table: CSSProperties = {
   width: '100%',
   borderCollapse: 'collapse',
 };
+
+export const tableR = (r: AdminResponsive): CSSProperties => ({
+  ...table,
+  display: r.isMobile ? 'block' : 'table',
+  overflowX: r.isMobile ? 'auto' : undefined,
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.sm) : undefined,
+});
+
+export const tableWrap = (r: AdminResponsive): CSSProperties => ({
+  overflowX: r.isMobile ? 'auto' : undefined,
+  WebkitOverflowScrolling: 'touch' as unknown as undefined,
+});
 
 export const tableHead: CSSProperties = {
   borderBottom: `1px solid ${theme.hexToRgba(theme.colors.slate[600], 0.4)}`,
@@ -60,6 +111,17 @@ export const th: CSSProperties = {
   fontWeight: theme.typography.fontWeight.medium,
 };
 
+export const thR = (r: AdminResponsive): CSSProperties => ({
+  ...th,
+  padding: r.isMobile
+    ? `${theme.spacing[2]} ${theme.spacing[3]}`
+    : r.is4K
+      ? `${theme.spacing[4]} ${theme.spacing[6]}`
+      : th.padding,
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.sm) : theme.typography.fontSize.sm,
+  whiteSpace: r.isMobile ? 'nowrap' : undefined,
+});
+
 export const td: CSSProperties = {
   padding: `${theme.spacing[4]} ${theme.spacing[4]}`,
   color: theme.colors.slate[100],
@@ -67,14 +129,25 @@ export const td: CSSProperties = {
   borderBottom: `1px solid ${theme.hexToRgba(theme.colors.slate[700], 0.25)}`,
 };
 
+export const tdR = (r: AdminResponsive): CSSProperties => ({
+  ...td,
+  padding: r.isMobile
+    ? `${theme.spacing[3]} ${theme.spacing[3]}`
+    : r.is4K
+      ? `${theme.spacing[5]} ${theme.spacing[6]}`
+      : td.padding,
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.sm) : theme.typography.fontSize.sm,
+  whiteSpace: r.isMobile ? 'nowrap' : undefined,
+});
+
 // =============================================================================
 // BADGES
 // =============================================================================
-export const badge = (color: string): CSSProperties => ({
+export const badge = (color: string, r?: AdminResponsive): CSSProperties => ({
   display: 'inline-block',
   padding: `${theme.spacing[1]} ${theme.spacing[3]}`,
   borderRadius: theme.borderRadius.full,
-  fontSize: theme.typography.fontSize.xs,
+  fontSize: r?.is4K ? s4K(theme.typography.fontSize.xs) : theme.typography.fontSize.xs,
   fontWeight: theme.typography.fontWeight.medium,
   background: theme.hexToRgba(color, 0.15),
   color,
@@ -101,11 +174,25 @@ const btnBase: CSSProperties = {
   transition: `all ${theme.transitions.duration.fast}`,
 };
 
+const btnBaseR = (r: AdminResponsive): CSSProperties => ({
+  ...btnBase,
+  padding: r.is4K
+    ? `${theme.spacing[4]} ${theme.spacing[8]}`
+    : btnBase.padding,
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.sm) : theme.typography.fontSize.sm,
+});
+
 export const btnPrimary: CSSProperties = {
   ...btnBase,
   background: theme.gradients.tealCyan,
   color: theme.colors.white,
 };
+
+export const btnPrimaryR = (r: AdminResponsive): CSSProperties => ({
+  ...btnBaseR(r),
+  background: theme.gradients.tealCyan,
+  color: theme.colors.white,
+});
 
 export const btnDanger: CSSProperties = {
   ...btnBase,
@@ -114,6 +201,13 @@ export const btnDanger: CSSProperties = {
   border: `1px solid ${theme.hexToRgba('#ef4444', 0.25)}`,
 };
 
+export const btnDangerR = (r: AdminResponsive): CSSProperties => ({
+  ...btnBaseR(r),
+  background: theme.hexToRgba('#ef4444', 0.15),
+  color: '#f87171',
+  border: `1px solid ${theme.hexToRgba('#ef4444', 0.25)}`,
+});
+
 export const btnGhost: CSSProperties = {
   ...btnBase,
   background: theme.hexToRgba(theme.colors.slate[700], 0.4),
@@ -121,10 +215,22 @@ export const btnGhost: CSSProperties = {
   border: `1px solid ${theme.hexToRgba(theme.colors.slate[600], 0.3)}`,
 };
 
+export const btnGhostR = (r: AdminResponsive): CSSProperties => ({
+  ...btnBaseR(r),
+  background: theme.hexToRgba(theme.colors.slate[700], 0.4),
+  color: theme.colors.slate[200],
+  border: `1px solid ${theme.hexToRgba(theme.colors.slate[600], 0.3)}`,
+});
+
 export const btnSmall: CSSProperties = {
   padding: `${theme.spacing[1.5]} ${theme.spacing[3]}`,
   fontSize: theme.typography.fontSize.xs,
 };
+
+export const btnSmallR = (r: AdminResponsive): CSSProperties => ({
+  padding: r.is4K ? `${theme.spacing[2.5]} ${theme.spacing[5]}` : `${theme.spacing[1.5]} ${theme.spacing[3]}`,
+  fontSize: r.is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs,
+});
 
 // =============================================================================
 // FORM FIELDS
@@ -141,6 +247,11 @@ export const formLabel: CSSProperties = {
   fontWeight: theme.typography.fontWeight.medium,
 };
 
+export const formLabelR = (r: AdminResponsive): CSSProperties => ({
+  ...formLabel,
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.sm) : theme.typography.fontSize.sm,
+});
+
 export const formInput: CSSProperties = {
   padding: theme.spacing[3],
   borderRadius: theme.borderRadius.lg,
@@ -151,6 +262,12 @@ export const formInput: CSSProperties = {
   outline: 'none',
 };
 
+export const formInputR = (r: AdminResponsive): CSSProperties => ({
+  ...formInput,
+  padding: r.is4K ? theme.spacing[4] : theme.spacing[3],
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.sm) : theme.typography.fontSize.sm,
+});
+
 export const formTextarea: CSSProperties = {
   ...formInput,
   minHeight: '10rem',
@@ -158,10 +275,22 @@ export const formTextarea: CSSProperties = {
   fontFamily: 'inherit',
 };
 
+export const formTextareaR = (r: AdminResponsive): CSSProperties => ({
+  ...formInputR(r),
+  minHeight: r.is4K ? '14rem' : '10rem',
+  resize: 'vertical',
+  fontFamily: 'inherit',
+});
+
 export const formSelect: CSSProperties = {
   ...formInput,
   cursor: 'pointer',
 };
+
+export const formSelectR = (r: AdminResponsive): CSSProperties => ({
+  ...formInputR(r),
+  cursor: 'pointer',
+});
 
 // =============================================================================
 // PAGE HEADER
@@ -172,11 +301,27 @@ export const pageHeader: CSSProperties = {
   alignItems: 'center',
 };
 
+export const pageHeaderR = (r: AdminResponsive): CSSProperties => ({
+  ...pageHeader,
+  flexDirection: r.isMobile ? 'column' : 'row',
+  alignItems: r.isMobile ? 'stretch' : 'center',
+  gap: r.isMobile ? theme.spacing[4] : undefined,
+});
+
 export const pageTitle: CSSProperties = {
   fontSize: theme.typography.fontSize['2xl'],
   fontWeight: theme.typography.fontWeight.bold,
   color: theme.colors.white,
 };
+
+export const pageTitleR = (r: AdminResponsive): CSSProperties => ({
+  ...pageTitle,
+  fontSize: r.isMobile
+    ? theme.typography.fontSize.xl
+    : r.is4K
+      ? theme.typography.fontSize['4xl']
+      : theme.typography.fontSize['2xl'],
+});
 
 // =============================================================================
 // EMPTY STATE
@@ -192,6 +337,19 @@ export const emptyState: CSSProperties = {
   color: theme.colors.slate[400],
   textAlign: 'center',
 };
+
+export const emptyStateR = (r: AdminResponsive): CSSProperties => ({
+  ...glassPanelR(r),
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: r.is4K ? theme.spacing[6] : theme.spacing[4],
+  padding: r.isMobile ? theme.spacing[10] : r.is4K ? theme.spacing[20] : theme.spacing[16],
+  color: theme.colors.slate[400],
+  textAlign: 'center',
+  fontSize: r.is4K ? s4K(theme.typography.fontSize.base) : undefined,
+});
 
 // =============================================================================
 // COLOR SWATCH
@@ -263,6 +421,16 @@ export const modalContent: CSSProperties = {
   gap: theme.spacing[6],
 };
 
+export const modalContentR = (r: AdminResponsive): CSSProperties => ({
+  ...glassPanelR(r),
+  width: r.isMobile ? '96vw' : r.is4K ? 'min(900px, 60vw)' : 'min(600px, 92vw)',
+  maxHeight: r.isMobile ? '95vh' : '90vh',
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: r.is4K ? theme.spacing[8] : theme.spacing[6],
+});
+
 export const modalHeader: CSSProperties = {
   display: 'flex',
   justifyContent: 'space-between',
@@ -275,6 +443,11 @@ export const modalTitle: CSSProperties = {
   color: theme.colors.white,
 };
 
+export const modalTitleR = (r: AdminResponsive): CSSProperties => ({
+  ...modalTitle,
+  fontSize: r.is4K ? theme.typography.fontSize['2xl'] : theme.typography.fontSize.xl,
+});
+
 // =============================================================================
 // GRID
 // =============================================================================
@@ -284,14 +457,32 @@ export const grid2: CSSProperties = {
   gap: theme.spacing[4],
 };
 
+export const grid2R = (r: AdminResponsive): CSSProperties => ({
+  display: 'grid',
+  gridTemplateColumns: r.isMobile ? '1fr' : 'repeat(2, 1fr)',
+  gap: r.is4K ? theme.spacing[6] : theme.spacing[4],
+});
+
 export const grid3: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: theme.spacing[4],
 };
 
+export const grid3R = (r: AdminResponsive): CSSProperties => ({
+  display: 'grid',
+  gridTemplateColumns: r.isMobile ? '1fr' : r.is4K ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)',
+  gap: r.is4K ? theme.spacing[6] : theme.spacing[4],
+});
+
 export const grid4: CSSProperties = {
   display: 'grid',
   gridTemplateColumns: 'repeat(4, 1fr)',
   gap: theme.spacing[4],
 };
+
+export const grid4R = (r: AdminResponsive): CSSProperties => ({
+  display: 'grid',
+  gridTemplateColumns: r.isMobile ? 'repeat(2, 1fr)' : r.is4K ? 'repeat(4, 1fr)' : 'repeat(4, 1fr)',
+  gap: r.isMobile ? theme.spacing[3] : r.is4K ? theme.spacing[6] : theme.spacing[4],
+});
