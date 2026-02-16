@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, Beaker, ArrowRight } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
-import theme from '../../../../styles/theme';
+import { hexToRgba } from '../../Services/Services.styles';
 
 interface ConceptCardProps {
   project: Project;
@@ -21,7 +21,6 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
   const hasPreviewImage = project.previewUrl && !imageError;
   const accent = project.colorAccent?.primary || '#0f9aa7';
   const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
-  const accentLight = project.colorAccent?.light || 'rgba(15, 154, 167, 0.12)';
   const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
   return (
     <motion.div
@@ -34,7 +33,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
       whileHover={{ y: -6, scale: 1.02 }}
     >
-      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${theme.hexToRgba(accent, 0.2)}` }}>
+      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}` }}>
         {/* Preview image or accent bar */}
         {hasPreviewImage ? (
           <img
@@ -83,7 +82,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
                 ...styles.conceptTechBadge,
                 borderColor: accent,
                 color: accent,
-                backgroundColor: accentLight,
+                backgroundColor: hexToRgba(accent, 0.1),
               }}
             >
               {t}

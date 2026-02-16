@@ -134,7 +134,7 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                           key={t}
                           style={{
                             ...styles.modalTechBadge,
-                            backgroundColor: project.colorAccent.light,
+                            backgroundColor: hexToRgba(accent, 0.1),
                             borderColor: project.colorAccent.primary,
                             color: project.colorAccent.primary,
                           }}
