@@ -6,6 +6,7 @@ import ScrollAnimation from './sections/ScrollAnimation';
 import ServicesPreview from './sections/Services';
 import PortfolioPreview from './sections/Portfolio';
 import Contact from './sections/Contact';
+import Footer from './sections/Footer';
 
 // =============================================================================
 // COMPONENT
@@ -63,6 +64,7 @@ function PublicHome() {
       <ServicesPreview />
       <PortfolioPreview />
       <Contact />
+      <Footer />
       {AnalyticsComponent ? <AnalyticsComponent /> : null}
     </div>
   );
