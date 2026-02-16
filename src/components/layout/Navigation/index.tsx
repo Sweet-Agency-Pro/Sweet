@@ -134,6 +134,7 @@ function Navigation() {
                 ...styles.ctaButton,
                 ...(isScrolled && styles.ctaButtonScrolled),
               }}
+              onClick={() => window.location.hash = '#contact'}
             >
               Discutons
             </button>
@@ -237,7 +238,7 @@ function Navigation() {
                 transition={{ delay: 0.3 }}
               >
                 <button style={styles.drawerCtaButton} onClick={handleLinkClick}>
-                  <span style={styles.drawerCtaText}>Discutons</span>
+                  <span style={styles.drawerCtaText} onClick={() => window.location.hash = '#contact'}>Discutons</span>
                 </button>
               </motion.div>
 

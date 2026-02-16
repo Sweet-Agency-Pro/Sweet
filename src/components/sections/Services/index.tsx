@@ -89,7 +89,7 @@ function CTABanner({ isMobile, isMobileOrTablet }: {
       }}>
         <div style={styles.ctaButtonBg} />
         <div style={styles.ctaButtonHover} />
-        <span style={styles.ctaButtonContent}>
+        <span style={styles.ctaButtonContent} onClick={() => window.location.hash = '#contact'}>
           Commencer un projet
           <ArrowRight style={styles.ctaButtonIcon} />
         </span>

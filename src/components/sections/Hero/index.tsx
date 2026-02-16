@@ -70,7 +70,7 @@ function CTAButtons({ isMobile }: { isMobile: boolean }) {
       }}>
         <div style={styles.primaryButtonBg} />
         <div style={styles.primaryButtonHover} />
-        <span style={styles.primaryButtonContent}>
+        <span style={styles.primaryButtonContent} onClick={() => window.location.hash = '#services'}>
           Nos Services
           <ArrowRight style={styles.buttonIcon} />
         </span>
@@ -79,7 +79,7 @@ function CTAButtons({ isMobile }: { isMobile: boolean }) {
       <button style={{
         ...styles.secondaryButton,
         ...(isMobile && styles.secondaryButtonMobile),
-      }}>
+      }} onClick={() => window.location.hash = '#portfolio'}>
         Voir les Projets
       </button>
     </div>

@@ -51,6 +51,7 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
             <motion.div layoutId={`card-tag-${project.id}`} style={{
               ...styles.productionTag,
               background: gradient,
+              color: theme.colors.white,
             }}>
               <Sparkles style={styles.tagIcon} />
               <span>Production</span>
