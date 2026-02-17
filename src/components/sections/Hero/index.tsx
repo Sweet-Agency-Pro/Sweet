@@ -4,6 +4,7 @@
  */
 
 import { ArrowRight } from 'lucide-react';
+import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import Navigation from '../../layout/Navigation';
 import GlassCards from './GlassCards';
@@ -59,6 +60,8 @@ function HeroDescription({ isMobileOrTablet }: { isMobileOrTablet: boolean }) {
 
 /** CTA Buttons */
 function CTAButtons({ isMobile }: { isMobile: boolean }) {
+  const { navigateToSection } = useSectionNavigation();
+
   return (
     <div style={{
       ...styles.buttonContainer,
@@ -67,10 +70,10 @@ function CTAButtons({ isMobile }: { isMobile: boolean }) {
       <button style={{
         ...styles.primaryButton,
         ...(isMobile && styles.primaryButtonMobile),
-      }}>
+      }} onClick={() => navigateToSection('services')}>
         <div style={styles.primaryButtonBg} />
         <div style={styles.primaryButtonHover} />
-        <span style={styles.primaryButtonContent} onClick={() => window.location.hash = '#services'}>
+        <span style={styles.primaryButtonContent}>
           Nos Services
           <ArrowRight style={styles.buttonIcon} />
         </span>
@@ -79,7 +82,7 @@ function CTAButtons({ isMobile }: { isMobile: boolean }) {
       <button style={{
         ...styles.secondaryButton,
         ...(isMobile && styles.secondaryButtonMobile),
-      }} onClick={() => window.location.hash = '#portfolio'}>
+      }} onClick={() => navigateToSection('portfolio')}>
         Voir les Projets
       </button>
     </div>

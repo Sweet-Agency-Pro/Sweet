@@ -1,16 +1,19 @@
 import { Layers } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
+import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { styles } from './Footer.styles';
 
 const navLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#portfolio', label: 'Portfolio' },
-  { href: '#contact', label: 'Contact' },
+  { sectionId: 'services', label: 'Services' },
+  { sectionId: 'portfolio', label: 'Portfolio' },
+  { sectionId: 'contact', label: 'Contact' },
 ];
 
 function Footer() {
   const { isMobile, isTablet } = useWindowSize();
+  const { navigateToSection } = useSectionNavigation();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -46,7 +49,15 @@ function Footer() {
             <h4 style={styles.sectionTitle}>Navigation</h4>
             <nav style={styles.linkList}>
               {navLinks.map((link) => (
-                <a key={link.href} href={link.href} style={styles.linkItem}>
+                <a
+                  key={link.sectionId}
+                  href={`/#${link.sectionId}`}
+                  style={styles.linkItem}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigateToSection(link.sectionId);
+                  }}
+                >
                   {link.label}
                 </a>
               ))}
@@ -60,9 +71,7 @@ function Footer() {
               <p style={styles.contactText}>+33 1 23 45 67 89</p>
               <button
                 style={styles.ctaButton}
-                onClick={() => {
-                  window.location.hash = '#contact';
-                }}
+                onClick={() => navigateToSection('contact')}
               >
                 Démarrer un projet
               </button>
@@ -79,8 +88,8 @@ function Footer() {
           </p>
 
           <div style={styles.legalLinks}>
-            <a href="#" style={styles.legalLink}>Mentions légales</a>
-            <a href="#" style={styles.legalLink}>Confidentialité</a>
+            <Link to="/mentions-legales" style={styles.legalLink}>Mentions légales</Link>
+            <Link to="/confidentialite" style={styles.legalLink}>Confidentialité</Link>
           </div>
         </div>
       </div>

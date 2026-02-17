@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Layers, Menu, X } from 'lucide-react';
 
 import { useWindowSize } from '../../../hooks/useWindowSize';
+import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { styles } from './Navigation.styles';
 
 // =============================================================================
@@ -16,10 +17,10 @@ import { styles } from './Navigation.styles';
 const SCROLL_THRESHOLD = 50;
 
 const navLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#portfolio', label: 'Réalisations' },
-  { href: '#about', label: 'À Propos' },
-  { href: '#contact', label: 'Contact' },
+  { sectionId: 'services', label: 'Services' },
+  { sectionId: 'portfolio', label: 'Réalisations' },
+  { sectionId: 'about', label: 'À Propos' },
+  { sectionId: 'contact', label: 'Contact' },
 ];
 
 // =============================================================================
@@ -57,6 +58,7 @@ function useBodyScrollLock(isLocked: boolean) {
 // =============================================================================
 function Navigation() {
   const { isDesktop } = useWindowSize();
+  const { navigateToSection } = useSectionNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isScrolled = useScrollDetection();
 
@@ -70,7 +72,12 @@ function Navigation() {
   // Lock body scroll when drawer is open
   useBodyScrollLock(isMenuOpen);
 
-  const handleLinkClick = () => setIsMenuOpen(false);
+  const handleLinkClick = (sectionId?: string) => {
+    setIsMenuOpen(false);
+    if (sectionId) {
+      navigateToSection(sectionId);
+    }
+  };
 
   return (
     <>
@@ -82,40 +89,44 @@ function Navigation() {
       >
         <div style={styles.navContent}>
           {/* Logo */}
-          <a href="#hero-section" style={styles.logoContainer}>
+            <div onClick={() => navigateToSection('hero-section')} style={styles.logoContainer}>
             <div style={styles.logoIconWrapper}>
               <div style={styles.logoIconGlow} />
               <div
-                style={{
-                  ...styles.logoIconInner,
-                  ...(isScrolled && styles.logoIconInnerScrolled),
-                }}
+              style={{
+                ...styles.logoIconInner,
+                ...(isScrolled && styles.logoIconInnerScrolled),
+              }}
               >
-                <Layers
-                  style={{
-                    ...styles.logoIcon,
-                    ...(isScrolled && styles.logoIconScrolled),
-                  }}
-                />
+              <Layers
+                style={{
+                ...styles.logoIcon,
+                ...(isScrolled && styles.logoIconScrolled),
+                }}
+              />
               </div>
             </div>
             <span
               style={{
-                ...styles.logoText,
-                ...(isScrolled && styles.logoTextScrolled),
+              ...styles.logoText,
+              ...(isScrolled && styles.logoTextScrolled),
               }}
             >
               Sweet
             </span>
-          </a>
+            </div>
 
           {/* Desktop Navigation Links */}
           {isDesktop && (
             <div style={styles.navLinks}>
               {navLinks.map((link) => (
                 <a
-                  key={link.href}
-                  href={link.href}
+                  key={link.sectionId}
+                  href={`/#${link.sectionId}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigateToSection(link.sectionId);
+                  }}
                   style={{
                     ...styles.navLink,
                     ...(isScrolled && styles.navLinkScrolled),
@@ -134,7 +145,7 @@ function Navigation() {
                 ...styles.ctaButton,
                 ...(isScrolled && styles.ctaButtonScrolled),
               }}
-              onClick={() => window.location.hash = '#contact'}
+              onClick={() => navigateToSection('contact')}
             >
               Discutons
             </button>
@@ -217,10 +228,13 @@ function Navigation() {
               <nav style={styles.drawerNav}>
                 {navLinks.map((link, index) => (
                   <motion.a
-                    key={link.href}
-                    href={link.href}
+                    key={link.sectionId}
+                    href={`/#${link.sectionId}`}
                     style={styles.drawerLink}
-                    onClick={handleLinkClick}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      handleLinkClick(link.sectionId);
+                    }}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 + index * 0.05 }}
@@ -237,8 +251,8 @@ function Navigation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <button style={styles.drawerCtaButton} onClick={handleLinkClick}>
-                  <span style={styles.drawerCtaText} onClick={() => window.location.hash = '#contact'}>Discutons</span>
+                <button style={styles.drawerCtaButton} onClick={() => handleLinkClick('contact')}>
+                  <span style={styles.drawerCtaText}>Discutons</span>
                 </button>
               </motion.div>
 

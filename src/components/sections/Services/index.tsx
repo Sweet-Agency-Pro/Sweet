@@ -19,6 +19,7 @@ import {
   PenTool,
   type LucideIcon,
 } from 'lucide-react';
+import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { styles, colors, hexToRgba } from './Services.styles';
 import { services as fallbackServices, type Service } from './services.data';
@@ -67,6 +68,8 @@ function CTABanner({ isMobile, isMobileOrTablet }: {
   isMobile: boolean; 
   isMobileOrTablet: boolean;
 }) {
+  const { navigateToSection } = useSectionNavigation();
+
   return (
     <div style={{
       ...styles.ctaSection,
@@ -86,10 +89,10 @@ function CTABanner({ isMobile, isMobileOrTablet }: {
       <button style={{
         ...styles.ctaButton,
         ...(isMobileOrTablet && styles.ctaButtonMobile),
-      }}>
+      }} onClick={() => navigateToSection('contact')}>
         <div style={styles.ctaButtonBg} />
         <div style={styles.ctaButtonHover} />
-        <span style={styles.ctaButtonContent} onClick={() => window.location.hash = '#contact'}>
+        <span style={styles.ctaButtonContent}>
           Commencer un projet
           <ArrowRight style={styles.ctaButtonIcon} />
         </span>
