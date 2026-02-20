@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PublicHome from './components/PublicHome';
 import MentionsLegales from './components/pages/legal/MentionsLegales';
 import PolitiqueConfidentialite from './components/pages/legal/PolitiqueConfidentialite';
+import SiteVitrine from './components/pages/services/SiteVitrine';
 import Login from './components/admin/Login';
 import NotFound from './components/admin/NotFound';
 import RequireAdmin from './components/admin/RequireAdmin';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<PublicHome />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/confidentialite" element={<PolitiqueConfidentialite />} />
+        <Route path="/services/site-vitrine" element={<SiteVitrine />} />
         <Route path={loginPath} element={<Login adminPath={adminPath} />} />
         <Route
           path={adminPath}
