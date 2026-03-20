@@ -30,7 +30,11 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+      transition={{
+        duration: 0.5,
+        delay: 0.1 + index * 0.1,
+        layout: { duration: 0.45, ease: [0.23, 1, 0.32, 1], delay: 0 },
+      }}
       whileHover={{ y: -6, scale: 1.02 }}
     >
       <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}` }}>

@@ -35,7 +35,11 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.7, delay: 0.1 }}
+      transition={{
+        duration: 0.7,
+        delay: 0.1,
+        layout: { duration: 0.45, ease: [0.23, 1, 0.32, 1], delay: 0 },
+      }}
       whileHover={{ y: -8 }}
     >
       <div style={{

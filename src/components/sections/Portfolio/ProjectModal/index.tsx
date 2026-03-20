@@ -3,7 +3,7 @@
  * Modal overlay for project details
  */
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
 import { styles } from '../Portfolio.styles';
@@ -20,20 +20,36 @@ interface ProjectModalProps {
 function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: ProjectModalProps) {
   const [imageError, setImageError] = useState(false);
 
-  if (!selectedId || !project) return null;
+  // Keep a snapshot of the last valid project + id so AnimatePresence
+  // can render the exit animation with the correct layoutId values
+  const lastProjectRef = useRef<Project | undefined>(undefined);
+  const lastIdRef = useRef<string | null>(null);
 
-  const hasPreviewImage = project.previewUrl && !imageError;
-  const accent = project.colorAccent?.primary || '#0f9aa7';
-  const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
-  const gradientOp = project.colorAccent?.gradient || `linear-gradient(135deg, ${hexToRgba(accent, 0.8)}, ${hexToRgba(accentSecondary, 0.8)})`;
-  const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
+  useEffect(() => {
+    if (selectedId && project) {
+      lastProjectRef.current = project;
+      lastIdRef.current = selectedId;
+    }
+  }, [selectedId, project]);
+
+  // For rendering: use current values when open, fall back to last values during exit
+  const isOpen = !!selectedId && !!project;
+  const renderProject = isOpen ? project : lastProjectRef.current;
+  const renderId = isOpen ? selectedId : lastIdRef.current;
+
+  const hasPreviewImage = renderProject?.previewUrl && !imageError;
+  const accent = renderProject?.colorAccent?.primary || '#0f9aa7';
+  const accentSecondary = renderProject?.colorAccent?.secondary || '#06b6d4';
+  const gradientOp = renderProject?.colorAccent?.gradient || `linear-gradient(135deg, ${hexToRgba(accent, 0.8)}, ${hexToRgba(accentSecondary, 0.8)})`;
+  const gradient = renderProject?.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
 
   return (
     <AnimatePresence>
-      {selectedId && project && (
+      {isOpen && renderProject && renderId && (
         <>
           {/* Backdrop */}
           <motion.div
+            key="modal-backdrop"
             style={styles.backdrop}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -43,14 +59,15 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
 
           {/* Modal */}
           <motion.div
-            layoutId={`card-container-${selectedId}`}
+            key={`modal-${renderId}`}
+            layoutId={`card-container-${renderId}`}
             style={{
               ...styles.modal,
               ...(isMobileOrTablet && styles.modalMobileContainer),
             }}
           >
             <motion.div
-              layoutId={`card-inner-${selectedId}`}
+              layoutId={`card-inner-${renderId}`}
               layout
               style={{
                 ...styles.modalInner,
@@ -74,9 +91,9 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                 {/* Left side - Info */}
                 <div style={styles.modalInfo}>
                   <motion.div
-                    layoutId={`card-tag-${selectedId}`}
+                    layoutId={`card-tag-${renderId}`}
                     style={
-                      project.type === 'production'
+                      renderProject.type === 'production'
                         ? { ...styles.productionTag, background: gradientOp }
                         : {
                             ...styles.modalConceptTag,
@@ -84,40 +101,42 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                           }
                     }
                   >
-                    {project.type === 'production' ? (
+                    {renderProject.type === 'production' ? (
                       <Sparkles style={styles.tagIcon} />
                     ) : (
                       <Beaker style={styles.tagIcon} />
                     )}
-                    <span style={{ color: 'white' }}>{project.type === 'production' ? 'Production' : 'Concept'}</span>
+                    <span style={{ color: 'white' }}>{renderProject.type === 'production' ? 'Production' : 'Concept'}</span>
                   </motion.div>
 
-                  <motion.h3 layoutId={`card-title-${selectedId}`} style={styles.modalTitle}>
-                    {project.name}
+                  <motion.h3 layoutId={`card-title-${renderId}`} style={styles.modalTitle}>
+                    {renderProject.name}
                   </motion.h3>
 
-                  <motion.p layoutId={`card-hook-${selectedId}`} style={styles.modalHook}>
-                    {project.hook}
+                  <motion.p layoutId={`card-hook-${renderId}`} style={styles.modalHook}>
+                    {renderProject.hook}
                   </motion.p>
 
                   <motion.p
                     style={styles.modalStory}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    {project.story}
+                    {renderProject.story}
                   </motion.p>
 
-                  {project.benefit && (
+                  {renderProject.benefit && (
                     <motion.div
                       style={styles.benefitBox}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
                       transition={{ delay: 0.3 }}
                     >
                       <Quote style={styles.quoteIcon} />
-                      <p style={styles.benefitText}>{project.benefit}</p>
+                      <p style={styles.benefitText}>{renderProject.benefit}</p>
                     </motion.div>
                   )}
 
@@ -125,18 +144,19 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                     style={styles.modalTechSection}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
                     transition={{ delay: 0.35 }}
                   >
                     <span style={styles.techLabel}>Stack Technique</span>
                     <div style={styles.modalTechRow}>
-                      {project.tech.map((t: string) => (
+                      {renderProject.tech.map((t: string) => (
                         <span
                           key={t}
                           style={{
                             ...styles.modalTechBadge,
                             backgroundColor: hexToRgba(accent, 0.1),
-                            borderColor: project.colorAccent.primary,
-                            color: project.colorAccent.primary,
+                            borderColor: renderProject.colorAccent.primary,
+                            color: renderProject.colorAccent.primary,
                           }}
                         >
                           {t}
@@ -149,20 +169,21 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                     style={{
                       ...styles.modalCta,
                       background:
-                        project.colorAccent.gradient ||
+                        renderProject.colorAccent.gradient ||
                         gradient ||
-                        project.colorAccent.primary ||
+                        renderProject.colorAccent.primary ||
                         '#14b8a6',
-                      ...(project.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),
+                      ...(renderProject.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),
                     }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
                     transition={{ delay: 0.4 }}
-                    whileHover={project.externalUrl ? { scale: 1.03 } : {}}
-                    whileTap={project.externalUrl ? { scale: 0.98 } : {}}
+                    whileHover={renderProject.externalUrl ? { scale: 1.03 } : {}}
+                    whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
                     onClick={() => {
-                      if (project.externalUrl) {
-                        window.open(project.externalUrl, '_blank', 'noopener');
+                      if (renderProject.externalUrl) {
+                        window.open(renderProject.externalUrl, '_blank', 'noopener');
                       }
                     }}
                   >
@@ -176,12 +197,13 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                   style={styles.modalVisual}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{ delay: 0.15, duration: 0.4 }}
                 >
                   <div
                     style={{
                       ...styles.modalGradientOrb,
-                      background: project.colorAccent.gradient,
+                      background: renderProject.colorAccent.gradient,
                     }}
                   />
                   
@@ -196,8 +218,8 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                         </div>
                       </div>
                       <img
-                        src={project.previewUrl}
-                        alt={`Preview de ${project.name}`}
+                        src={renderProject.previewUrl}
+                        alt={`Preview de ${renderProject.name}`}
                         style={{
                           width: '100%',
                           height: 'auto',
@@ -220,7 +242,7 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                         <div
                           style={{
                             ...styles.mockupAccentBar,
-                            background: project.colorAccent.gradient,
+                            background: renderProject.colorAccent.gradient,
                           }}
                         />
                         <div style={styles.mockupLine} />
