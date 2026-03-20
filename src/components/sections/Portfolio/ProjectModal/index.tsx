@@ -64,6 +64,7 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
             style={{
               ...styles.modal,
               ...(isMobileOrTablet && styles.modalMobileContainer),
+              clipPath: 'inset(0% round 2rem)',
             }}
           >
             <motion.div

@@ -31,6 +31,7 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
       style={{
         ...styles.flagshipCard,
         ...(isMobileOrTablet && styles.flagshipCardMobile),
+        clipPath: 'inset(0% round 2rem)',
       }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +47,7 @@ function FlagshipCard({ project, isMobile, isMobileOrTablet, onClick }: Flagship
         ...styles.flagshipGlow,
         background: `linear-gradient(135deg, ${theme.hexToRgba(accent, 0.15)}, ${theme.hexToRgba(accentSecondary, 0.1)})`,
       }} />
-      <motion.div layoutId={`card-inner-${project.id}`} style={styles.flagshipInner}>
+      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.flagshipInner, clipPath: 'inset(0% round 2rem)' }}>
         <div style={{
           ...styles.flagshipContent,
           ...(isMobileOrTablet && styles.flagshipContentMobile),

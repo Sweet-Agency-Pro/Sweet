@@ -26,7 +26,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
     <motion.div
       layoutId={`card-container-${project.id}`}
       onClick={onClick}
-      style={styles.conceptCard}
+      style={{ ...styles.conceptCard, clipPath: 'inset(0% round 1rem)' }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -37,7 +37,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       }}
       whileHover={{ y: -6, scale: 1.02 }}
     >
-      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}` }}>
+      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}`, clipPath: 'inset(0% round 1rem)' }}>
         {/* Preview image or accent bar */}
         {hasPreviewImage ? (
           <img
