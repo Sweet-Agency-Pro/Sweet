@@ -6,9 +6,15 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Beaker, ArrowRight } from 'lucide-react';
-import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
-import { hexToRgba } from '../../Services/Services.styles';
+
+// Hex to Rgba helper for dynamic styles
+const hexToRgba = (hex: string, alpha: number): string => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
 
 interface ConceptCardProps {
   project: Project;
@@ -22,11 +28,13 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
   const accent = project.colorAccent?.primary || '#0f9aa7';
   const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
   const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
+
   return (
     <motion.div
       layoutId={`card-container-${project.id}`}
       onClick={onClick}
-      style={{ ...styles.conceptCard, clipPath: 'inset(0% round 1rem)' }}
+      className="concept"
+      style={{ clipPath: 'inset(0% round 1rem)' }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -37,7 +45,14 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       }}
       whileHover={{ y: -6, scale: 1.02 }}
     >
-      <motion.div layoutId={`card-inner-${project.id}`} style={{ ...styles.conceptInner, boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}`, clipPath: 'inset(0% round 1rem)' }}>
+      <motion.div 
+        layoutId={`card-inner-${project.id}`} 
+        className="concept__inner"
+        style={{ 
+          boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}`, 
+          clipPath: 'inset(0% round 1rem)' 
+        }}
+      >
         {/* Preview image or accent bar */}
         {hasPreviewImage ? (
           <img
@@ -54,36 +69,36 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
           />
         ) : (
           <div
+            className="concept__accent"
             style={{
-              ...styles.conceptAccent,
               background: gradient,
             }}
           />
         )}
 
-        <motion.div layoutId={`card-tag-${project.id}`} style={styles.conceptTag}>
+        <motion.div layoutId={`card-tag-${project.id}`} className="concept__tag">
           {project.type === 'production' ? (
-            <Sparkles style={styles.conceptTagIcon} />
+            <Sparkles className="concept__tag-icon" />
           ) : (
-            <Beaker style={styles.conceptTagIcon} />
+            <Beaker className="concept__tag-icon" />
           )}
           <span>{project.type === 'production' ? 'Production' : 'Concept'}</span>
         </motion.div>
 
-        <motion.h4 layoutId={`card-title-${project.id}`} style={styles.conceptTitle}>
+        <motion.h4 layoutId={`card-title-${project.id}`} className="concept__title">
           {project.name}
         </motion.h4>
 
-        <motion.p layoutId={`card-hook-${project.id}`} style={styles.conceptHook}>
+        <motion.p layoutId={`card-hook-${project.id}`} className="concept__hook">
           {project.hook}
         </motion.p>
 
-        <div style={styles.conceptTechRow}>
+        <div className="concept__tech-row">
           {project.tech.slice(0, 3).map((t: string) => (
             <span
               key={t}
+              className="concept__tech-badge"
               style={{
-                ...styles.conceptTechBadge,
                 borderColor: accent,
                 color: accent,
                 backgroundColor: hexToRgba(accent, 0.1),
@@ -94,11 +109,11 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
           ))}
         </div>
 
-        <div style={styles.conceptFooter}>
-          <span style={styles.conceptCta}>Découvrir</span>
+        <div className="concept__footer">
+          <span className="concept__cta">Découvrir</span>
           <ArrowRight
+            className="concept__cta-icon"
             style={{
-              ...styles.conceptCtaIcon,
               color: project.colorAccent.primary,
             }}
           />

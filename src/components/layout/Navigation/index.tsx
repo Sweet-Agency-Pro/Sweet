@@ -9,7 +9,7 @@ import { Layers, Menu, X } from 'lucide-react';
 
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
-import { styles } from './Navigation.styles';
+import './Navigation.css';
 
 // =============================================================================
 // CONSTANTS
@@ -81,44 +81,24 @@ function Navigation() {
 
   return (
     <>
-      <nav
-        style={{
-          ...styles.nav,
-          ...(isScrolled ? styles.navActive : styles.navTransparent),
-        }}
-      >
-        <div style={styles.navContent}>
+      <nav className={`nav ${isScrolled ? 'nav--active' : 'nav--transparent'}`}>
+        <div className="nav__content">
           {/* Logo */}
-            <div onClick={() => navigateToSection('hero-section')} style={styles.logoContainer}>
-            <div style={styles.logoIconWrapper}>
-              <div style={styles.logoIconGlow} />
-              <div
-              style={{
-                ...styles.logoIconInner,
-                ...(isScrolled && styles.logoIconInnerScrolled),
-              }}
-              >
-              <Layers
-                style={{
-                ...styles.logoIcon,
-                ...(isScrolled && styles.logoIconScrolled),
-                }}
-              />
+          <div onClick={() => navigateToSection('hero-section')} className="nav__logo">
+            <div className="nav__logo-icon-wrapper">
+              <div className="nav__logo-icon-glow" />
+              <div className={`nav__logo-icon-inner ${isScrolled ? 'nav__logo-icon-inner--scrolled' : ''}`}>
+                <Layers className={`nav__logo-icon ${isScrolled ? 'nav__logo-icon--scrolled' : ''}`} />
               </div>
             </div>
-            <span
-              style={{
-              ...styles.logoText,
-              ...(isScrolled && styles.logoTextScrolled),
-              }}
-            >
+            <span className={`nav__logo-text ${isScrolled ? 'nav__logo-text--scrolled' : ''}`}>
               Sweet
             </span>
-            </div>
+          </div>
 
           {/* Desktop Navigation Links */}
           {isDesktop && (
-            <div style={styles.navLinks}>
+            <div className="nav__links">
               {navLinks.map((link) => (
                 <a
                   key={link.sectionId}
@@ -127,10 +107,7 @@ function Navigation() {
                     event.preventDefault();
                     navigateToSection(link.sectionId);
                   }}
-                  style={{
-                    ...styles.navLink,
-                    ...(isScrolled && styles.navLinkScrolled),
-                  }}
+                  className={`nav__link ${isScrolled ? 'nav__link--scrolled' : ''}`}
                 >
                   {link.label}
                 </a>
@@ -141,10 +118,7 @@ function Navigation() {
           {/* Desktop CTA Button */}
           {isDesktop && (
             <button
-              style={{
-                ...styles.ctaButton,
-                ...(isScrolled && styles.ctaButtonScrolled),
-              }}
+              className={`nav__cta ${isScrolled ? 'nav__cta--scrolled' : ''}`}
               onClick={() => navigateToSection('contact')}
             >
               Discutons
@@ -154,28 +128,14 @@ function Navigation() {
           {/* Mobile Burger Button */}
           {!isDesktop && (
             <button
-              style={{
-                ...styles.burgerButton,
-                ...(isScrolled && styles.burgerButtonScrolled),
-                ...(isMenuOpen && styles.burgerButtonOpen),
-              }}
+              className={`nav__burger ${isScrolled ? 'nav__burger--scrolled' : ''} ${isMenuOpen ? 'nav__burger--open' : ''}`}
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             >
               {isMenuOpen ? (
-                <X
-                  style={{
-                    ...styles.burgerIcon,
-                    ...styles.burgerIconOpen,
-                  }}
-                />
+                <X className="nav__burger-icon nav__burger-icon--open" />
               ) : (
-                <Menu
-                  style={{
-                    ...styles.burgerIcon,
-                    ...(isScrolled && styles.burgerIconScrolled),
-                  }}
-                />
+                <Menu className={`nav__burger-icon ${isScrolled ? 'nav__burger-icon--scrolled' : ''}`} />
               )}
             </button>
           )}
@@ -188,7 +148,7 @@ function Navigation() {
           <>
             {/* Backdrop */}
             <motion.div
-              style={styles.backdrop}
+              className="nav__backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -198,7 +158,7 @@ function Navigation() {
 
             {/* Drawer Menu */}
             <motion.div
-              style={styles.drawer}
+              className="nav__drawer"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -206,31 +166,31 @@ function Navigation() {
             >
               {/* Close Button */}
               <button
-                style={styles.closeButton}
+                className="nav__drawer-close"
                 onClick={() => setIsMenuOpen(false)}
                 aria-label="Fermer le menu"
               >
-                <X style={styles.closeIcon} />
+                <X className="nav__drawer-close-icon" />
               </button>
 
               {/* Mobile Logo */}
-              <div style={styles.drawerLogo}>
-                <div style={styles.logoIconWrapper}>
-                  <div style={styles.logoIconGlowDark} />
-                  <div style={styles.logoIconInnerDark}>
-                    <Layers style={styles.logoIconDark} />
+              <div className="nav__drawer-logo">
+                <div className="nav__logo-icon-wrapper">
+                  <div className="nav__logo-icon-glow--dark" />
+                  <div className="nav__logo-icon-inner--dark">
+                    <Layers className="nav__logo-icon--dark" />
                   </div>
                 </div>
-                <span style={styles.logoTextDark}>Sweet</span>
+                <span className="nav__logo-text--dark">Sweet</span>
               </div>
 
               {/* Mobile Navigation Links */}
-              <nav style={styles.drawerNav}>
+              <nav className="nav__drawer-nav">
                 {navLinks.map((link, index) => (
                   <motion.a
                     key={link.sectionId}
                     href={`/#${link.sectionId}`}
-                    style={styles.drawerLink}
+                    className="nav__drawer-link"
                     onClick={(event) => {
                       event.preventDefault();
                       handleLinkClick(link.sectionId);
@@ -246,25 +206,25 @@ function Navigation() {
 
               {/* Mobile CTA */}
               <motion.div
-                style={styles.drawerCta}
+                className="nav__drawer-cta"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <button style={styles.drawerCtaButton} onClick={() => handleLinkClick('contact')}>
-                  <span style={styles.drawerCtaText}>Discutons</span>
+                <button className="nav__drawer-cta-button" onClick={() => handleLinkClick('contact')}>
+                  <span className="nav__drawer-cta-text">Discutons</span>
                 </button>
               </motion.div>
 
               {/* Contact Info */}
               <motion.div
-                style={styles.drawerContact}
+                className="nav__drawer-contact"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <p style={styles.drawerContactText}>contact@sweetagency.fr</p>
-                <p style={styles.drawerContactText}>+33 1 23 45 67 89</p>
+                <p className="nav__drawer-contact-text">contact@sweetagency.fr</p>
+                <p className="nav__drawer-contact-text">+33 1 23 45 67 89</p>
               </motion.div>
             </motion.div>
           </>

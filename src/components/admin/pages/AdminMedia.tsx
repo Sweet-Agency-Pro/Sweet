@@ -1,16 +1,13 @@
 /**
  * AdminMedia
  * Media browser — shows all project preview images from the storage bucket.
- * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Trash2, ExternalLink, RefreshCw, FolderOpen } from 'lucide-react';
 import theme from '../../../styles/theme';
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
-import * as s from '../admin.styles';
-import type { AdminResponsive } from '../admin.styles';
+import '../admin.css';
 import supabase from '../../../lib/supabaseClient';
 
 interface MediaItem {
@@ -33,8 +30,6 @@ function formatBytes(bytes: number) {
 function AdminMedia() {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const { isMobile, is4K } = useWindowSize();
-  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -84,12 +79,12 @@ function AdminMedia() {
   }, [load]);
 
   const handleDelete = async (item: MediaItem) => {
-    if (!confirm(`Supprimer ${item.name} ?`)) return;
+    if (!window.confirm(`Supprimer ${item.name} ?`)) return;
     const { error } = await supabase.storage
       .from(BUCKET)
       .remove([item.path]);
     if (error) {
-      alert('Erreur : ' + error.message);
+      window.alert('Erreur : ' + error.message);
       return;
     }
 
@@ -101,46 +96,38 @@ function AdminMedia() {
     await load();
   };
 
-  const baseFontSize = is4K ? theme.typography.fontSize.base : theme.typography.fontSize.sm;
-  const smallFontSize = is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs;
-
   const gridStyle: CSSProperties = {
     display: 'grid',
-    gridTemplateColumns: isMobile
-      ? 'repeat(auto-fill, minmax(160px, 1fr))'
-      : is4K
-        ? 'repeat(auto-fill, minmax(360px, 1fr))'
-        : 'repeat(auto-fill, minmax(260px, 1fr))',
-    gap: is4K ? theme.spacing[7] : theme.spacing[5],
+    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+    gap: theme.spacing[5],
   };
 
   return (
     <AdminLayout title="Médias">
-      <div style={s.pageHeaderR(r)}>
-        <div style={s.pageTitleR(r)}>Bibliothèque média</div>
-        <button type="button" style={s.btnGhostR(r)} onClick={load}>
-          <RefreshCw size={is4K ? 20 : 16} />
+      <div className="admin-page-header">
+        <div className="admin-page-title">Bibliothèque média</div>
+        <button type="button" className="admin-btn admin-btn--ghost" onClick={load}>
+          <RefreshCw size={16} />
           Rafraîchir
         </button>
       </div>
 
       {loading ? (
-        <div style={s.glassPanelR(r)}>
+        <div className="admin-glass-panel">
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : items.length === 0 ? (
-        <div style={s.emptyStateR(r)}>
-          <FolderOpen size={is4K ? 52 : 40} />
+        <div className="admin-empty-state">
+          <FolderOpen className="w-10 h-10" />
           <div>Aucun fichier média</div>
-          <p style={{ color: theme.colors.slate[500], fontSize: baseFontSize }}>
+          <p style={{ color: theme.colors.slate[500] }}>
             Uploadez des images depuis la page Projets
           </p>
         </div>
       ) : (
         <div style={gridStyle}>
           {items.map((item) => (
-            <div key={item.path} style={{
-              ...s.glassPanelR(r),
+            <div key={item.path} className="admin-glass-panel" style={{
               padding: 0,
               overflow: 'hidden',
               display: 'flex',
@@ -150,15 +137,15 @@ function AdminMedia() {
                 <img src={item.publicUrl} alt={item.name} style={styles.img} />
               </div>
               <div style={{
-                padding: `${is4K ? theme.spacing[5] : theme.spacing[4]} ${is4K ? theme.spacing[6] : theme.spacing[5]}`,
+                padding: theme.spacing[4],
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing[1],
                 flex: 1,
               }}>
-                <div style={{ fontSize: smallFontSize, color: theme.colors.teal[400], fontWeight: theme.typography.fontWeight.medium }}>{item.projectId}</div>
-                <div style={{ fontSize: baseFontSize, color: theme.colors.white, wordBreak: 'break-all' }}>{item.name}</div>
-                <div style={{ fontSize: smallFontSize, color: theme.colors.slate[500] }}>
+                <div style={{ color: theme.colors.teal[400], fontWeight: theme.typography.fontWeight.medium }}>{item.projectId}</div>
+                <div style={{ color: theme.colors.white, wordBreak: 'break-all' }}>{item.name}</div>
+                <div style={{ color: theme.colors.slate[500] }}>
                   {formatBytes(item.size)}
                   {item.createdAt &&
                     ` · ${new Date(item.createdAt).toLocaleDateString('fr-FR')}`}
@@ -168,23 +155,24 @@ function AdminMedia() {
                 display: 'flex',
                 justifyContent: 'flex-end',
                 gap: theme.spacing[2],
-                padding: `${theme.spacing[3]} ${is4K ? theme.spacing[6] : theme.spacing[5]}`,
+                padding: theme.spacing[3],
                 borderTop: `1px solid ${theme.hexToRgba(theme.colors.slate[700], 0.3)}`,
               }}>
                 <a
                   href={item.publicUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ ...s.btnGhostR(r), ...s.btnSmallR(r), textDecoration: 'none' }}
+                  className="admin-btn admin-btn--ghost admin-btn--small"
+                  style={{ textDecoration: 'none' }}
                 >
-                  <ExternalLink size={is4K ? 18 : 14} />
+                  <ExternalLink size={14} />
                 </a>
                 <button
                   type="button"
-                  style={{ ...s.btnDangerR(r), ...s.btnSmallR(r) }}
+                  className="admin-btn admin-btn--danger admin-btn--small"
                   onClick={() => handleDelete(item)}
                 >
-                  <Trash2 size={is4K ? 18 : 14} />
+                  <Trash2 size={14} />
                 </button>
               </div>
             </div>

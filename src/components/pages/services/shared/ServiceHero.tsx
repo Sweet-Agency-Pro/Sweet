@@ -8,9 +8,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight, type LucideIcon } from 'lucide-react';
 
 import { useSectionNavigation } from '../../../../hooks/useSectionNavigation';
-import { useWindowSize } from '../../../../hooks/useWindowSize';
 import Navigation from '../../../layout/Navigation';
-import { sharedStyles as s } from './ServicePage.styles';
+import './ServicePage.css';
 
 interface ServiceHeroProps {
   badgeIcon: LucideIcon;
@@ -31,38 +30,28 @@ function ServiceHero({
   ctaLabel,
   ctaTarget = 'contact',
 }: ServiceHeroProps) {
-  const { isMobile } = useWindowSize();
   const { navigateToSection } = useSectionNavigation();
 
   return (
-    <div style={{
-      ...s.hero,
-      ...(isMobile && s.heroMobile),
-    }}>
+    <div className="service-hero">
       <Navigation />
-      <div style={s.heroTexture} />
-      <div style={s.heroBlob1} />
-      <div style={s.heroBlob2} />
+      <div className="service-hero__texture" />
+      <div className="service-hero__blob-1" />
+      <div className="service-hero__blob-2" />
 
-      <div style={{
-        ...s.heroContent,
-        ...(isMobile && s.heroContentMobile),
-      }}>
+      <div className="service-hero__content">
         <motion.div
-          style={s.heroBadge}
+          className="service-hero__badge"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <BadgeIcon style={s.heroBadgeIcon} />
-          <span style={s.heroBadgeText}>{badgeLabel}</span>
+          <BadgeIcon className="service-hero__badge-icon" />
+          <span className="service-hero__badge-text">{badgeLabel}</span>
         </motion.div>
 
         <motion.h1
-          style={{
-            ...s.heroTitle,
-            ...(isMobile && s.heroTitleMobile),
-          }}
+          className="service-hero__title"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -71,10 +60,7 @@ function ServiceHero({
         </motion.h1>
 
         <motion.p
-          style={{
-            ...s.heroSubtitle,
-            ...(isMobile && s.heroSubtitleMobile),
-          }}
+          className="service-hero__subtitle"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
@@ -83,21 +69,17 @@ function ServiceHero({
         </motion.p>
 
         <motion.button
-          style={{
-            ...s.heroCta,
-            ...(isMobile && s.heroCtaMobile),
-          }}
+          className="service-hero__cta"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
           onClick={() => navigateToSection(ctaTarget)}
         >
-          <div style={s.heroCtaBg} />
-          <span style={s.heroCtaContent}>
+          <div className="service-hero__cta-bg" />
+          <div className="service-hero__cta-hover" />
+          <span className="service-hero__cta-content">
             {ctaLabel}
-            <ArrowRight style={s.heroCtaIcon} />
+            <ArrowRight className="service-hero__cta-icon" />
           </span>
         </motion.button>
       </div>

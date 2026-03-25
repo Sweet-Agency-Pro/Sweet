@@ -5,8 +5,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useSectionNavigation } from '../../../../hooks/useSectionNavigation';
-import { useWindowSize } from '../../../../hooks/useWindowSize';
-import { sharedStyles as s } from './ServicePage.styles';
+import './ServicePage.css';
 
 interface ServiceCtaBandProps {
   title?: string;
@@ -21,34 +20,29 @@ function ServiceCtaBand({
   ctaLabel = 'Nous contacter',
   ctaTarget = 'contact',
 }: ServiceCtaBandProps) {
-  const { isMobile } = useWindowSize();
   const { navigateToSection } = useSectionNavigation();
 
   return (
-    <section style={{
-      ...s.ctaBottom,
-      ...(isMobile && s.ctaBottomMobile),
-    }}>
-      <div style={s.ctaBottomTexture} />
+    <section className="service-cta-bottom">
+      <div className="service-cta-bottom__texture" />
 
       <motion.div
-        style={s.ctaBottomContainer}
+        className="service-cta-bottom__container"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <h2 style={s.ctaBottomTitle}>{title}</h2>
-        <p style={s.ctaBottomText}>{text}</p>
+        <h2 className="service-cta-bottom__title">{title}</h2>
+        <p className="service-cta-bottom__text">{text}</p>
 
         <motion.button
-          style={s.ctaBottomButton}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
+          className="service-cta-bottom__btn"
           onClick={() => navigateToSection(ctaTarget)}
         >
-          <div style={s.ctaBottomButtonBg} />
-          <span style={s.ctaBottomButtonContent}>
+          <div className="service-cta-bottom__btn-bg" />
+          <div className="service-cta-bottom__btn-hover" />
+          <span className="service-cta-bottom__btn-content">
             {ctaLabel}
             <ArrowRight style={{ width: '1.25rem', height: '1.25rem' }} />
           </span>

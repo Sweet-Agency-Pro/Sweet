@@ -5,8 +5,7 @@
 
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
-import { useWindowSize } from '../../../../hooks/useWindowSize';
-import { sharedStyles as s } from './ServicePage.styles';
+import './ServicePage.css';
 
 export interface Guarantee {
   icon: LucideIcon;
@@ -25,62 +24,39 @@ function ServiceGuarantees({
   subtitle = 'Une qualité technique irréprochable, quel que soit votre choix.',
   items,
 }: ServiceGuaranteesProps) {
-  const { isMobile, isTablet } = useWindowSize();
-
   return (
-    <section style={{
-      ...s.guarantees,
-      ...(isMobile && s.guaranteesMobile),
-    }}>
-      <div style={s.guaranteesTexture} />
+    <section className="service-guarantees">
+      <div className="service-guarantees__texture" />
 
-      <div style={{
-        ...s.guaranteesContainer,
-        ...(isMobile && s.guaranteesContainerMobile),
-      }}>
+      <div className="service-guarantees__container">
         <motion.div
-          style={{
-            ...s.guaranteesHeader,
-            ...(isMobile && s.guaranteesHeaderMobile),
-          }}
+          className="service-guarantees__header"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 style={{
-            ...s.guaranteesTitle,
-            ...(isMobile && s.guaranteesTitleMobile),
-          }}>
-            {title}
-          </h2>
-          <p style={s.guaranteesSubtitle}>{subtitle}</p>
+          <h2 className="service-guarantees__title">{title}</h2>
+          <p className="service-guarantees__subtitle">{subtitle}</p>
         </motion.div>
 
-        <div style={{
-          ...s.guaranteesGrid,
-          ...(isTablet && s.guaranteesGridTablet),
-          ...(isMobile && s.guaranteesGridMobile),
-        }}>
+        <div className="service-guarantees__grid">
           {items.map((item, index) => {
             const Icon = item.icon;
             return (
               <motion.div
                 key={item.title}
-                style={{
-                  ...s.guaranteeCard,
-                  ...(isMobile && s.guaranteeCardMobile),
-                }}
+                className="service-guarantees__card"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.12 }}
               >
-                <div style={s.guaranteeIconWrap}>
-                  <Icon style={s.guaranteeIcon} />
+                <div className="service-guarantees__icon-wrap">
+                  <Icon className="service-guarantees__icon" />
                 </div>
-                <h3 style={s.guaranteeTitle}>{item.title}</h3>
-                <p style={s.guaranteeText}>{item.text}</p>
+                <h3 className="service-guarantees__card-title">{item.title}</h3>
+                <p className="service-guarantees__card-text">{item.text}</p>
               </motion.div>
             );
           })}

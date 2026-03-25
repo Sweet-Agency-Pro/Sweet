@@ -1,0 +1,95 @@
+/* =============================================================================
+   UTILITY CLASSES
+   Common reusable patterns (converted from theme.ts commonStyles)
+   ============================================================================= */
+
+/* Flexbox */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Positioning */
+.absolute-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* Glass Effect */
+.glass-effect {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Text Gradient */
+.text-gradient {
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Container */
+.container {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-lg {
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: var(--container-padding-lg);
+  padding-right: var(--container-padding-lg);
+}
+
+/* Section Base */
+.section-base {
+  position: relative;
+  padding-top: var(--sp-24);
+  padding-bottom: var(--sp-24);
+  overflow: hidden;
+}
+
+/* Card Base */
+.card-base {
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  transition: all var(--duration-medium) var(--ease);
+}
+
+/* Button Base */
+.button-base {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-medium) var(--ease);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.perspective-1000 {
+  perspective: 62.5rem;
+}

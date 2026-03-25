@@ -1,16 +1,13 @@
 /**
  * AdminProjects
  * CRUD page for portfolio projects with preview upload.
- * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Plus, Pencil, Trash2, Image } from 'lucide-react';
 import theme from '../../../styles/theme';
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
-import * as s from '../admin.styles';
-import type { AdminResponsive } from '../admin.styles';
+import '../admin.css';
 import ProjectFormModal from '../components/ProjectFormModal';
 import {
   fetchProjects,
@@ -27,8 +24,6 @@ function AdminProjects() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<DbProject | null>(null);
   const [creating, setCreating] = useState(false);
-  const { isMobile, is4K } = useWindowSize();
-  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -79,7 +74,7 @@ function AdminProjects() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer ce projet ?')) return;
+    if (!window.confirm('Supprimer ce projet ?')) return;
     try {
       await deletePreview(id);
     } catch {
@@ -91,139 +86,130 @@ function AdminProjects() {
 
   return (
     <AdminLayout title="Projets">
-      <div style={s.pageHeaderR(r)}>
-        <div style={s.pageTitleR(r)}>Portfolio</div>
+      <div className="admin-page-header">
+        <div className="admin-page-title">Portfolio</div>
         <button
           type="button"
-          style={s.btnPrimaryR(r)}
+          className="admin-btn admin-btn--primary"
           onClick={() => setCreating(true)}
         >
-          <Plus size={is4K ? 20 : 16} />
+          <Plus size={16} />
           Nouveau projet
         </button>
       </div>
 
       {loading ? (
-        <div style={s.glassPanelR(r)}>
+        <div className="admin-glass-panel">
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : projects.length === 0 ? (
-        <div style={s.emptyStateR(r)}>
+        <div className="admin-empty-state">
           <div>Aucun projet</div>
           <button
             type="button"
-            style={s.btnPrimaryR(r)}
+            className="admin-btn admin-btn--primary"
             onClick={() => setCreating(true)}
           >
-            <Plus size={is4K ? 20 : 16} />
+            <Plus size={16} />
             Créer un premier projet
           </button>
         </div>
       ) : (
-        <div style={s.glassPanelR(r)}>
-          <div style={s.tableWrap(r)}>
-            <table style={s.tableR(r)}>
+        <div className="admin-glass-panel">
+          <div className="admin-table-wrap">
+            <table className="admin-table">
               <thead>
-                <tr style={s.tableHead}>
-                  {!isMobile && <th style={s.thR(r)}>Preview</th>}
-                  <th style={s.thR(r)}>Nom</th>
-                  <th style={s.thR(r)}>Type</th>
-                  {!isMobile && <th style={s.thR(r)}>Tech</th>}
-                  {!isMobile && <th style={s.thR(r)}>Couleur</th>}
-                  <th style={s.thR(r)}>Statut</th>
-                  <th style={{ ...s.thR(r), textAlign: 'right' }}>Actions</th>
+                <tr className="admin-table-head">
+                  <th className="admin-th hidden-mobile">Preview</th>
+                  <th className="admin-th">Nom</th>
+                  <th className="admin-th">Type</th>
+                  <th className="admin-th hidden-mobile">Tech</th>
+                  <th className="admin-th hidden-mobile">Couleur</th>
+                  <th className="admin-th">Statut</th>
+                  <th className="admin-th" style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {projects.map((proj) => (
                   <tr key={proj.id}>
-                    {!isMobile && (
-                      <td style={s.tdR(r)}>
-                        {proj.preview_url ? (
-                          <img
-                            src={proj.preview_url}
-                            alt=""
-                            style={styles.thumb}
-                          />
-                        ) : (
-                          <div style={styles.noThumb}>
-                            <Image size={is4K ? 20 : 16} color={theme.colors.slate[600]} />
-                          </div>
-                        )}
-                      </td>
-                    )}
-                    <td style={s.tdR(r)}>
+                    <td className="admin-td hidden-mobile">
+                      {proj.preview_url ? (
+                        <img
+                          src={proj.preview_url}
+                          alt=""
+                          style={styles.thumb}
+                        />
+                      ) : (
+                        <div style={styles.noThumb}>
+                          <Image size={16} color={theme.colors.slate[600]} />
+                        </div>
+                      )}
+                    </td>
+                    <td className="admin-td">
                       <div style={{ fontWeight: theme.typography.fontWeight.medium }}>
                         {proj.name}
                       </div>
                       <div
                         style={{
-                          fontSize: is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs,
+                          fontSize: theme.typography.fontSize.xs,
                           color: theme.colors.slate[500],
                         }}
                       >
                         {proj.id}
                       </div>
                     </td>
-                    <td style={s.tdR(r)}>
+                    <td className="admin-td">
                       <span
-                        style={
-                          proj.type === 'production'
-                            ? s.badge(theme.colors.teal[400], r)
-                            : s.badge(theme.colors.blue[400], r)
-                        }
+                        className={`admin-badge ${proj.type === 'production' ? 'admin-badge--public' : 'admin-badge--draft'}`}
                       >
                         {proj.type === 'production' ? 'Production' : 'Concept'}
                       </span>
                     </td>
-                    {!isMobile && (
-                      <td style={s.tdR(r)}>
-                        <div style={styles.techList}>
-                          {(proj.tech ?? []).slice(0, 3).map((t) => (
-                            <span key={t} style={styles.techBadge}>{t}</span>
-                          ))}
-                          {(proj.tech ?? []).length > 3 && (
-                            <span style={{ color: theme.colors.slate[500], fontSize: theme.typography.fontSize.xs }}>
-                              +{proj.tech.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                    )}
-                    {!isMobile && (
-                      <td style={s.tdR(r)}>
-                        <div
-                          style={{
-                            ...s.colorSwatch(proj.color_accent?.primary ?? '#14b8a6'),
-                            width: is4K ? '2rem' : '1.5rem',
-                            height: is4K ? '2rem' : '1.5rem',
-                          }}
-                          title={proj.color_accent?.primary}
-                        />
-                      </td>
-                    )}
-                    <td style={s.tdR(r)}>
+                    <td className="admin-td hidden-mobile">
+                      <div style={styles.techList}>
+                        {(proj.tech ?? []).slice(0, 3).map((t) => (
+                          <span key={t} style={styles.techBadge}>{t}</span>
+                        ))}
+                        {(proj.tech ?? []).length > 3 && (
+                          <span style={{ color: theme.colors.slate[500], fontSize: theme.typography.fontSize.xs }}>
+                            +{proj.tech.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="admin-td hidden-mobile">
+                      <div
+                        className="admin-color-swatch"
+                        style={{
+                          backgroundColor: proj.color_accent?.primary ?? '#14b8a6',
+                          width: '1.5rem',
+                          height: '1.5rem',
+                        }}
+                        title={proj.color_accent?.primary}
+                      />
+                    </td>
+                    <td className="admin-td">
                       {proj.is_flagship ? (
-                        <span style={s.badge('#f59e0b', r)}>⭐ Flagship</span>
+                        <span className="admin-badge admin-badge--new">⭐ Flagship</span>
                       ) : (
-                        <span style={s.badgeDraft}>Standard</span>
+                        <span className="admin-badge admin-badge--draft">Standard</span>
                       )}
                     </td>
-                    <td style={{ ...s.tdR(r), textAlign: 'right' }}>
+                    <td className="admin-td" style={{ textAlign: 'right' }}>
                       <div style={styles.actionRow}>
                         <button
                           type="button"
-                          style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
+                          className="admin-btn admin-btn--ghost admin-btn--small"
                           onClick={() => setEditing(proj)}
                         >
-                          <Pencil size={is4K ? 18 : 14} />
+                          <Pencil size={14} />
                         </button>
                         <button
                           type="button"
-                          style={{ ...s.btnDangerR(r), ...s.btnSmallR(r) }}
+                          className="admin-btn admin-btn--danger admin-btn--small"
                           onClick={() => handleDelete(proj.id)}
                         >
-                          <Trash2 size={is4K ? 18 : 14} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>

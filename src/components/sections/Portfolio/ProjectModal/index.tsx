@@ -6,18 +6,23 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
-import { styles } from '../Portfolio.styles';
 import type { Project } from '../../../../hooks/useProjects';
-import { hexToRgba } from '../../Services/Services.styles';
+
+// Hex to Rgba helper for dynamic styles
+const hexToRgba = (hex: string, alpha: number): string => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
 
 interface ProjectModalProps {
   project: Project | undefined;
   selectedId: string | null;
-  isMobileOrTablet: boolean;
   onClose: () => void;
 }
 
-function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: ProjectModalProps) {
+function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
   const [imageError, setImageError] = useState(false);
 
   // Keep a snapshot of the last valid project + id so AnimatePresence
@@ -50,7 +55,7 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
           {/* Backdrop */}
           <motion.div
             key="modal-backdrop"
-            style={styles.backdrop}
+            className="modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -61,65 +66,55 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
           <motion.div
             key={`modal-${renderId}`}
             layoutId={`card-container-${renderId}`}
+            className="modal-container"
             style={{
-              ...styles.modal,
-              ...(isMobileOrTablet && styles.modalMobileContainer),
               clipPath: 'inset(0% round 2rem)',
             }}
           >
             <motion.div
               layoutId={`card-inner-${renderId}`}
               layout
-              style={{
-                ...styles.modalInner,
-                ...(isMobileOrTablet && styles.modalInnerMobile),
-              }}
+              className="modal-inner"
               initial={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
               animate={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
               exit={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }} 
               transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             >
               {/* Close button */}
-              <button style={styles.closeButton} onClick={onClose}>
-                <X style={styles.closeIcon} />
+              <button className="modal-close" onClick={onClose}>
+                <X className="modal-close-icon" />
               </button>
 
               {/* Modal content */}
-              <div style={{
-                ...styles.modalContent,
-                ...(isMobileOrTablet && styles.modalContentMobile),
-              }}>
+              <div className="modal-content">
                 {/* Left side - Info */}
-                <div style={styles.modalInfo}>
+                <div className="modal-info">
                   <motion.div
                     layoutId={`card-tag-${renderId}`}
-                    style={
-                      renderProject.type === 'production'
-                        ? { ...styles.productionTag, background: gradientOp }
-                        : {
-                            ...styles.modalConceptTag,
-                            background: gradientOp,
-                          }
-                    }
+                    className="modal-concept-tag"
+                    style={{
+                      background: gradientOp,
+                      border: 'none',
+                    }}
                   >
                     {renderProject.type === 'production' ? (
-                      <Sparkles style={styles.tagIcon} />
+                      <Sparkles className="flagship__tag-icon" />
                     ) : (
-                      <Beaker style={styles.tagIcon} />
+                      <Beaker className="flagship__tag-icon" />
                     )}
                     <span style={{ color: 'white' }}>{renderProject.type === 'production' ? 'Production' : 'Concept'}</span>
                   </motion.div>
 
-                  <motion.h3 layoutId={`card-title-${renderId}`} style={styles.modalTitle}>
+                  <motion.h3 layoutId={`card-title-${renderId}`} className="modal-title">
                     {renderProject.name}
                   </motion.h3>
 
-                  <motion.p layoutId={`card-hook-${renderId}`} style={styles.modalHook}>
+                  <motion.p layoutId={`card-hook-${renderId}`} className="modal-hook">
                     {renderProject.hook}
                   </motion.p>
 
                   <motion.p
-                    style={styles.modalStory}
+                    className="modal-story"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
@@ -130,31 +125,31 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
 
                   {renderProject.benefit && (
                     <motion.div
-                      style={styles.benefitBox}
+                      className="modal-benefit"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ delay: 0.3 }}
                     >
-                      <Quote style={styles.quoteIcon} />
-                      <p style={styles.benefitText}>{renderProject.benefit}</p>
+                      <Quote className="modal-quote-icon" />
+                      <p className="modal-benefit-text">{renderProject.benefit}</p>
                     </motion.div>
                   )}
 
                   <motion.div
-                    style={styles.modalTechSection}
+                    className="modal-tech"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.35 }}
                   >
-                    <span style={styles.techLabel}>Stack Technique</span>
-                    <div style={styles.modalTechRow}>
+                    <span className="modal-tech-label">Stack Technique</span>
+                    <div className="modal-tech-row">
                       {renderProject.tech.map((t: string) => (
                         <span
                           key={t}
+                          className="modal-tech-badge"
                           style={{
-                            ...styles.modalTechBadge,
                             backgroundColor: hexToRgba(accent, 0.1),
                             borderColor: renderProject.colorAccent.primary,
                             color: renderProject.colorAccent.primary,
@@ -167,8 +162,8 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                   </motion.div>
 
                   <motion.button
+                    className="modal-cta"
                     style={{
-                      ...styles.modalCta,
                       background:
                         renderProject.colorAccent.gradient ||
                         gradient ||
@@ -189,33 +184,33 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                     }}
                   >
                     <span>Voir le projet</span>
-                    <ExternalLink style={styles.modalCtaIcon} />
+                    <ExternalLink className="modal-cta-icon" />
                   </motion.button>
                 </div>
 
                 {/* Right side - Visual */}
                 <motion.div
-                  style={styles.modalVisual}
+                  className="modal-visual"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay: 0.15, duration: 0.4 }}
                 >
                   <div
+                    className="modal-orb"
                     style={{
-                      ...styles.modalGradientOrb,
                       background: renderProject.colorAccent.gradient,
                     }}
                   />
                   
                   {/* Preview image or fallback mockup */}
                   {hasPreviewImage ? (
-                    <div style={styles.modalMockup}>
-                      <div style={styles.mockupHeader}>
-                        <div style={styles.mockupDots}>
-                          <span style={{ ...styles.mockupDot, backgroundColor: '#ff5f57' }} />
-                          <span style={{ ...styles.mockupDot, backgroundColor: '#febc2e' }} />
-                          <span style={{ ...styles.mockupDot, backgroundColor: '#28c840' }} />
+                    <div className="modal-mockup">
+                      <div className="mockup-header">
+                        <div className="mockup-dots">
+                          <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
+                          <span className="mockup-dot" style={{ backgroundColor: '#febc2e' }} />
+                          <span className="mockup-dot" style={{ backgroundColor: '#28c840' }} />
                         </div>
                       </div>
                       <img
@@ -231,29 +226,29 @@ function ProjectModal({ project, selectedId, isMobileOrTablet, onClose }: Projec
                       />
                     </div>
                   ) : (
-                    <div style={styles.modalMockup}>
-                      <div style={styles.mockupHeader}>
-                        <div style={styles.mockupDots}>
-                          <span style={{ ...styles.mockupDot, backgroundColor: '#ff5f57' }} />
-                          <span style={{ ...styles.mockupDot, backgroundColor: '#febc2e' }} />
-                          <span style={{ ...styles.mockupDot, backgroundColor: '#28c840' }} />
+                    <div className="modal-mockup">
+                      <div className="mockup-header">
+                        <div className="mockup-dots">
+                          <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
+                          <span className="mockup-dot" style={{ backgroundColor: '#febc2e' }} />
+                          <span className="mockup-dot" style={{ backgroundColor: '#28c840' }} />
                         </div>
                       </div>
-                      <div style={styles.modalMockupContent}>
+                      <div className="modal-mockup-content">
                         <div
+                          className="mockup-accent-bar"
                           style={{
-                            ...styles.mockupAccentBar,
                             background: renderProject.colorAccent.gradient,
                           }}
                         />
-                        <div style={styles.mockupLine} />
-                        <div style={{ ...styles.mockupLine, width: '70%' }} />
-                        <div style={{ ...styles.mockupLine, width: '50%' }} />
-                        <div style={styles.mockupBlockLarge} />
-                        <div style={styles.mockupGrid}>
-                          <div style={styles.mockupGridItem} />
-                          <div style={styles.mockupGridItem} />
-                          <div style={styles.mockupGridItem} />
+                        <div className="mockup-line" />
+                        <div className="mockup-line" style={{ width: '70%' }} />
+                        <div className="mockup-line" style={{ width: '50%' }} />
+                        <div className="mockup-block-large" />
+                        <div className="mockup-grid">
+                          <div className="mockup-grid-item" />
+                          <div className="mockup-grid-item" />
+                          <div className="mockup-grid-item" />
                         </div>
                       </div>
                     </div>

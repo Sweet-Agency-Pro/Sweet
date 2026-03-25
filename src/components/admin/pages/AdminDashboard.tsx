@@ -1,7 +1,6 @@
 /**
  * AdminDashboard
  * Overview page with stat cards and recent activity.
- * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useEffect, useState, type CSSProperties } from 'react';
@@ -14,11 +13,9 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import theme from '../../../styles/theme';
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
-import * as s from '../admin.styles';
+import '../admin.css';
 import { fetchStats } from '../../../services/adminService';
-import type { AdminResponsive } from '../admin.styles';
 
 const adminPath = import.meta.env.VITE_ADMIN_PATH || '/studio-ombre-87';
 
@@ -33,8 +30,6 @@ function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { isMobile, is4K } = useWindowSize();
-  const r: AdminResponsive = { isMobile, is4K };
 
   useEffect(() => {
     fetchStats()
@@ -75,21 +70,19 @@ function AdminDashboard() {
       ]
     : [];
 
-  const iconSize = is4K ? 26 : 20;
-
   return (
     <AdminLayout title="Dashboard">
       {error && <div style={styles.error}>{error}</div>}
 
-      <div style={s.grid4R(r)}>
+      <div className="admin-grid-4">
         {stats
           ? cards.map((card) => (
               <button
                 key={card.label}
                 type="button"
+                className="admin-stat-card"
                 onClick={() => navigate(card.to)}
                 style={{
-                  ...s.statCardR(r),
                   cursor: 'pointer',
                   textAlign: 'left',
                   border: `1px solid ${theme.hexToRgba(theme.colors.slate[700], 0.35)}`,
@@ -97,23 +90,23 @@ function AdminDashboard() {
                 }}
               >
                 <div style={styles.statHeader}>
-                  <card.icon size={iconSize} color={card.color} />
-                  <ArrowRight size={is4K ? 18 : 14} color={theme.colors.slate[500]} />
+                  <card.icon className="admin-stat-icon" color={card.color} />
+                  <ArrowRight className="admin-stat-arrow" color={theme.colors.slate[500]} />
                 </div>
-                <div style={{ ...s.statValueR(r), color: card.color }}>
+                <div className="admin-stat-value" style={{ color: card.color }}>
                   {card.value}
                 </div>
-                <div style={s.statLabelR(r)}>{card.label}</div>
+                <div className="admin-stat-label">{card.label}</div>
               </button>
             ))
           : Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} style={{ ...s.statCardR(r), minHeight: '7rem', background: theme.hexToRgba(theme.colors.slate[800], 0.5), animation: 'pulse 1.5s infinite' }} />
+              <div key={i} className="admin-stat-card" style={{ minHeight: '7rem', background: theme.hexToRgba(theme.colors.slate[800], 0.5), animation: 'pulse 1.5s infinite' }} />
             ))}
       </div>
 
-      <div style={s.glassPanelR(r)}>
+      <div className="admin-glass-panel">
         <div style={{
-          fontSize: is4K ? theme.typography.fontSize.xl : theme.typography.fontSize.lg,
+          fontSize: theme.typography.fontSize.xl,
           fontWeight: theme.typography.fontWeight.semibold,
           color: theme.colors.white,
           marginBottom: theme.spacing[2],
@@ -121,7 +114,7 @@ function AdminDashboard() {
         <p style={{
           color: theme.colors.slate[300],
           lineHeight: theme.typography.lineHeight.relaxed,
-          fontSize: is4K ? theme.typography.fontSize.base : theme.typography.fontSize.sm,
+          fontSize: theme.typography.fontSize.sm,
         }}>
           Gérez vos services, projets portfolio et messages de contact depuis
           cette interface. Toutes les modifications sont reflétées en temps réel

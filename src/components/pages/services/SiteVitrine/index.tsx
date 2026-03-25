@@ -19,7 +19,7 @@ import ServiceGuarantees from '../shared/ServiceGuarantees';
 import ServiceCtaBand from '../shared/ServiceCtaBand';
 import OfferingCards from './OfferingCards';
 import Footer from '../../../sections/Footer';
-import { sharedStyles as s } from '../shared/ServicePage.styles';
+import '../shared/ServicePage.css';
 import type { Guarantee } from '../shared/ServiceGuarantees';
 
 // =============================================================================
@@ -53,14 +53,14 @@ function SiteVitrine() {
   }, []);
 
   return (
-    <div style={s.page}>
+    <div className="service-page">
       <ServiceHero
         badgeIcon={Globe}
         badgeLabel="Site Vitrine"
         title={
           <>
             Site{' '}
-            <span style={s.heroTitleGradient}>Vitrine</span>
+            <span className="service-hero__title-gradient">Vitrine</span>
           </>
         }
         subtitle="Une présentation sur mesure, adaptée à la densité de votre contenu."

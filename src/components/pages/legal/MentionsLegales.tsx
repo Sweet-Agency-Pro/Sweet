@@ -6,39 +6,32 @@
 import { ArrowLeft, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import Navigation from '../../layout/Navigation';
 import Footer from '../../sections/Footer';
-import { styles } from './Legal.styles';
+import './Legal.css';
 
 // =============================================================================
 // SUB-COMPONENTS
 // =============================================================================
 
-function HeroBanner({ isMobile }: { isMobile: boolean }) {
+function HeroBanner() {
   return (
-    <div style={{
-      ...styles.heroBar,
-      ...(isMobile && styles.heroBarMobile),
-    }}>
+    <div className="legal-hero">
       <Navigation />
-      <div style={styles.heroTexture} />
-      <div style={styles.heroBlob1} />
-      <div style={styles.heroBlob2} />
+      <div className="legal-hero__texture" />
+      <div className="legal-hero__blob-1" />
+      <div className="legal-hero__blob-2" />
 
-      <div style={{
-        ...styles.heroContent,
-        ...(isMobile && styles.heroContentMobile),
-      }}>
-        <div style={styles.badge}>
-          <FileText style={styles.badgeIcon} />
-          <span style={styles.badgeText}>Légal</span>
+      <div className="legal-hero__content">
+        <div className="legal-badge">
+          <FileText className="legal-badge__icon" />
+          <span className="legal-badge__text">Légal</span>
         </div>
-        <h1 style={styles.heroTitle}>
+        <h1 className="legal-hero__title">
           Mentions{' '}
-          <span style={styles.heroTitleGradient}>Légales</span>
+          <span className="legal-hero__title-gradient">Légales</span>
         </h1>
-        <p style={styles.heroDescription}>
+        <p className="legal-hero__description">
           Informations légales relatives à l'éditeur du site, à son hébergement
           et à la propriété intellectuelle des contenus.
         </p>
@@ -49,14 +42,11 @@ function HeroBanner({ isMobile }: { isMobile: boolean }) {
 
 function InfoCard({ rows }: { rows: { label: string; value: string; isPlaceholder?: boolean }[] }) {
   return (
-    <div style={styles.infoCard}>
+    <div className="legal-info-card">
       {rows.map((row, i) => (
-        <div key={i} style={{
-          ...styles.infoRow,
-          ...(i === rows.length - 1 ? { marginBottom: 0 } : undefined),
-        }}>
-          <span style={styles.infoLabel}>{row.label}</span>
-          <span style={row.isPlaceholder ? styles.placeholderValue : styles.infoValue}>
+        <div key={i} className="legal-info-row">
+          <span className="legal-info-label">{row.label}</span>
+          <span className={row.isPlaceholder ? "legal-info-placeholder" : "legal-info-value"}>
             {row.value}
           </span>
         </div>
@@ -69,38 +59,30 @@ function InfoCard({ rows }: { rows: { label: string; value: string; isPlaceholde
 // MAIN COMPONENT
 // =============================================================================
 function MentionsLegales() {
-  const { isMobile } = useWindowSize();
-
   return (
-    <div style={styles.page}>
-      <HeroBanner isMobile={isMobile} />
-      <div style={styles.accentLine} />
+    <div className="legal-page">
+      <HeroBanner />
+      <div className="legal-accent-line" />
 
-      <div style={styles.main}>
-        <div style={styles.backgroundTexture} />
+      <div className="legal-main">
+        <div className="legal-main__texture" />
 
-        <div style={{
-          ...styles.container,
-          ...(isMobile && styles.containerMobile),
-        }}>
-          <Link to="/" style={styles.backLink}>
-            <ArrowLeft style={styles.backIcon} />
+        <div className="legal-container">
+          <Link to="/" className="legal-back-link">
+            <ArrowLeft className="legal-back-icon" />
             Retour à l'accueil
           </Link>
 
           {/* ── Article 1 : Éditeur du site ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={{
-              ...styles.articleTitle,
-              ...(isMobile && styles.articleTitleMobile),
-            }}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">
               Article 1 - Éditeur du site
             </h2>
 
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Le présent site, accessible à l'URL{' '}
-              <strong style={styles.strong}>https://www.agence-sweet.com/</strong>, est édité par :
+              <strong className="legal-strong">https://www.agence-sweet.com/</strong>, est édité par :
             </p>
 
             <InfoCard rows={[
@@ -115,16 +97,13 @@ function MentionsLegales() {
           </article>
 
           {/* ── Article 2 : Hébergeur ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={{
-              ...styles.articleTitle,
-              ...(isMobile && styles.articleTitleMobile),
-            }}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">
               Article 2 - Hébergeur
             </h2>
 
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Le site est hébergé par la société :
             </p>
 
@@ -136,27 +115,24 @@ function MentionsLegales() {
           </article>
 
           {/* ── Article 3 : Propriété intellectuelle ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={{
-              ...styles.articleTitle,
-              ...(isMobile && styles.articleTitleMobile),
-            }}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">
               Article 3 - Propriété intellectuelle
             </h2>
 
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               L'ensemble de ce site, notamment les textes, logos, tableaux, représentations
               iconographiques et photographiques, ainsi que les documents téléchargeables, relève
               de la législation française et internationale sur le droit d'auteur et la propriété
               intellectuelle.
             </p>
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Toute reproduction, représentation, modification, publication, adaptation de tout ou
               partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est
               interdite sans autorisation écrite préalable de l'éditeur.
             </p>
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Toute exploitation non autorisée du site ou de l'un quelconque des éléments qu'il
               contient sera considérée comme constitutive d'une contrefaçon et poursuivie
               conformément aux dispositions des articles L.335-2 et suivants du Code de la
@@ -165,28 +141,25 @@ function MentionsLegales() {
           </article>
 
           {/* ── Article 4 : Responsabilité ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={{
-              ...styles.articleTitle,
-              ...(isMobile && styles.articleTitleMobile),
-            }}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">
               Article 4 - Limitation de responsabilité
             </h2>
 
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               L'éditeur du site ne pourra être tenu pour responsable des dommages directs ou
               indirects causés au matériel de l'utilisateur lors de l'accès au site, résultant
               soit de l'utilisation d'un matériel ne répondant pas aux spécifications techniques
               requises, soit de l'apparition d'un bug ou d'une incompatibilité.
             </p>
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               L'éditeur ne pourra également être tenu pour responsable des dommages indirects
               consécutifs à l'utilisation du site.
             </p>
           </article>
 
-          <p style={styles.lastUpdated}>
+          <p className="legal-last-updated">
             Dernière mise à jour : février 2026
           </p>
         </div>

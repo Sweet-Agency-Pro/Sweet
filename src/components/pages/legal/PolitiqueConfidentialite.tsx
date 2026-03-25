@@ -6,39 +6,32 @@
 import { ArrowLeft, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import Navigation from '../../layout/Navigation';
 import Footer from '../../sections/Footer';
-import { styles } from './Legal.styles';
+import './Legal.css';
 
 // =============================================================================
 // SUB-COMPONENTS
 // =============================================================================
 
-function HeroBanner({ isMobile }: { isMobile: boolean }) {
+function HeroBanner() {
   return (
-    <div style={{
-      ...styles.heroBar,
-      ...(isMobile && styles.heroBarMobile),
-    }}>
+    <div className="legal-hero">
       <Navigation />
-      <div style={styles.heroTexture} />
-      <div style={styles.heroBlob1} />
-      <div style={styles.heroBlob2} />
+      <div className="legal-hero__texture" />
+      <div className="legal-hero__blob-1" />
+      <div className="legal-hero__blob-2" />
 
-      <div style={{
-        ...styles.heroContent,
-        ...(isMobile && styles.heroContentMobile),
-      }}>
-        <div style={styles.badge}>
-          <Shield style={styles.badgeIcon} />
-          <span style={styles.badgeText}>Confidentialité</span>
+      <div className="legal-hero__content">
+        <div className="legal-badge">
+          <Shield className="legal-badge__icon" />
+          <span className="legal-badge__text">Confidentialité</span>
         </div>
-        <h1 style={styles.heroTitle}>
+        <h1 className="legal-hero__title">
           Politique de{' '}
-          <span style={styles.heroTitleGradient}>Confidentialité</span>
+          <span className="legal-hero__title-gradient">Confidentialité</span>
         </h1>
-        <p style={styles.heroDescription}>
+        <p className="legal-hero__description">
           Découvrez comment nous collectons, utilisons et protégeons vos données
           personnelles dans le respect du RGPD.
         </p>
@@ -49,10 +42,10 @@ function HeroBanner({ isMobile }: { isMobile: boolean }) {
 
 function BulletList({ items }: { items: string[] }) {
   return (
-    <ul style={styles.list}>
+    <ul className="legal-list">
       {items.map((item, i) => (
-        <li key={i} style={styles.listItem}>
-          <span style={styles.listBullet} />
+        <li key={i} className="legal-list__item">
+          <span className="legal-list__bullet" />
           {item}
         </li>
       ))}
@@ -64,37 +57,27 @@ function BulletList({ items }: { items: string[] }) {
 // MAIN COMPONENT
 // =============================================================================
 function PolitiqueConfidentialite() {
-  const { isMobile } = useWindowSize();
-
-  const titleStyle = {
-    ...styles.articleTitle,
-    ...(isMobile ? styles.articleTitleMobile : undefined),
-  };
-
   return (
-    <div style={styles.page}>
-      <HeroBanner isMobile={isMobile} />
-      <div style={styles.accentLine} />
+    <div className="legal-page">
+      <HeroBanner />
+      <div className="legal-accent-line" />
 
-      <div style={styles.main}>
-        <div style={styles.backgroundTexture} />
+      <div className="legal-main">
+        <div className="legal-main__texture" />
 
-        <div style={{
-          ...styles.container,
-          ...(isMobile && styles.containerMobile),
-        }}>
-          <Link to="/" style={styles.backLink}>
-            <ArrowLeft style={styles.backIcon} />
+        <div className="legal-container">
+          <Link to="/" className="legal-back-link">
+            <ArrowLeft className="legal-back-icon" />
             Retour à l'accueil
           </Link>
 
           {/* ── Introduction ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Introduction</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Introduction</h2>
+            <p className="legal-paragraph">
               Dans le cadre de son activité, l'agence{' '}
-              <strong style={styles.strong}>Sweet</strong> est amenée à
+              <strong className="legal-strong">Sweet</strong> est amenée à
               traiter des informations vous concernant. Nous attachons une grande importance
               à la protection de vos données personnelles et au respect de votre vie privée,
               conformément au Règlement Général sur la Protection des Données (RGPD) et à la
@@ -103,10 +86,10 @@ function PolitiqueConfidentialite() {
           </article>
 
           {/* ── Article 1 : Collecte des données ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 1 - Collecte des données</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 1 - Collecte des données</h2>
+            <p className="legal-paragraph">
               Nous collectons les données que vous nous communiquez volontairement,
               notamment via le formulaire de contact présent sur le site :
             </p>
@@ -115,17 +98,17 @@ function PolitiqueConfidentialite() {
               'Données de contact : adresse email, numéro de téléphone.',
               'Données professionnelles : nom de l\'entreprise, type de projet.',
             ]} />
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Aucune donnée n'est collectée à votre insu. Les champs obligatoires sont
               clairement identifiés dans les formulaires.
             </p>
           </article>
 
           {/* ── Article 2 : Finalité du traitement ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 2 - Finalité du traitement</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 2 - Finalité du traitement</h2>
+            <p className="legal-paragraph">
               Les données collectées nous permettent de :
             </p>
             <BulletList items={[
@@ -135,10 +118,10 @@ function PolitiqueConfidentialite() {
           </article>
 
           {/* ── Article 3 : Durée de conservation ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 3 - Durée de conservation</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 3 - Durée de conservation</h2>
+            <p className="legal-paragraph">
               Vos données sont conservées pendant la durée strictement nécessaire à la
               gestion de la relation commerciale :
             </p>
@@ -149,10 +132,10 @@ function PolitiqueConfidentialite() {
           </article>
 
           {/* ── Article 4 : Vos droits ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 4 - Vos droits</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 4 - Vos droits</h2>
+            <p className="legal-paragraph">
               Conformément au RGPD (articles 15 à 22), vous disposez des droits suivants
               sur vos données personnelles :
             </p>
@@ -164,23 +147,23 @@ function PolitiqueConfidentialite() {
               'Droit de limitation : demander la suspension du traitement dans certains cas.',
               'Droit à la portabilité : recevoir vos données dans un format structuré et lisible.',
             ]} />
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Pour exercer l'un de ces droits, contactez-nous à :{' '}
-              <strong style={styles.strong}>contact@agence-sweet.com</strong>.
+              <strong className="legal-strong">contact@agence-sweet.com</strong>.
               Nous nous engageons à répondre dans un délai d'un mois.
             </p>
           </article>
 
           {/* ── Article 5 : Cookies ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 5 - Cookies</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 5 - Cookies</h2>
+            <p className="legal-paragraph">
               Le site utilise des cookies pour améliorer l'expérience utilisateur et
               analyser le trafic. Lors de votre première visite, un bandeau de consentement
               vous permet d'accepter ou de refuser ces cookies.
             </p>
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Vous pouvez à tout moment configurer votre navigateur pour refuser tout ou
               partie des cookies. Toutefois, le refus de certains cookies peut limiter
               l'accès à certaines fonctionnalités du site.
@@ -192,12 +175,12 @@ function PolitiqueConfidentialite() {
           </article>
 
           {/* ── Article 6 : Hébergement des données ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 6 - Hébergement des données</h2>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 6 - Hébergement des données</h2>
 
-            <p style={styles.paragraph}>
-              <strong style={styles.strong}>Hébergement du site</strong> - Les données
+            <p className="legal-paragraph">
+              <strong className="legal-strong">Hébergement du site</strong> - Les données
               collectées via le formulaire de contact sont stockées sur des serveurs
               sécurisés gérés par notre hébergeur (voir nos{' '}
               <Link to="/mentions-legales" style={{ color: '#0d9488', textDecoration: 'underline' }}>
@@ -206,21 +189,21 @@ function PolitiqueConfidentialite() {
               pour les coordonnées de l'hébergeur).
             </p>
 
-            <p style={styles.paragraph}>
-              <strong style={styles.strong}>Hébergement des emails</strong> - Notre
+            <p className="legal-paragraph">
+              <strong className="legal-strong">Hébergement des emails</strong> - Notre
               messagerie professionnelle est hébergée par{' '}
-              <strong style={styles.strong}>Infomaniak Network SA</strong>, société suisse
+              <strong className="legal-strong">Infomaniak Network SA</strong>, société suisse
               dont le siège social est situé Rue Eugène-Marziano 25, 1227 Les Acacias,
               Genève, Suisse.
             </p>
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Infomaniak héberge l'ensemble de ses données exclusivement en Suisse, dans
               des data centers alimentés à 100 % par des énergies renouvelables. La Suisse
               bénéficie d'une décision d'adéquation de la Commission européenne (article 45
               du RGPD), garantissant un niveau de protection des données équivalent à celui
               de l'Union européenne.
             </p>
-            <p style={styles.paragraph}>
+            <p className="legal-paragraph">
               Les échanges par email peuvent contenir des données personnelles (nom, adresse
               email, contenu des messages). Ces données sont traitées conformément à la
               politique de confidentialité d'Infomaniak et aux présentes dispositions.
@@ -228,10 +211,10 @@ function PolitiqueConfidentialite() {
           </article>
 
           {/* ── Article 7 : Sécurité ── */}
-          <article style={styles.article}>
-            <div style={styles.articleTitleDecoration} />
-            <h2 style={titleStyle}>Article 7 - Sécurité des données</h2>
-            <p style={styles.paragraph}>
+          <article className="legal-article">
+            <div className="legal-article__decoration" />
+            <h2 className="legal-article__title">Article 7 - Sécurité des données</h2>
+            <p className="legal-paragraph">
               Nous mettons en œuvre toutes les mesures techniques et organisationnelles
               appropriées pour garantir un niveau de sécurité adapté au risque :
               chiffrement des communications (HTTPS/TLS), accès restreints, mises à jour
@@ -239,7 +222,7 @@ function PolitiqueConfidentialite() {
             </p>
           </article>
 
-          <p style={styles.lastUpdated}>
+          <p className="legal-last-updated">
             Dernière mise à jour : février 2026
           </p>
         </div>

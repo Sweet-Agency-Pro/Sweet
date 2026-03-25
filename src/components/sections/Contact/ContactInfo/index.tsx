@@ -1,7 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import theme from '../../../../styles/theme';
-import { infoStyles, glassCardStyles } from '../Contact.styles';
 
 const EmailIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -34,30 +32,25 @@ interface ContactItemProps {
 const ContactItem: React.FC<ContactItemProps> = ({ icon, label, value, href, delay = 0 }) => {
   const content = (
     <motion.div
-      style={infoStyles.item}
+      className="contact-info__item"
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ x: 5 }}
     >
-      <motion.div
-        style={infoStyles.itemIcon}
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-      >
+      <div className="contact-info__icon">
         {icon}
-      </motion.div>
-      <div style={infoStyles.itemContent}>
-        <span style={infoStyles.itemLabel}>{label}</span>
-        <span style={infoStyles.itemValue}>{value}</span>
+      </div>
+      <div className="contact-info__content">
+        <span className="contact-info__label">{label}</span>
+        <span className="contact-info__value">{value}</span>
       </div>
     </motion.div>
   );
 
   if (href) {
     return (
-      <a href={href} style={{ textDecoration: 'none' }}>
+      <a href={href} style={{ textDecoration: 'none', display: 'block' }}>
         {content}
       </a>
     );
@@ -89,14 +82,14 @@ const ContactInfo: React.FC = () => {
 
   return (
     <motion.div
-      style={{ ...glassCardStyles.glassCard, ...infoStyles.infoCard }}
+      className="contact__glass-card contact-info"
       initial={{ opacity: 0, x: -50 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
       <motion.h3
-        style={infoStyles.title}
+        className="contact-info__title"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -106,7 +99,7 @@ const ContactInfo: React.FC = () => {
       </motion.h3>
 
       <motion.p
-        style={infoStyles.description}
+        className="contact-info__description"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -116,24 +109,14 @@ const ContactInfo: React.FC = () => {
         votre vision en réalité digitale. N'hésitez pas à nous contacter.
       </motion.p>
 
-      <div style={infoStyles.itemsContainer}>
+      <div className="contact-info__items">
         {contactItems.map((item, index) => (
           <ContactItem key={item.label} {...item} delay={0.2 + index * 0.1} />
         ))}
       </div>
 
       <motion.div
-        style={{
-          position: 'absolute' as const,
-          bottom: '-2rem',
-          right: '-2rem',
-          width: '12rem',
-          height: '12rem',
-          background: `radial-gradient(circle, ${theme.hexToRgba(theme.colors.teal[500], 0.15)} 0%, transparent 70%)`,
-          borderRadius: '50%',
-          pointerEvents: 'none' as const,
-          zIndex: 0,
-        }}
+        className="contact-info__radial-glow"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.5, 0.8, 0.5],

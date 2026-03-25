@@ -2,8 +2,7 @@ import { Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
-import { useWindowSize } from '../../../hooks/useWindowSize';
-import { styles } from './Footer.styles';
+import './Footer.css';
 
 const navLinks = [
   { sectionId: 'services', label: 'Services' },
@@ -12,47 +11,39 @@ const navLinks = [
 ];
 
 function Footer() {
-  const { isMobile, isTablet } = useWindowSize();
   const { navigateToSection } = useSectionNavigation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer style={styles.footer}>
-      <div style={styles.topAccent} />
-      <div style={styles.backgroundTexture} />
-      <div style={styles.glowOrb} />
+    <footer className="footer">
+      <div className="footer__top-accent" />
+      <div className="footer__bg-texture" />
+      <div className="footer__glow-orb" />
 
-      <div style={{
-        ...styles.content,
-        ...(isMobile && styles.contentMobile),
-      }}>
-        <div style={{
-          ...styles.topRow,
-          ...(isTablet && styles.topRowTablet),
-          ...(isMobile && styles.topRowMobile),
-        }}>
-          <div style={styles.brandWrap}>
-            <div style={styles.brandRow}>
-              <div style={styles.logoPill}>
-                <Layers style={styles.logoIcon} />
+      <div className="footer__content">
+        <div className="footer__top-row">
+          <div className="footer__brand-wrap">
+            <div className="footer__brand-row">
+              <div className="footer__logo-pill">
+                <Layers className="footer__logo-icon" />
               </div>
-              <h3 style={styles.brandName}>Sweet</h3>
+              <h3 className="footer__brand-name">Sweet</h3>
             </div>
 
-            <p style={styles.brandDescription}>
+            <p className="footer__brand-description">
               Nous concevons des expériences web élégantes, performantes et sur mesure,
               pensées pour faire grandir votre activité.
             </p>
           </div>
 
           <div>
-            <h4 style={styles.sectionTitle}>Navigation</h4>
-            <nav style={styles.linkList}>
+            <h4 className="footer__section-title">Navigation</h4>
+            <nav className="footer__link-list">
               {navLinks.map((link) => (
                 <a
                   key={link.sectionId}
                   href={`/#${link.sectionId}`}
-                  style={styles.linkItem}
+                  className="footer__link-item"
                   onClick={(event) => {
                     event.preventDefault();
                     navigateToSection(link.sectionId);
@@ -65,12 +56,12 @@ function Footer() {
           </div>
 
           <div>
-            <h4 style={styles.sectionTitle}>Contact</h4>
-            <div style={styles.linkList}>
-              <p style={styles.contactText}>contact@agence-sweet.com</p>
-              <p style={styles.contactText}>+33 1 23 45 67 89</p>
+            <h4 className="footer__section-title">Contact</h4>
+            <div className="footer__link-list">
+              <p className="footer__contact-text">contact@agence-sweet.com</p>
+              <p className="footer__contact-text">+33 1 23 45 67 89</p>
               <button
-                style={styles.ctaButton}
+                className="footer__cta-button"
                 onClick={() => navigateToSection('contact')}
               >
                 Démarrer un projet
@@ -79,17 +70,14 @@ function Footer() {
           </div>
         </div>
 
-        <div style={{
-          ...styles.bottomBar,
-          ...(isMobile && styles.bottomBarMobile),
-        }}>
-          <p style={styles.copyright}>
+        <div className="footer__bottom-bar">
+          <p className="footer__copyright">
             © {currentYear} Agence Sweet. Tous droits réservés.
           </p>
 
-          <div style={styles.legalLinks}>
-            <Link to="/mentions-legales" style={styles.legalLink}>Mentions légales</Link>
-            <Link to="/confidentialite" style={styles.legalLink}>Confidentialité</Link>
+          <div className="footer__legal-links">
+            <Link to="/mentions-legales" className="footer__legal-link">Mentions légales</Link>
+            <Link to="/confidentialite" className="footer__legal-link">Confidentialité</Link>
           </div>
         </div>
       </div>

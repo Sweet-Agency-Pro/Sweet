@@ -3,11 +3,9 @@
  * Two side-by-side cards: One-Page vs Multi-Pages
  */
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Layers } from 'lucide-react';
-import { useWindowSize } from '../../../../hooks/useWindowSize';
-import { vitrinStyles as v } from '../SiteVitrine/SiteVitrine.styles';
+import './SiteVitrine.css';
 
 // =============================================================================
 // DATA
@@ -46,66 +44,42 @@ const offerings: OfferingItem[] = [
 // SUB-COMPONENT: Single Offering Card
 // =============================================================================
 function OfferingCard({ item, index }: { item: OfferingItem; index: number }) {
-  const { isMobile } = useWindowSize();
-  const [hovered, setHovered] = useState(false);
   const isOnePage = item.variant === 'onepage';
-
   const Icon = item.icon;
 
   return (
     <motion.div
-      style={{
-        ...v.card,
-        ...(isMobile && v.cardMobile),
-        ...(hovered && !isMobile ? v.cardHovered : undefined),
-      }}
+      className="vitrine-offering__card"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.55, delay: index * 0.15 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       {/* Top accent line */}
-      <div style={{
-        ...v.cardAccent,
-        ...(isOnePage ? v.cardAccentOnePage : v.cardAccentMultiPage),
-      }} />
+      <div className={`vitrine-offering__card-accent vitrine-offering__card-accent--${item.variant}`} />
 
       {/* Icon */}
-      <div style={{
-        ...v.cardIconWrap,
-        ...(isOnePage ? v.cardIconWrapOnePage : v.cardIconWrapMultiPage),
-      }}>
-        <Icon style={{
-          ...v.cardIcon,
-          ...(isOnePage ? v.cardIconOnePage : v.cardIconMultiPage),
-        }} />
+      <div className={`vitrine-offering__card-icon-wrap vitrine-offering__card-icon-wrap--${item.variant}`}>
+        <Icon className={`vitrine-offering__card-icon vitrine-offering__card-icon--${item.variant}`} />
       </div>
 
       {/* Label */}
-      <p style={{
-        ...v.cardLabel,
-        ...(isOnePage ? v.cardLabelOnePage : v.cardLabelMultiPage),
-      }}>
+      <p className={`vitrine-offering__card-label vitrine-offering__card-label--${item.variant}`}>
         {item.label}
       </p>
 
       {/* Title & description */}
-      <h3 style={v.cardTitle}>{item.title}</h3>
-      <p style={v.cardDescription}>{item.description}</p>
+      <h3 className="vitrine-offering__card-title">{item.title}</h3>
+      <p className="vitrine-offering__card-desc">{item.description}</p>
 
       {/* Divider */}
-      <div style={v.divider} />
+      <div className="vitrine-offering__divider" />
 
       {/* Key points */}
-      <ul style={v.pointsList}>
+      <ul className="vitrine-offering__points-list">
         {item.points.map((pt) => (
-          <li key={pt} style={v.pointItem}>
-            <span style={{
-              ...v.pointDot,
-              ...(isOnePage ? v.pointDotOnePage : v.pointDotMultiPage),
-            }} />
+          <li key={pt} className="vitrine-offering__point-item">
+            <span className={`vitrine-offering__point-dot vitrine-offering__point-dot--${item.variant}`} />
             {pt}
           </li>
         ))}
@@ -118,45 +92,27 @@ function OfferingCard({ item, index }: { item: OfferingItem; index: number }) {
 // MAIN COMPONENT
 // =============================================================================
 function OfferingCards() {
-  const { isMobile, isTablet } = useWindowSize();
-
   return (
-    <section style={{
-      ...v.section,
-      ...(isMobile && v.sectionMobile),
-    }}>
-      <div style={v.texture} />
+    <section className="vitrine-offering">
+      <div className="vitrine-offering__texture" />
 
-      <div style={{
-        ...v.container,
-        ...(isMobile && v.containerMobile),
-      }}>
+      <div className="vitrine-offering__container">
         <motion.div
-          style={{
-            ...v.header,
-            ...(isMobile && v.headerMobile),
-          }}
+          className="vitrine-offering__header"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 style={{
-            ...v.headerTitle,
-            ...(isMobile && v.headerTitleMobile),
-          }}>
+          <h2 className="vitrine-offering__title">
             Deux approches, un même objectif
           </h2>
-          <p style={v.headerSubtitle}>
+          <p className="vitrine-offering__subtitle">
             Choisissez la structure qui correspond le mieux à vos ambitions.
           </p>
         </motion.div>
 
-        <div style={{
-          ...v.grid,
-          ...(isTablet && v.gridTablet),
-          ...(isMobile && v.gridMobile),
-        }}>
+        <div className="vitrine-offering__grid">
           {offerings.map((item, i) => (
             <OfferingCard key={item.variant} item={item} index={i} />
           ))}

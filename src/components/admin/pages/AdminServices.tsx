@@ -1,16 +1,13 @@
 /**
  * AdminServices
  * CRUD page for managing services.
- * Responsive: mobile (horizontal scroll table), FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import theme from '../../../styles/theme';
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
-import * as s from '../admin.styles';
-import type { AdminResponsive } from '../admin.styles';
+import '../admin.css';
 import ServiceFormModal from '../components/ServiceFormModal';
 import {
   fetchServices,
@@ -25,8 +22,6 @@ function AdminServices() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<DbService | null>(null);
   const [creating, setCreating] = useState(false);
-  const { isMobile, is4K } = useWindowSize();
-  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -58,92 +53,90 @@ function AdminServices() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer ce service ?')) return;
+    if (!window.confirm('Supprimer ce service ?')) return;
     await deleteService(id);
     await load();
   };
 
   return (
     <AdminLayout title="Services">
-      <div style={s.pageHeaderR(r)}>
-        <div style={s.pageTitleR(r)}>Gestion des services</div>
+      <div className="admin-page-header">
+        <div className="admin-page-title">Gestion des services</div>
         <button
           type="button"
-          style={s.btnPrimaryR(r)}
+          className="admin-btn admin-btn--primary"
           onClick={() => setCreating(true)}
         >
-          <Plus size={is4K ? 20 : 16} />
+          <Plus size={16} />
           Nouveau service
         </button>
       </div>
 
       {loading ? (
-        <div style={s.glassPanelR(r)}>
+        <div className="admin-glass-panel">
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : services.length === 0 ? (
-        <div style={s.emptyStateR(r)}>
+        <div className="admin-empty-state">
           <div>Aucun service</div>
           <button
             type="button"
-            style={s.btnPrimaryR(r)}
+            className="admin-btn admin-btn--primary"
             onClick={() => setCreating(true)}
           >
-            <Plus size={is4K ? 20 : 16} />
+            <Plus size={16} />
             Créer un premier service
           </button>
         </div>
       ) : (
-        <div style={s.glassPanelR(r)}>
-          <div style={s.tableWrap(r)}>
-            <table style={s.tableR(r)}>
+        <div className="admin-glass-panel">
+          <div className="admin-table-wrap">
+            <table className="admin-table">
               <thead>
-                <tr style={s.tableHead}>
-                  <th style={s.thR(r)}>Accroche</th>
-                  <th style={s.thR(r)}>Tagline</th>
-                  {!isMobile && <th style={s.thR(r)}>Icône</th>}
-                  <th style={s.thR(r)}>Position</th>
-                  <th style={s.thR(r)}>Statut</th>
-                  <th style={{ ...s.thR(r), textAlign: 'right' }}>Actions</th>
+                <tr className="admin-table-head">
+                  <th className="admin-th">Accroche</th>
+                  <th className="admin-th">Tagline</th>
+                  <th className="admin-th hidden-mobile">Icône</th>
+                  <th className="admin-th">Position</th>
+                  <th className="admin-th">Statut</th>
+                  <th className="admin-th" style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {services.map((svc) => (
                   <tr key={svc.id}>
-                    <td style={s.tdR(r)}>{svc.accroche}</td>
-                    <td style={s.tdR(r)}>
+                    <td className="admin-td">{svc.accroche}</td>
+                    <td className="admin-td">
                       <span style={{ color: theme.colors.slate[400] }}>
                         {svc.tagline || '—'}
                       </span>
                     </td>
-                    {!isMobile && (
-                      <td style={s.tdR(r)}>
-                        <span style={{ color: theme.colors.slate[400] }}>
-                          {svc.icon_name || '—'}
-                        </span>
-                      </td>
-                    )}
-                    <td style={s.tdR(r)}>{svc.position}</td>
-                    <td style={s.tdR(r)}>
-                      <span style={svc.is_public ? s.badgePublic : s.badgeDraft}>
+                    <td className="admin-td hidden-mobile">
+                      <span style={{ color: theme.colors.slate[400] }}>
+                        {svc.icon_name || '—'}
+                      </span>
+                    </td>
+                    <td className="admin-td">{svc.position}</td>
+                    <td className="admin-td">
+                      <span className={`admin-badge ${svc.is_public ? 'admin-badge--public' : 'admin-badge--draft'}`}>
                         {svc.is_public ? 'Public' : 'Brouillon'}
                       </span>
                     </td>
-                    <td style={{ ...s.tdR(r), textAlign: 'right' }}>
+                    <td className="admin-td" style={{ textAlign: 'right' }}>
                       <div style={styles.actionRow}>
                         <button
                           type="button"
-                          style={{ ...s.btnGhostR(r), ...s.btnSmallR(r) }}
+                          className="admin-btn admin-btn--ghost admin-btn--small"
                           onClick={() => setEditing(svc)}
                         >
-                          <Pencil size={is4K ? 18 : 14} />
+                          <Pencil size={14} />
                         </button>
                         <button
                           type="button"
-                          style={{ ...s.btnDangerR(r), ...s.btnSmallR(r) }}
+                          className="admin-btn admin-btn--danger admin-btn--small"
                           onClick={() => handleDelete(svc.id)}
                         >
-                          <Trash2 size={is4K ? 18 : 14} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </td>

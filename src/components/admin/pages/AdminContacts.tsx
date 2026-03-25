@@ -1,7 +1,6 @@
 /**
  * AdminContacts
  * Inbox view for contact messages with status management.
- * Responsive: mobile, FHD, 4K/5K.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
@@ -16,10 +15,8 @@ import {
   Inbox,
 } from 'lucide-react';
 import theme from '../../../styles/theme';
-import { useWindowSize } from '../../../hooks/useWindowSize';
 import AdminLayout from '../AdminLayout';
-import * as s from '../admin.styles';
-import type { AdminResponsive } from '../admin.styles';
+import '../admin.css';
 import {
   fetchContacts,
   updateContactStatus,
@@ -53,8 +50,6 @@ function AdminContacts() {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
-  const { isMobile, is4K } = useWindowSize();
-  const r: AdminResponsive = { isMobile, is4K };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -77,7 +72,7 @@ function AdminContacts() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer ce message ?')) return;
+    if (!window.confirm('Supprimer ce message ?')) return;
     await deleteContact(id);
     await load();
   };
@@ -91,16 +86,10 @@ function AdminContacts() {
       ? contacts
       : contacts.filter((c) => c.status === filterStatus);
 
-  const baseFontSize = is4K ? theme.typography.fontSize.base : theme.typography.fontSize.sm;
-  const smallFontSize = is4K ? theme.typography.fontSize.sm : theme.typography.fontSize.xs;
-
   return (
     <AdminLayout title="Messages">
-      <div style={{
-        ...s.pageHeaderR(r),
-        ...(isMobile ? { flexDirection: 'column', gap: theme.spacing[3] } : {}),
-      }}>
-        <div style={s.pageTitleR(r)}>Boîte de réception</div>
+      <div className="admin-page-header">
+        <div className="admin-page-title">Boîte de réception</div>
 
         {/* Status filter */}
         <div style={{
@@ -110,13 +99,7 @@ function AdminContacts() {
         }}>
           <button
             type="button"
-            style={filterStatus === 'all' ? {
-              ...styles.filterActive,
-              fontSize: smallFontSize,
-            } : {
-              ...styles.filter,
-              fontSize: smallFontSize,
-            }}
+            style={filterStatus === 'all' ? styles.filterActive : styles.filter}
             onClick={() => setFilterStatus('all')}
           >
             Tous ({contacts.length})
@@ -129,8 +112,8 @@ function AdminContacts() {
                 type="button"
                 style={
                   filterStatus === opt.value
-                    ? { ...styles.filterActive, color: opt.color, fontSize: smallFontSize }
-                    : { ...styles.filter, fontSize: smallFontSize }
+                    ? { ...styles.filterActive, color: opt.color }
+                    : styles.filter
                 }
                 onClick={() => setFilterStatus(opt.value)}
               >
@@ -142,12 +125,12 @@ function AdminContacts() {
       </div>
 
       {loading ? (
-        <div style={s.glassPanelR(r)}>
+        <div className="admin-glass-panel">
           <span style={{ color: theme.colors.slate[400] }}>Chargement…</span>
         </div>
       ) : filtered.length === 0 ? (
-        <div style={s.emptyStateR(r)}>
-          <Inbox size={is4K ? 52 : 40} />
+        <div className="admin-empty-state">
+          <Inbox className="w-10 h-10" />
           <div>Aucun message</div>
         </div>
       ) : (
@@ -158,9 +141,7 @@ function AdminContacts() {
             const StatusIcon = meta.icon;
 
             return (
-              <div key={msg.id} style={{
-                ...s.glassPanelR(r),
-                padding: isMobile ? theme.spacing[4] : is4K ? theme.spacing[7] : theme.spacing[5],
+              <div key={msg.id} className="admin-glass-panel" style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: theme.spacing[3],
@@ -171,29 +152,25 @@ function AdminContacts() {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: isMobile ? 'flex-start' : 'center',
                     cursor: 'pointer',
-                    flexDirection: isMobile ? 'column' : 'row',
-                    gap: isMobile ? theme.spacing[2] : undefined,
                   }}
+                  className="contact-card-header"
                   onClick={() => toggleExpand(msg.id)}
                 >
                   <div style={styles.cardLeft}>
-                    <StatusIcon size={is4K ? 22 : 18} color={meta.color} />
+                    <StatusIcon size={18} color={meta.color} />
                     <div>
-                      <div style={{ ...styles.cardName, fontSize: baseFontSize }}>{msg.name}</div>
-                      <div style={{ ...styles.cardEmail, fontSize: smallFontSize }}>{msg.email}</div>
+                      <div style={styles.cardName}>{msg.name}</div>
+                      <div style={styles.cardEmail}>{msg.email}</div>
                     </div>
                   </div>
                   <div style={styles.cardRight}>
-                    <span style={s.badge(meta.color, r)}>{meta.label}</span>
-                    {!isMobile && (
-                      <span style={{ ...styles.cardDate, fontSize: smallFontSize }}>{formatDate(msg.created_at)}</span>
-                    )}
+                    <span className={`admin-badge admin-badge--${meta.value}`}>{meta.label}</span>
+                    <span style={styles.cardDate} className="hidden-mobile">{formatDate(msg.created_at)}</span>
                     {isOpen ? (
-                      <ChevronUp size={is4K ? 20 : 16} color={theme.colors.slate[400]} />
+                      <ChevronUp size={16} color={theme.colors.slate[400]} />
                     ) : (
-                      <ChevronDown size={is4K ? 20 : 16} color={theme.colors.slate[400]} />
+                      <ChevronDown size={16} color={theme.colors.slate[400]} />
                     )}
                   </div>
                 </div>
@@ -202,20 +179,18 @@ function AdminContacts() {
                 <div style={{
                   fontWeight: theme.typography.fontWeight.semibold,
                   color: theme.colors.slate[200],
-                  fontSize: baseFontSize,
                 }}>{msg.subject}</div>
 
                 {/* Expanded body */}
                 {isOpen && (
                   <div style={styles.cardBody}>
                     {msg.phone && (
-                      <div style={{ color: theme.colors.slate[300], fontSize: baseFontSize }}>
+                      <div style={{ color: theme.colors.slate[300] }}>
                         Tél : {msg.phone}
                       </div>
                     )}
                     <div style={{
                       color: theme.colors.slate[200],
-                      fontSize: baseFontSize,
                       lineHeight: 1.7,
                       whiteSpace: 'pre-wrap',
                     }}>{msg.message}</div>
@@ -223,10 +198,9 @@ function AdminContacts() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: theme.spacing[3],
-                      flexWrap: isMobile ? 'wrap' : undefined,
                     }}>
                       <select
-                        style={s.formSelectR(r)}
+                        className="admin-form-select"
                         value={msg.status}
                         onChange={(e) =>
                           handleStatusChange(msg.id, e.target.value)
@@ -240,10 +214,10 @@ function AdminContacts() {
                       </select>
                       <button
                         type="button"
-                        style={s.btnDangerR(r)}
+                        className="admin-btn admin-btn--danger"
                         onClick={() => handleDelete(msg.id)}
                       >
-                        <Trash2 size={is4K ? 18 : 14} />
+                        <Trash2 size={14} />
                         Supprimer
                       </button>
                     </div>

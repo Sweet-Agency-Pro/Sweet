@@ -8,48 +8,36 @@ import { motion } from 'framer-motion';
 import { Award, Beaker } from 'lucide-react';
 
 import { useProjects } from '../../../hooks/useProjects';
-import { useWindowSize } from '../../../hooks/useWindowSize';
-import { styles } from './Portfolio.styles';
 import FlagshipCard from './FlagshipCard';
 import ConceptCard from './ConceptCard';
 import ProjectModal from './ProjectModal';
+import './Portfolio.css';
 
 // =============================================================================
 // SUB-COMPONENTS
 // =============================================================================
 
 /** Section Header with badge and title */
-function SectionHeader({ isMobile, isTablet, isMobileOrTablet }: {
-  isMobile: boolean;
-  isTablet: boolean;
-  isMobileOrTablet: boolean;
-}) {
+function SectionHeader() {
   return (
     <motion.div
-      style={styles.header}
+      className="portfolio__header"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div style={styles.badge}>
-        <Award style={styles.badgeIcon} />
-        <span style={styles.badgeText}>Portfolio</span>
+      <div className="portfolio__badge">
+        <Award className="portfolio__badge-icon" />
+        <span className="portfolio__badge-text">Portfolio</span>
       </div>
 
-      <h2 style={{
-        ...styles.title,
-        ...(isMobile && styles.titleMobile),
-        ...(isTablet && styles.titleTablet),
-      }}>
+      <h2 className="portfolio__title">
         Projets qui
-        <span style={styles.titleGradient}> inspirent</span>
+        <span className="portfolio__title-gradient"> inspirent</span>
       </h2>
 
-      <p style={{
-        ...styles.description,
-        ...(isMobileOrTablet && styles.descriptionMobile),
-      }}>
+      <p className="portfolio__description">
         De la production client aux concepts exploratoires du Sweet Lab,
         découvrez comment nous repoussons les limites du possible.
       </p>
@@ -58,23 +46,17 @@ function SectionHeader({ isMobile, isTablet, isMobileOrTablet }: {
 }
 
 /** Lab Section Header */
-function LabHeader({ isMobile }: { isMobile: boolean }) {
+function LabHeader() {
   return (
     <motion.div
-      style={{
-        ...styles.labHeader,
-        ...(isMobile && styles.labHeaderMobile),
-      }}
+      className="portfolio__lab-header"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <Beaker style={styles.labIcon} />
-      <span style={{
-        ...styles.labTitle,
-        ...(isMobile && styles.labTitleMobile),
-      }}>
+      <Beaker className="portfolio__lab-icon" />
+      <span className="portfolio__lab-title">
         Sweet Lab — Concepts Exploratoires
       </span>
     </motion.div>
@@ -84,8 +66,8 @@ function LabHeader({ isMobile }: { isMobile: boolean }) {
 /** Loading State */
 function LoadingState() {
   return (
-    <div style={styles.loadingSection}>
-      <div style={styles.loading}>Chargement des projets…</div>
+    <div className="portfolio__loading-section">
+      <div className="portfolio__loading">Chargement des projets…</div>
     </div>
   );
 }
@@ -93,7 +75,7 @@ function LoadingState() {
 /** Error State */
 function ErrorState({ error }: { error: unknown }) {
   return (
-    <div style={styles.errorBox}>
+    <div className="portfolio__error-box">
       Erreur lors du chargement : {String(error)}
     </div>
   );
@@ -102,7 +84,7 @@ function ErrorState({ error }: { error: unknown }) {
 /** Empty State */
 function EmptyState() {
   return (
-    <div style={styles.emptyBox}>
+    <div className="portfolio__empty-box">
       Aucun projet trouvé dans la table.
     </div>
   );
@@ -113,8 +95,6 @@ function EmptyState() {
 // =============================================================================
 function PortfolioPreview() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const { isMobile, isTablet } = useWindowSize();
-  const isMobileOrTablet = isMobile || isTablet;
 
   const { data: projects, loading, error } = useProjects();
 
@@ -123,19 +103,12 @@ function PortfolioPreview() {
   const concepts = projects.filter((p) => !p.isFlagship);
 
   return (
-    <section id="portfolio" style={styles.section}>
+    <section id="portfolio" className="portfolio">
       {/* Background texture */}
-      <div style={styles.backgroundTexture} />
+      <div className="portfolio__bg-texture" />
 
-      <div style={{
-        ...styles.container,
-        ...(isMobileOrTablet && styles.containerMobile),
-      }}>
-        <SectionHeader
-          isMobile={isMobile}
-          isTablet={isTablet}
-          isMobileOrTablet={isMobileOrTablet}
-        />
+      <div className="portfolio__container">
+        <SectionHeader />
 
         {/* Loading / Error / Empty states */}
         {loading && <LoadingState />}
@@ -146,21 +119,15 @@ function PortfolioPreview() {
         {flagship && (
           <FlagshipCard
             project={flagship}
-            isMobile={isMobile}
-            isMobileOrTablet={isMobileOrTablet}
             onClick={() => setSelectedId(flagship.id)}
           />
         )}
 
         {/* Lab Section */}
-        <LabHeader isMobile={isMobile} />
+        <LabHeader />
 
         {/* Concepts Grid */}
-        <div style={{
-          ...styles.conceptsGrid,
-          ...(isMobile && styles.conceptsGridMobile),
-          ...(isTablet && styles.conceptsGridTablet),
-        }}>
+        <div className="concepts">
           {concepts.map((project, index) => (
             <ConceptCard
               key={project.id}
@@ -176,7 +143,6 @@ function PortfolioPreview() {
       <ProjectModal
         project={selectedProject}
         selectedId={selectedId}
-        isMobileOrTablet={isMobileOrTablet}
         onClose={() => setSelectedId(null)}
       />
     </section>

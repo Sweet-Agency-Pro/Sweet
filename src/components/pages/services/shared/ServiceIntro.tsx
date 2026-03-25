@@ -4,8 +4,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { useWindowSize } from '../../../../hooks/useWindowSize';
-import { sharedStyles as s } from './ServicePage.styles';
+import './ServicePage.css';
 
 interface ServiceIntroProps {
   title: string;
@@ -13,19 +12,11 @@ interface ServiceIntroProps {
 }
 
 function ServiceIntro({ title, text }: ServiceIntroProps) {
-  const { isMobile } = useWindowSize();
-
   return (
-    <section style={{
-      ...s.intro,
-      ...(isMobile && s.introMobile),
-    }}>
-      <div style={{
-        ...s.introContainer,
-        ...(isMobile && s.introContainerMobile),
-      }}>
+    <section className="service-intro">
+      <div className="service-intro__container">
         <motion.div
-          style={s.introDecoration}
+          className="service-intro__decoration"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
@@ -33,10 +24,7 @@ function ServiceIntro({ title, text }: ServiceIntroProps) {
         />
 
         <motion.h2
-          style={{
-            ...s.introTitle,
-            ...(isMobile && s.introTitleMobile),
-          }}
+          className="service-intro__title"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -46,10 +34,7 @@ function ServiceIntro({ title, text }: ServiceIntroProps) {
         </motion.h2>
 
         <motion.p
-          style={{
-            ...s.introText,
-            ...(isMobile && s.introTextMobile),
-          }}
+          className="service-intro__text"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
