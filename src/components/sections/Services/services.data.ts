@@ -4,7 +4,8 @@
  */
 
 import { Store, BarChart3, Palette, LucideIcon } from 'lucide-react';
-import { colors, hexToRgba } from './Services.styles';
+import theme from '../../../styles/theme';
+const { colors, hexToRgba } = theme;
 
 // Type for color accent objects (teal, cyan, blue, etc.)
 type ColorAccent = {
@@ -29,6 +30,7 @@ export interface Service {
   features: string[];
   colorAccent: ColorAccent;
   glowColor: string;
+  redirectUrl?: string;
 }
 
 export const services: Service[] = [

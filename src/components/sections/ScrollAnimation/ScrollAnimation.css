@@ -1,0 +1,179 @@
+/* =============================================================================
+   SCROLL ANIMATION STYLES
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   SECTION
+   --------------------------------------------------------------------------- */
+.scroll-animation {
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--white);
+}
+
+@media (max-width: 1024px) {
+  .scroll-animation {
+    height: 90vh;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   BACKGROUND
+   --------------------------------------------------------------------------- */
+.scroll-animation__bg-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.scroll-animation__bg-blob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50rem;
+  height: 50rem;
+  background-color: rgba(20, 184, 166, 0.08); /* teal-500 */
+  border-radius: 50%;
+  filter: blur(10rem);
+}
+
+@media (max-width: 1024px) {
+  .scroll-animation__bg-blob {
+    width: 25rem;
+    height: 25rem;
+    filter: blur(5rem);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   REVEAL CONTAINER & WINDOW
+   --------------------------------------------------------------------------- */
+.scroll-animation__reveal-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-animation__reveal-window {
+  position: relative;
+  height: min(60vh, 30rem);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 102rem;
+  perspective: 1200px;
+}
+
+@media (max-width: 1024px) {
+  .scroll-animation__reveal-window {
+    height: clamp(6rem, 20vw, 14rem);
+  }
+}
+
+.scroll-animation__reveal-text {
+  font-size: clamp(4rem, 20vw, 30rem);
+  font-weight: var(--fw-black);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: var(--gradient-primary);
+  line-height: var(--lh-none);
+  letter-spacing: var(--ls-tighter);
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform;
+}
+
+@media (max-width: 1024px) {
+  .scroll-animation__reveal-text {
+    font-size: clamp(3.5rem, 14vw, 12rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-animation__reveal-text {
+    font-size: clamp(2rem, 16vw, 6rem);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   SUBTITLE
+   --------------------------------------------------------------------------- */
+.scroll-animation__subtitle-container {
+  margin-top: var(--sp-6);
+  text-align: center;
+}
+
+.scroll-animation__subtitle {
+  font-size: var(--fs-lg);
+  color: var(--slate-500);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--ls-wide);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .scroll-animation__subtitle {
+    font-size: var(--fs-base);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   DECORATIVE CORNERS
+   --------------------------------------------------------------------------- */
+.scroll-animation__decorative {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.scroll-animation__corner {
+  position: absolute;
+  width: var(--sp-16);
+  height: var(--sp-16);
+}
+
+.scroll-animation__corner-tl {
+  top: var(--sp-8);
+  left: var(--sp-8);
+  border-top: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  border-left: 0.0625rem solid rgba(20, 184, 166, 0.3);
+}
+
+.scroll-animation__corner-tr {
+  top: var(--sp-8);
+  right: var(--sp-8);
+  border-top: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  border-right: 0.0625rem solid rgba(20, 184, 166, 0.3);
+}
+
+.scroll-animation__corner-bl {
+  bottom: var(--sp-8);
+  left: var(--sp-8);
+  border-bottom: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  border-left: 0.0625rem solid rgba(20, 184, 166, 0.3);
+}
+
+.scroll-animation__corner-br {
+  bottom: var(--sp-8);
+  right: var(--sp-8);
+  border-bottom: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  border-right: 0.0625rem solid rgba(20, 184, 166, 0.3);
+}

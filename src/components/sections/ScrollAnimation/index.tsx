@@ -6,7 +6,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useWindowSize } from '../../../hooks/useWindowSize';
-import { styles } from './ScrollAnimation.styles';
+import './ScrollAnimation.css';
 
 // =============================================================================
 // SUB-COMPONENTS
@@ -15,23 +15,20 @@ import { styles } from './ScrollAnimation.styles';
 /** Decorative Corner Elements */
 function DecorativeCorners() {
   return (
-    <div style={styles.decorativeElements}>
-      <div style={styles.cornerTL} />
-      <div style={styles.cornerTR} />
-      <div style={styles.cornerBL} />
-      <div style={styles.cornerBR} />
+    <div className="scroll-animation__decorative">
+      <div className="scroll-animation__corner scroll-animation__corner-tl" />
+      <div className="scroll-animation__corner scroll-animation__corner-tr" />
+      <div className="scroll-animation__corner scroll-animation__corner-bl" />
+      <div className="scroll-animation__corner scroll-animation__corner-br" />
     </div>
   );
 }
 
 /** Background Blob */
-function BackgroundBlob({ isMobileOrTablet }: { isMobileOrTablet: boolean }) {
+function BackgroundBlob() {
   return (
-    <div style={styles.backgroundContainer}>
-      <div style={{
-        ...styles.backgroundBlob,
-        ...(isMobileOrTablet && styles.backgroundBlobMobile),
-      }} />
+    <div className="scroll-animation__bg-container">
+      <div className="scroll-animation__bg-blob" />
     </div>
   );
 }
@@ -41,8 +38,7 @@ function BackgroundBlob({ isMobileOrTablet }: { isMobileOrTablet: boolean }) {
 // =============================================================================
 function ScrollAnimation() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { isMobile, isTablet } = useWindowSize();
-  const isMobileOrTablet = isMobile || isTablet;
+  const { isMobile } = useWindowSize();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -63,29 +59,21 @@ function ScrollAnimation() {
   );
 
   return (
-    <section ref={sectionRef} style={{
-      ...styles.section,
-      ...(isMobileOrTablet && styles.sectionMobile),
-    }}>
+    <section ref={sectionRef} className="scroll-animation">
       {/* Background */}
-      <BackgroundBlob isMobileOrTablet={isMobileOrTablet} />
+      <BackgroundBlob />
 
       {/* Decorative corners - hidden on mobile */}
       {!isMobile && <DecorativeCorners />}
 
       {/* Main reveal container */}
-      <div style={styles.revealContainer}>
+      <div className="scroll-animation__reveal-container">
         {/* The masking window */}
-        <div style={{
-          ...styles.revealWindow,
-          ...(isMobileOrTablet && styles.revealWindowMobile),
-        }}>
+        <div className="scroll-animation__reveal-window">
           {/* Animated text */}
           <motion.div
+            className="scroll-animation__reveal-text"
             style={{
-              ...styles.revealText,
-              ...(isMobile && styles.revealTextMobile),
-              ...(isTablet && styles.revealTextTablet),
               y: textY,
               scale: textScale,
               rotateX: textRotateX,
@@ -96,13 +84,8 @@ function ScrollAnimation() {
         </div>
 
         {/* Subtitle */}
-        <div
-          style={styles.subtitleContainer}
-        >
-          <p style={{
-            ...styles.subtitle,
-            ...(isMobile && styles.subtitleMobile),
-          }}>
+        <div className="scroll-animation__subtitle-container">
+          <p className="scroll-animation__subtitle">
             Agence Web Créative
           </p>
         </div>

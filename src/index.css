@@ -1,3 +1,5 @@
+@import './styles/variables.css';
+@import './styles/utilities.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 /* =============================================================================
@@ -117,7 +119,7 @@ a, button {
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.3rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -126,7 +128,6 @@ a, button {
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-slate-800);
-  border-radius: 0.25rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {

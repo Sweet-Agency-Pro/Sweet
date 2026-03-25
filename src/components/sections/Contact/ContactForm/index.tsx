@@ -3,10 +3,10 @@
  * Form with real-time validation, loading states, and feedback
  */
 
-import { useState, useCallback, CSSProperties } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
-import { styles } from '../Contact.styles';
+import { insertContact } from '../../../../services/adminService';
 
 // =============================================================================
 // TYPES
@@ -28,10 +28,6 @@ interface FormErrors {
 }
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
-
-interface ContactFormProps {
-  isMobile: boolean;
-}
 
 // =============================================================================
 // VALIDATION
@@ -82,7 +78,7 @@ const validateForm = (data: FormData): FormErrors => {
 // =============================================================================
 // COMPONENT
 // =============================================================================
-function ContactForm({ isMobile }: ContactFormProps) {
+function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -150,8 +146,13 @@ function ContactForm({ isMobile }: ContactFormProps) {
     setStatus('loading');
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await insertContact({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || null,
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
@@ -165,52 +166,34 @@ function ContactForm({ isMobile }: ContactFormProps) {
     }
   }, [formData]);
 
-  // Get input style based on state
-  const getInputStyle = (field: keyof FormData): CSSProperties => {
-    const baseStyle = styles.input;
-    const isFocused = focusedField === field;
-    const hasError = touched[field] && errors[field];
-
-    return {
-      ...baseStyle,
-      ...(isFocused && styles.inputFocus),
-      ...(hasError && styles.inputError),
-    };
+  // Get input class based on state
+  const getInputClass = (field: keyof FormData) => {
+    let className = 'contact-form__input';
+    if (focusedField === field) className += ' contact-form__input--focus';
+    if (touched[field] && errors[field]) className += ' contact-form__input--error';
+    return className;
   };
 
-  const getTextareaStyle = (): CSSProperties => {
-    const isFocused = focusedField === 'message';
-    const hasError = touched.message && errors.message;
-
-    return {
-      ...styles.textarea,
-      ...(isFocused && styles.inputFocus),
-      ...(hasError && styles.inputError),
-    };
+  const getTextareaClass = () => {
+    let className = 'contact-form__textarea';
+    if (focusedField === 'message') className += ' contact-form__textarea--focus';
+    if (touched.message && errors.message) className += ' contact-form__textarea--error';
+    return className;
   };
 
   return (
     <motion.div
-      style={{
-        ...styles.glassCard,
-        ...styles.formCard,
-        ...(isMobile && styles.formCardMobile),
-      }}
+      className="contact__glass-card contact-form"
       initial={{ opacity: 0, x: 30 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.2 }}
     >
-      <form style={styles.form} onSubmit={handleSubmit} noValidate>
+      <form className="contact-form__form" onSubmit={handleSubmit} noValidate>
         {/* Name & Email Row */}
-        <div
-          style={{
-            ...styles.formRow,
-            ...(isMobile && styles.formRowMobile),
-          }}
-        >
-          <div style={styles.inputGroup}>
-            <label htmlFor="name" style={styles.label}>
+        <div className="contact-form__row">
+          <div className="contact-form__group">
+            <label htmlFor="name" className="contact-form__label">
               Nom complet *
             </label>
             <input
@@ -220,17 +203,17 @@ function ContactForm({ isMobile }: ContactFormProps) {
               onChange={(e) => handleChange('name', e.target.value)}
               onFocus={() => handleFocus('name')}
               onBlur={() => handleBlur('name')}
-              style={getInputStyle('name')}
+              className={getInputClass('name')}
               placeholder="Jean Dupont"
               autoComplete="name"
             />
             {touched.name && errors.name && (
-              <span style={styles.errorMessage}>{errors.name}</span>
+              <span className="contact-form__error-message">{errors.name}</span>
             )}
           </div>
 
-          <div style={styles.inputGroup}>
-            <label htmlFor="email" style={styles.label}>
+          <div className="contact-form__group">
+            <label htmlFor="email" className="contact-form__label">
               Email *
             </label>
             <input
@@ -240,25 +223,20 @@ function ContactForm({ isMobile }: ContactFormProps) {
               onChange={(e) => handleChange('email', e.target.value)}
               onFocus={() => handleFocus('email')}
               onBlur={() => handleBlur('email')}
-              style={getInputStyle('email')}
+              className={getInputClass('email')}
               placeholder="jean@example.com"
               autoComplete="email"
             />
             {touched.email && errors.email && (
-              <span style={styles.errorMessage}>{errors.email}</span>
+              <span className="contact-form__error-message">{errors.email}</span>
             )}
           </div>
         </div>
 
         {/* Phone & Subject Row */}
-        <div
-          style={{
-            ...styles.formRow,
-            ...(isMobile && styles.formRowMobile),
-          }}
-        >
-          <div style={styles.inputGroup}>
-            <label htmlFor="phone" style={styles.label}>
+        <div className="contact-form__row">
+          <div className="contact-form__group">
+            <label htmlFor="phone" className="contact-form__label">
               Téléphone
             </label>
             <input
@@ -268,17 +246,17 @@ function ContactForm({ isMobile }: ContactFormProps) {
               onChange={(e) => handleChange('phone', e.target.value)}
               onFocus={() => handleFocus('phone')}
               onBlur={() => handleBlur('phone')}
-              style={getInputStyle('phone')}
+              className={getInputClass('phone')}
               placeholder="+33 6 12 34 56 78"
               autoComplete="tel"
             />
             {touched.phone && errors.phone && (
-              <span style={styles.errorMessage}>{errors.phone}</span>
+              <span className="contact-form__error-message">{errors.phone}</span>
             )}
           </div>
 
-          <div style={styles.inputGroup}>
-            <label htmlFor="subject" style={styles.label}>
+          <div className="contact-form__group">
+            <label htmlFor="subject" className="contact-form__label">
               Objet *
             </label>
             <input
@@ -288,18 +266,18 @@ function ContactForm({ isMobile }: ContactFormProps) {
               onChange={(e) => handleChange('subject', e.target.value)}
               onFocus={() => handleFocus('subject')}
               onBlur={() => handleBlur('subject')}
-              style={getInputStyle('subject')}
+              className={getInputClass('subject')}
               placeholder="Nouveau projet web"
             />
             {touched.subject && errors.subject && (
-              <span style={styles.errorMessage}>{errors.subject}</span>
+              <span className="contact-form__error-message">{errors.subject}</span>
             )}
           </div>
         </div>
 
         {/* Message */}
-        <div style={styles.inputGroup}>
-          <label htmlFor="message" style={styles.label}>
+        <div className="contact-form__group">
+          <label htmlFor="message" className="contact-form__label">
             Message *
           </label>
           <textarea
@@ -308,11 +286,11 @@ function ContactForm({ isMobile }: ContactFormProps) {
             onChange={(e) => handleChange('message', e.target.value)}
             onFocus={() => handleFocus('message')}
             onBlur={() => handleBlur('message')}
-            style={getTextareaStyle()}
+            className={getTextareaClass()}
             placeholder="Décrivez votre projet, vos besoins, vos délais..."
           />
           {touched.message && errors.message && (
-            <span style={styles.errorMessage}>{errors.message}</span>
+            <span className="contact-form__error-message">{errors.message}</span>
           )}
         </div>
 
@@ -320,10 +298,7 @@ function ContactForm({ isMobile }: ContactFormProps) {
         <motion.button
           type="submit"
           disabled={status === 'loading'}
-          style={{
-            ...styles.submitButton,
-            ...(status === 'loading' && styles.submitButtonDisabled),
-          }}
+          className={`contact-form__submit ${status === 'loading' ? 'contact-form__submit--disabled' : ''}`}
           // Animation de secousse (Error Shake)
           animate={isShaking ? { 
             x: [0, -10, 10, -10, 10, 0],
@@ -334,28 +309,15 @@ function ContactForm({ isMobile }: ContactFormProps) {
             ]
           } : { x: 0 }}
           transition={{ duration: 0.5 }}
-          
-          // État Hover (uniquement si pas en loading)
-          whileHover={
-            status !== 'loading'
-              ? {
-                  background: 'linear-gradient(to right, #0d9488, #0891b2)',
-                  transform: 'translateY(-0.125rem)',
-                  boxShadow: '0 0.5rem 1.5rem -0.25rem rgba(20, 184, 166, 0.4)',
-                }
-              : {}
-          }
-          // Feedback de pression plus marqué (0.95 au lieu de 0.98)
-          whileTap={status !== 'loading' ? { scale: 0.95 } : {}}
         >
           {status === 'loading' ? (
             <>
-              <div style={styles.loadingSpinner} />
+              <div className="contact-form__spinner" />
               <span>Envoi en cours...</span>
             </>
           ) : (
             <>
-              <Send style={styles.submitIcon} />
+              <Send className="contact-form__submit-icon" />
               <span>Envoyer le message</span>
             </>
           )}
@@ -366,7 +328,7 @@ function ContactForm({ isMobile }: ContactFormProps) {
           {status === 'success' && (
             <motion.div
               key="success"
-              style={styles.successMessage}
+              className="contact-form__success"
               initial={{ opacity: 0, y: 20, scale: 0.95, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
               exit={{
@@ -378,8 +340,8 @@ function ContactForm({ isMobile }: ContactFormProps) {
               }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
             >
-              <CheckCircle style={styles.successIcon} />
-              <span style={styles.successText}>
+              <CheckCircle className="contact-form__success-icon" />
+              <span className="contact-form__success-text">
                 Message envoyé avec succès ! Nous vous répondrons sous 24h.
               </span>
             </motion.div>
@@ -391,7 +353,7 @@ function ContactForm({ isMobile }: ContactFormProps) {
           {status === 'error' && (
             <motion.div
               key="error"
-              style={styles.errorBox}
+              className="contact-form__error"
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{
@@ -403,21 +365,14 @@ function ContactForm({ isMobile }: ContactFormProps) {
               }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              <AlertCircle style={styles.errorIcon} />
-              <span style={styles.errorText}>
+              <AlertCircle className="contact-form__error-icon" />
+              <span className="contact-form__error-text">
                 Une erreur est survenue. Veuillez réessayer ou nous contacter directement.
               </span>
             </motion.div>
           )}
         </AnimatePresence>
       </form>
-
-      {/* CSS for spinner animation */}
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </motion.div>
   );
 }

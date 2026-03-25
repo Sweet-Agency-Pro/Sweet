@@ -4,10 +4,7 @@
  */
 
 import { useWindowSize } from '../../../../hooks/useWindowSize';
-import { styles, codeColors } from './GlassCards.styles';
-import theme from '../../../../styles/theme';
-
-const { colors } = theme;
+import './GlassCards.css';
 
 // =============================================================================
 // SUB-COMPONENTS
@@ -20,57 +17,48 @@ interface CardProps {
 /** Backend Code Card */
 function BackendCard({ isCompact }: CardProps) {
   return (
-    <div style={{
-      ...styles.cardBackend,
-      ...(isCompact && styles.cardMobile),
-    }}>
-      <div style={{
-        ...styles.cardBackendInner,
-        ...(isCompact && styles.cardInnerMobile),
-      }}>
-        <div style={styles.codeContent}>
-          <div style={styles.codeLine}>
-            <span style={{ color: codeColors.purple }}>const</span>{' '}
-            <span style={{ color: codeColors.cyan }}>buildAPI</span> ={' '}
-            <span style={{ color: codeColors.yellow }}>async</span> () =&gt; {'{'}
+    <div className="glass-card glass-card--backend">
+      <div className="glass-card__inner glass-card__inner--backend">
+        <div className="glass-card__code">
+          <div className="glass-card__code-line">
+            <span className="code-purple">const</span>{' '}
+            <span className="code-cyan">buildAPI</span> ={' '}
+            <span className="code-yellow">async</span> () =&gt; {'{'}
           </div>
-          <div style={styles.codeLineIndent}>
-            <span style={{ color: codeColors.purple }}>const</span> server ={' '}
-            <span style={{ color: codeColors.cyan }}>express</span>();
+          <div className="glass-card__code-indent">
+            <span className="code-purple">const</span> server ={' '}
+            <span className="code-cyan">express</span>();
           </div>
-          <div style={styles.codeLineIndent}>
-            <span style={{ color: codeColors.purple }}>await</span>{' '}
-            <span style={{ color: codeColors.cyan }}>database</span>.
-            <span style={{ color: codeColors.green }}>connect</span>();
+          <div className="glass-card__code-indent">
+            <span className="code-purple">await</span>{' '}
+            <span className="code-cyan">database</span>.
+            <span className="code-green">connect</span>();
           </div>
-          <div style={styles.codeLineIndent}>
-            server.<span style={{ color: codeColors.green }}>use</span>(
-            <span style={{ color: codeColors.cyan }}>middleware</span>);
+          <div className="glass-card__code-indent">
+            server.<span className="code-green">use</span>(
+            <span className="code-cyan">middleware</span>);
           </div>
-          <div style={styles.codeLineIndent}>
-            <span style={{ color: codeColors.purple }}>return</span> server.
-            <span style={{ color: codeColors.green }}>listen</span>(
-            <span style={{ color: codeColors.yellow }}>3000</span>);
+          <div className="glass-card__code-indent">
+            <span className="code-purple">return</span> server.
+            <span className="code-green">listen</span>(
+            <span className="code-yellow">3000</span>);
           </div>
-          <div style={styles.codeLine}>{'}'}</div>
+          <div className="glass-card__code-line">{'}'}</div>
           {!isCompact && (
             <>
-              <div style={styles.codeComment}>
-                <span style={{ color: colors.slate[500] }}>// PostgreSQL + Redis</span>
+              <div className="glass-card__code-comment">
+                <span className="code-slate">// PostgreSQL + Redis</span>
               </div>
               <div style={{ opacity: 0.4 }}>
-                <span style={{ color: colors.slate[500] }}>// Architecture Microservices</span>
+                <span className="code-slate">// Architecture Microservices</span>
               </div>
               <div style={{ opacity: 0.4 }}>
-                <span style={{ color: colors.slate[500] }}>// APIs GraphQL + REST</span>
+                <span className="code-slate">// APIs GraphQL + REST</span>
               </div>
             </>
           )}
         </div>
-        <div style={{
-          ...styles.cardLabel,
-          ...(isCompact && styles.cardLabelMobile),
-        }}>Couche Backend</div>
+        <div className="glass-card__label glass-card__label--backend">Couche Backend</div>
       </div>
     </div>
   );
@@ -79,42 +67,33 @@ function BackendCard({ isCompact }: CardProps) {
 /** Architecture Wireframe Card */
 function ArchitectureCard({ isCompact }: CardProps) {
   return (
-    <div style={{
-      ...styles.cardArchitecture,
-      ...(isCompact && styles.cardMobile),
-    }}>
-      <div style={{
-        ...styles.cardArchitectureInner,
-        ...(isCompact && styles.cardInnerMobile),
-      }}>
-        <div style={styles.archContent}>
-          <div style={styles.archHeader}>
-            <div style={styles.archHeaderBar1}></div>
-            <div style={styles.archHeaderBar2}></div>
+    <div className="glass-card glass-card--architecture">
+      <div className="glass-card__inner glass-card__inner--architecture">
+        <div className="glass-card__arch-content">
+          <div className="glass-card__arch-header">
+            <div className="glass-card__arch-bar-1"></div>
+            <div className="glass-card__arch-bar-2"></div>
           </div>
-          <div style={styles.archGrid2}>
-            <div style={styles.archBox}></div>
-            <div style={styles.archBox}></div>
+          <div className="glass-card__arch-grid-2">
+            <div className="glass-card__arch-box"></div>
+            <div className="glass-card__arch-box"></div>
           </div>
           {!isCompact && (
             <>
-              <div style={styles.archLines}>
-                <div style={styles.archLine1}></div>
-                <div style={styles.archLine2}></div>
-                <div style={styles.archLine3}></div>
+              <div className="glass-card__arch-lines">
+                <div className="glass-card__arch-line-1"></div>
+                <div className="glass-card__arch-line-2"></div>
+                <div className="glass-card__arch-line-3"></div>
               </div>
-              <div style={styles.archGrid3}>
-                <div style={styles.archBoxSmall}></div>
-                <div style={styles.archBoxSmall}></div>
-                <div style={styles.archBoxSmall}></div>
+              <div className="glass-card__arch-grid-3">
+                <div className="glass-card__arch-box-small"></div>
+                <div className="glass-card__arch-box-small"></div>
+                <div className="glass-card__arch-box-small"></div>
               </div>
             </>
           )}
         </div>
-        <div style={{
-          ...styles.cardLabelLight,
-          ...(isCompact && styles.cardLabelMobile),
-        }}>Couche Architecture</div>
+        <div className="glass-card__label glass-card__label--light">Couche Architecture</div>
       </div>
     </div>
   );
@@ -123,57 +102,51 @@ function ArchitectureCard({ isCompact }: CardProps) {
 /** Frontend UI Preview Card */
 function FrontendCard({ isCompact }: CardProps) {
   return (
-    <div style={{
-      ...styles.cardFrontend,
-      ...(isCompact && styles.cardMobile),
-    }}>
-      <div style={{
-        ...styles.cardFrontendInner,
-        ...(isCompact && styles.cardInnerMobile),
-      }}>
-        <div style={styles.cardFrontendGradient}></div>
-        <div style={styles.frontendContent}>
-          <div style={styles.frontendHeader}>
-            <div style={styles.frontendHeaderLeft}>
-              <div style={styles.frontendAvatar}></div>
-              <div style={styles.frontendAvatarText}>
-                <div style={styles.frontendAvatarBar1}></div>
-                <div style={styles.frontendAvatarBar2}></div>
+    <div className="glass-card glass-card--frontend">
+      <div className="glass-card__inner glass-card__inner--frontend">
+        <div className="glass-card__frontend-gradient"></div>
+        <div className="glass-card__frontend-content">
+          <div className="glass-card__frontend-header">
+            <div className="glass-card__frontend-header-left">
+              <div className="glass-card__frontend-avatar"></div>
+              <div className="glass-card__frontend-avatar-text">
+                <div className="glass-card__frontend-avatar-bar-1"></div>
+                <div className="glass-card__frontend-avatar-bar-2"></div>
               </div>
             </div>
-            <div style={styles.frontendDots}>
-              <div style={styles.frontendDot}></div>
-              <div style={styles.frontendDot}></div>
-              <div style={styles.frontendDot}></div>
+            <div className="glass-card__frontend-dots">
+              <div className="glass-card__frontend-dot"></div>
+              <div className="glass-card__frontend-dot"></div>
+              <div className="glass-card__frontend-dot"></div>
             </div>
           </div>
-          <div style={styles.frontendBody}>
-            <div style={styles.frontendCard}>
-              <div style={styles.frontendCardHeader}>
-                <div style={styles.frontendCardHeaderBar1}></div>
-                <div style={styles.frontendCardHeaderBar2}></div>
+          <div className="glass-card__frontend-body">
+            <div className="glass-card__frontend-card">
+              <div className="glass-card__frontend-card-header">
+                <div className="glass-card__frontend-card-bar-1"></div>
+                <div className="glass-card__frontend-card-bar-2"></div>
               </div>
-              <div style={styles.frontendCardGrid}>
-                <div style={styles.frontendCardBox}></div>
-                <div style={styles.frontendCardBox}></div>
-                <div style={styles.frontendCardBox}></div>
+              <div className="glass-card__frontend-card-grid">
+                <div className="glass-card__frontend-card-box"></div>
+                <div className="glass-card__frontend-card-box"></div>
+                <div className="glass-card__frontend-card-box"></div>
               </div>
             </div>
             {!isCompact && (
               <>
-                <div style={styles.frontendMiniCards}>
-                  <div style={styles.frontendMiniCard}>
-                    <div style={styles.frontendMiniCardBar}></div>
-                    <div style={styles.frontendMiniCardGradient1}></div>
+                <div className="glass-card__frontend-minicards">
+                  <div className="glass-card__frontend-minicard">
+                    <div className="glass-card__frontend-minicard-bar"></div>
+                    <div className="glass-card__frontend-minicard-grad-1"></div>
                   </div>
-                  <div style={styles.frontendMiniCard}>
-                    <div style={styles.frontendMiniCardBar}></div>
-                    <div style={styles.frontendMiniCardGradient2}></div>
+                  <div className="glass-card__frontend-minicard">
+                    <div className="glass-card__frontend-minicard-bar"></div>
+                    <div className="glass-card__frontend-minicard-grad-2"></div>
                   </div>
                 </div>
-                <div style={styles.frontendFooter}>
-                  <div style={styles.frontendFooterBar}></div>
-                  <div style={styles.frontendFooterBox}></div>
+                <div className="glass-card__frontend-footer">
+                  <div className="glass-card__frontend-footer-bar"></div>
+                  <div className="glass-card__frontend-footer-box"></div>
                 </div>
               </>
             )}
@@ -192,18 +165,9 @@ function GlassCards() {
   const isCompact = isMobile || isTablet;
 
   return (
-    <div style={{
-      ...styles.container,
-      ...(isCompact && styles.containerMobile),
-    }}>
-      <div style={{
-        ...styles.cardsWrapper,
-        ...(isCompact && styles.cardsWrapperMobile),
-      }}>
-        <div style={{
-          ...styles.cardsContainer,
-          ...(isCompact && styles.cardsContainerMobile),
-        }}>
+    <div className="glass-cards">
+      <div className="glass-cards__wrapper">
+        <div className="glass-cards__container">
           <BackendCard isCompact={isCompact} />
           <ArchitectureCard isCompact={isCompact} />
           <FrontendCard isCompact={isCompact} />

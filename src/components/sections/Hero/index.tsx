@@ -4,53 +4,41 @@
  */
 
 import { ArrowRight } from 'lucide-react';
+import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import Navigation from '../../layout/Navigation';
 import GlassCards from './GlassCards';
-import { styles } from './Hero.styles';
+import './Hero.css';
 
 // =============================================================================
 // SUB-COMPONENTS
 // =============================================================================
 
 /** Background Blobs - Decorative gradient circles */
-function BackgroundBlobs({ isMobileOrTablet }: { isMobileOrTablet: boolean }) {
+function BackgroundBlobs() {
   return (
-    <div style={styles.backgroundContainer}>
-      <div style={{
-        ...styles.bgBlob1,
-        ...(isMobileOrTablet && styles.bgBlob1Mobile),
-      }} />
-      <div style={{
-        ...styles.bgBlob2,
-        ...(isMobileOrTablet && styles.bgBlob2Mobile),
-      }} />
-      <div style={styles.bgBlob3} />
+    <div className="hero__background">
+      <div className="hero__blob-1" />
+      <div className="hero__blob-2" />
+      <div className="hero__blob-3" />
     </div>
   );
 }
 
 /** Hero Title with gradient text */
-function HeroTitle({ isMobile, isTablet }: { isMobile: boolean; isTablet: boolean }) {
+function HeroTitle() {
   return (
-    <h1 style={{
-      ...styles.title,
-      ...(isMobile && styles.titleMobile),
-      ...(isTablet && styles.titleTablet),
-    }}>
+    <h1 className="hero__title">
       Agence web<br />
-      <span style={styles.titleGradient}>Sweet.</span>
+      <span className="hero__title-gradient">Sweet.</span>
     </h1>
   );
 }
 
 /** Hero Description */
-function HeroDescription({ isMobileOrTablet }: { isMobileOrTablet: boolean }) {
+function HeroDescription() {
   return (
-    <p style={{
-      ...styles.description,
-      ...(isMobileOrTablet && styles.descriptionMobile),
-    }}>
+    <p className="hero__description">
       Derrière chaque interface élégante se cache une technologie solide. 
       Nous rendons le web plus simple, plus beau, plus Sweet.
     </p>
@@ -58,28 +46,21 @@ function HeroDescription({ isMobileOrTablet }: { isMobileOrTablet: boolean }) {
 }
 
 /** CTA Buttons */
-function CTAButtons({ isMobile }: { isMobile: boolean }) {
+function CTAButtons() {
+  const { navigateToSection } = useSectionNavigation();
+
   return (
-    <div style={{
-      ...styles.buttonContainer,
-      ...(isMobile && styles.buttonContainerMobile),
-    }}>
-      <button style={{
-        ...styles.primaryButton,
-        ...(isMobile && styles.primaryButtonMobile),
-      }}>
-        <div style={styles.primaryButtonBg} />
-        <div style={styles.primaryButtonHover} />
-        <span style={styles.primaryButtonContent}>
+    <div className="hero__actions">
+      <button className="hero__primary-btn" onClick={() => navigateToSection('services')}>
+        <div className="hero__primary-btn-bg" />
+        <div className="hero__primary-btn-hover" />
+        <span className="hero__primary-btn-content">
           Nos Services
-          <ArrowRight style={styles.buttonIcon} />
+          <ArrowRight className="hero__btn-icon" />
         </span>
       </button>
 
-      <button style={{
-        ...styles.secondaryButton,
-        ...(isMobile && styles.secondaryButtonMobile),
-      }}>
+      <button className="hero__secondary-btn" onClick={() => navigateToSection('portfolio')}>
         Voir les Projets
       </button>
     </div>
@@ -90,31 +71,24 @@ function CTAButtons({ isMobile }: { isMobile: boolean }) {
 // MAIN COMPONENT
 // =============================================================================
 function Hero() {
-  const { isMobile, isTablet, isDesktop, isLargeDesktop } = useWindowSize();
+  const { isMobile, isTablet, isDesktop } = useWindowSize();
   const isMobileOrTablet = isMobile || isTablet;
 
   return (
-    <div id="hero-section" style={styles.hero}>
-      <BackgroundBlobs isMobileOrTablet={isMobileOrTablet} />
+    <div id="hero-section" className="hero">
+      <BackgroundBlobs />
       <Navigation />
 
-      <main style={{
-        ...styles.main,
-        ...(isMobileOrTablet && styles.mainMobile),
-        ...(isLargeDesktop && styles.mainLargeDesktop),
-      }}>
-        <div style={{
-          ...styles.grid,
-          ...(isMobileOrTablet && styles.gridMobile),
-        }}>
+      <main className="hero__main">
+        <div className="hero__grid">
           {/* Left content */}
-          <div style={styles.content}>
-            <div style={styles.textContent}>
-              <HeroTitle isMobile={isMobile} isTablet={isTablet} />
-              <HeroDescription isMobileOrTablet={isMobileOrTablet} />
+          <div className="hero__content">
+            <div className="hero__text-content">
+              <HeroTitle />
+              <HeroDescription />
             </div>
 
-            <CTAButtons isMobile={isMobile} />
+            <CTAButtons />
 
             {/* GlassCards – displayed below buttons on mobile/tablet */}
             {isMobileOrTablet && <GlassCards />}
