@@ -59,7 +59,7 @@ function Footer() {
             <h4 className="footer__section-title">Contact</h4>
             <div className="footer__link-list">
               <p className="footer__contact-text">contact@agence-sweet.com</p>
-              <p className="footer__contact-text">+33 1 23 45 67 89</p>
+              <p className="footer__contact-text">+33 6 83 94 96 90</p>
               <button
                 className="footer__cta-button"
                 onClick={() => navigateToSection('contact')}

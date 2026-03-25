@@ -70,8 +70,8 @@ const ContactInfo: React.FC = () => {
     {
       icon: <PhoneIcon size={22} />,
       label: 'Téléphone',
-      value: '+33 1 23 45 67 89',
-      href: 'tel:+33123456789',
+      value: '+33 6 83 94 96 90',
+      href: 'tel:+33683949690',
     },
     {
       icon: <LocationIcon size={22} />,
