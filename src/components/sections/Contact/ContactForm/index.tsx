@@ -90,7 +90,7 @@ function ContactForm() {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<FormStatus>('idle');
   const [focusedField, setFocusedField] = useState<string | null>(null);
-  
+
   // Nouvel état pour gérer l'animation de secousse
   const [isShaking, setIsShaking] = useState(false);
 
@@ -146,6 +146,7 @@ function ContactForm() {
     setStatus('loading');
 
     try {
+
       await insertContact({
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -153,6 +154,22 @@ function ContactForm() {
         subject: formData.subject.trim(),
         message: formData.message.trim(),
       });
+
+      const formPayload = new FormData();
+      formPayload.append("access_key", "3c02797c-2de0-4e08-b944-0adaf559b563");
+      formPayload.append("name", formData.name.trim());
+      formPayload.append("email", formData.email.trim());
+      if (formData.phone.trim()) {
+        formPayload.append("phone", formData.phone.trim());
+      }
+      formPayload.append("subject", formData.subject.trim());
+      formPayload.append("message", formData.message.trim());
+
+      // Envoi asynchrone vers Web3Forms sans attendre pour ne pas bloquer l'UI
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formPayload,
+      }).catch(err => console.error("Web3Forms error:", err));
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
@@ -300,10 +317,10 @@ function ContactForm() {
           disabled={status === 'loading'}
           className={`contact-form__submit ${status === 'loading' ? 'contact-form__submit--disabled' : ''}`}
           // Animation de secousse (Error Shake)
-          animate={isShaking ? { 
+          animate={isShaking ? {
             x: [0, -10, 10, -10, 10, 0],
             boxShadow: [
-              "0 0 0 0 rgba(239, 68, 68, 0)", 
+              "0 0 0 0 rgba(239, 68, 68, 0)",
               "0 0 0.5rem 0.25rem rgba(239, 68, 68, 0.4)", // Glow rouge
               "0 0 0 0 rgba(239, 68, 68, 0)"
             ]
