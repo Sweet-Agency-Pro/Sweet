@@ -223,8 +223,8 @@ function Navigation() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <p className="nav__drawer-contact-text">contact@sweetagency.fr</p>
-                <p className="nav__drawer-contact-text">+33 1 23 45 67 89</p>
+                <p className="nav__drawer-contact-text">contact@agence-sweet.com</p>
+                <p className="nav__drawer-contact-text">+33 6 83 94 96 90</p>
               </motion.div>
             </motion.div>
           </>
