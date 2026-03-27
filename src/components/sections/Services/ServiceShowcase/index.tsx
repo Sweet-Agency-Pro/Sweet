@@ -17,8 +17,8 @@ const hexToRgba = (hex: string, alpha: number): string => {
 
 const showcaseVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
@@ -26,8 +26,8 @@ const showcaseVariants: Variants = {
       staggerChildren: 0.1
     }
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     y: -20,
     transition: { duration: 0.3, ease: 'easeIn' }
   }
@@ -35,8 +35,8 @@ const showcaseVariants: Variants = {
 
 const childVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.4, ease: 'easeOut' }
   }
@@ -45,7 +45,7 @@ const childVariants: Variants = {
 export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
   const IconComponent = service.icon;
   const primaryColor = service.colorAccent[500];
-  const darkColor = service.colorAccent[700];
+  const darkColor = service.colorAccent[300];
 
   return (
     <motion.div
@@ -59,7 +59,7 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
       {/* LEFT COLUMN: HERO MARKETING */}
       <div className="service-showcase__hero">
         <motion.div variants={childVariants} className="service-showcase__icon-wrapper">
-          <div 
+          <div
             className="service-showcase__icon-squircle"
             style={{
               background: `linear-gradient(135deg, ${hexToRgba(primaryColor, 0.05)}, ${hexToRgba(primaryColor, 0.15)})`,
@@ -67,9 +67,9 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
               border: `1px solid ${hexToRgba(primaryColor, 0.3)}`
             }}
           >
-            <IconComponent 
-              className="service-showcase__icon" 
-              strokeWidth={1.5} 
+            <IconComponent
+              className="service-showcase__icon"
+              strokeWidth={1.5}
               style={{ color: primaryColor }}
             />
           </div>
@@ -79,8 +79,8 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
           {service.accroche}
         </motion.h3>
 
-        <motion.p 
-          variants={childVariants} 
+        <motion.p
+          variants={childVariants}
           className="service-showcase__tagline"
           style={{
             backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${darkColor})`,
@@ -93,12 +93,12 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
 
         {/* PROMINENT CTA MOVED TO LEFT COLUMN */}
         <motion.div variants={childVariants} className="service-showcase__cta-wrapper">
-          <button 
+          <button
             className="service-showcase__cta"
             style={{
               background: `linear-gradient(90deg, ${primaryColor}, ${darkColor}, ${primaryColor})`,
               backgroundSize: '200% auto',
-              animation: 'gradient-shimmer 4s linear infinite',
+              animation: 'gradient-shimmer 8s linear infinite',
               boxShadow: `0 8px 25px -5px ${hexToRgba(primaryColor, 0.4)}`
             }}
             onClick={
@@ -121,16 +121,16 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
 
         <div className="service-showcase__features-grid">
           {service.features.map((feature, idx) => (
-            <motion.div 
-              key={idx} 
-              variants={childVariants} 
+            <motion.div
+              key={idx}
+              variants={childVariants}
               className="service-showcase__feature-item"
               style={{
                 background: `linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4))`,
                 borderColor: hexToRgba(primaryColor, 0.2),
               }}
             >
-              <div 
+              <div
                 className="service-showcase__feature-check"
                 style={{ backgroundColor: hexToRgba(primaryColor, 0.1), color: primaryColor }}
               >

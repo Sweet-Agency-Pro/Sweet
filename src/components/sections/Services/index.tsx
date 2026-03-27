@@ -63,7 +63,7 @@ function SectionHeader() {
       </div>
 
       <h2 className="services__title">
-        Solutions Numériques<br/>
+        Solutions Numériques<br />
         <span className="services__title-gradient">Sur Mesure</span>
       </h2>
 
@@ -189,11 +189,11 @@ function ServicesPreview() {
                     <motion.div
                       layoutId="active-service-tab"
                       className="services__tab-indicator"
-                      style={{ 
-                        backgroundImage: `linear-gradient(90deg, ${s.colorAccent[400]}, ${s.colorAccent[600]}, ${s.colorAccent[400]})`,
+                      style={{
+                        backgroundImage: `linear-gradient(90deg, ${s.colorAccent[500]}, ${s.colorAccent[300]}, ${s.colorAccent[500]})`,
                         backgroundSize: '200% auto',
-                        animation: 'gradient-shimmer 4s linear infinite',
-                        border: `1px solid ${s.colorAccent[300]}` 
+                        animation: 'gradient-shimmer 8s linear infinite',
+                        border: `1px solid ${s.colorAccent[400]}`
                       }}
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
@@ -209,10 +209,10 @@ function ServicesPreview() {
         <div className="services__showcase-wrapper">
           <AnimatePresence mode="wait">
             {activeService && (
-              <ServiceShowcase 
-                key={activeService.id} 
-                service={activeService} 
-                isMobile={isMobile} 
+              <ServiceShowcase
+                key={activeService.id}
+                service={activeService}
+                isMobile={isMobile}
               />
             )}
           </AnimatePresence>
