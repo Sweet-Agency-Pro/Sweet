@@ -1,9 +1,10 @@
 /**
  * Services Section Component
- * Displays the three main service offerings with hover effects
+ * Apple-style Interactive Showcase layout (UI/UX Pro Max)
  */
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -22,11 +23,11 @@ import {
 import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { services as fallbackServices, type Service } from './services.data';
-import ServiceCard from './ServiceCard';
+import ServiceShowcase from './ServiceShowcase';
 import { fetchPublicServices } from '../../../services/supabaseService';
 import './Services.css';
 
-// Hex to Rgba helper for fallback
+// Hex to Rgba helper for dynamic styles
 const hexToRgba = (hex: string, alpha: number): string => {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -58,7 +59,7 @@ function SectionHeader() {
     <div className="services__header">
       <div className="services__badge">
         <Sparkles className="services__badge-icon" />
-        <span className="services__badge-text">Nos Services</span>
+        <span className="services__badge-text">Nos Expertises</span>
       </div>
 
       <h2 className="services__title">
@@ -67,8 +68,7 @@ function SectionHeader() {
       </h2>
 
       <p className="services__description">
-        Trois piliers pour construire votre présence en ligne : du site vitrine 
-        à l'e-commerce, en passant par l'administration complète de votre écosystème digital.
+        Découvrez nos 3 piliers d'excellence pour construire et piloter votre écosystème digital.
       </p>
     </div>
   );
@@ -92,7 +92,7 @@ function CTABanner() {
         <div className="services__cta-button-bg" />
         <div className="services__cta-button-hover" />
         <span className="services__cta-button-content">
-          Commencer un projet
+          Démarrer un projet
           <ArrowRight className="services__cta-button-icon" />
         </span>
       </button>
@@ -117,7 +117,6 @@ function resolveIcon(iconName: string | null): Service['icon'] {
 /** Build a ColorAccent palette from a JSON object, falling back to teal */
 function resolveColorAccent(raw: Record<string, string> | null): Service['colorAccent'] {
   if (!raw || !raw['500']) return tealAccent;
-  // Build a minimal palette — the card only uses a few shades
   return {
     50: raw['50'] ?? tealAccent[50],
     100: raw['100'] ?? tealAccent[100],
@@ -133,8 +132,8 @@ function resolveColorAccent(raw: Record<string, string> | null): Service['colorA
 }
 
 function ServicesPreview() {
-  const [hoveredService, setHoveredService] = useState<number | null>(null);
   const [services, setServices] = useState<Service[]>(fallbackServices);
+  const [activeTabId, setActiveTabId] = useState<number>(fallbackServices[0]?.id || 1);
   const { isMobile } = useWindowSize();
 
   useEffect(() => {
@@ -157,6 +156,7 @@ function ServicesPreview() {
           };
         });
         setServices(mapped);
+        if (mapped.length > 0) setActiveTabId(mapped[0].id);
       })
       .catch(() => {
         // Keep fallback static data on error
@@ -164,23 +164,56 @@ function ServicesPreview() {
     return () => { cancelled = true; };
   }, []);
 
+  const activeService = services.find(s => s.id === activeTabId) || services[0];
+
   return (
     <section id="services" className="services">
       <div className="services__container">
         <SectionHeader />
 
-        {/* Services Grid */}
-        <div className="services__grid">
-          {services.map((service) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              isHovered={hoveredService === service.id}
-              isMobile={isMobile}
-              onHover={() => setHoveredService(service.id)}
-              onLeave={() => setHoveredService(null)}
-            />
-          ))}
+        {/* Apple-Style Navigation Tabs */}
+        <div className="services__tabs-wrapper">
+          <div className="services__tabs">
+            {services.map((s) => {
+              const isActive = activeTabId === s.id;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveTabId(s.id)}
+                  className={`services__tab ${isActive ? 'active' : ''}`}
+                  style={{
+                    color: isActive ? s.colorAccent[700] : 'var(--slate-500)',
+                  }}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-service-tab"
+                      className="services__tab-indicator"
+                      style={{ 
+                        backgroundColor: hexToRgba(s.colorAccent[500], 0.1),
+                        border: `1px solid ${hexToRgba(s.colorAccent[300], 0.5)}` 
+                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="services__tab-text">{s.accroche}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Showcase Area */}
+        <div className="services__showcase-wrapper">
+          <AnimatePresence mode="wait">
+            {activeService && (
+              <ServiceShowcase 
+                key={activeService.id} 
+                service={activeService} 
+                isMobile={isMobile} 
+              />
+            )}
+          </AnimatePresence>
         </div>
 
         <CTABanner />
