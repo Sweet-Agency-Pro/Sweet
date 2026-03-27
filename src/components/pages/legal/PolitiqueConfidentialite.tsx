@@ -3,6 +3,7 @@
  * Privacy policy page with branded dark hero + light content
  */
 
+import { useEffect } from 'react';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -57,6 +58,10 @@ function BulletList({ items }: { items: string[] }) {
 // MAIN COMPONENT
 // =============================================================================
 function PolitiqueConfidentialite() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="legal-page">
       <HeroBanner />

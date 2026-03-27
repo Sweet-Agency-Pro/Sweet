@@ -3,6 +3,7 @@
  * Legal notice page with branded dark hero + light content
  */
 
+import { useEffect } from 'react';
 import { ArrowLeft, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -59,6 +60,10 @@ function InfoCard({ rows }: { rows: { label: string; value: string; isPlaceholde
 // MAIN COMPONENT
 // =============================================================================
 function MentionsLegales() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="legal-page">
       <HeroBanner />
