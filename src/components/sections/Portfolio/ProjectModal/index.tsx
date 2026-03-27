@@ -24,6 +24,7 @@ interface ProjectModalProps {
 
 function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
   const [imageError, setImageError] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Keep a snapshot of the last valid project + id so AnimatePresence
   // can render the exit animation with the correct layoutId values
@@ -34,6 +35,18 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
     if (selectedId && project) {
       lastProjectRef.current = project;
       lastIdRef.current = selectedId;
+
+      const resetScroll = () => {
+        const el = scrollContainerRef.current;
+        if (el) {
+          el.scrollTop = 0;
+          // Use scrollTo as well just in case
+          el.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        }
+      };
+
+      // Reset scroll immediately
+      resetScroll();
     }
   }, [selectedId, project]);
 
@@ -86,7 +99,10 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
               </button>
 
               {/* Modal content */}
-              <div className="modal-content">
+              <div
+                ref={scrollContainerRef}
+                className="modal-content"
+              >
                 {/* Left side - Info */}
                 <div className="modal-info">
                   <motion.div
