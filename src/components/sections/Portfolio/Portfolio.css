@@ -1,5 +1,5 @@
 /* =============================================================================
-   PORTFOLIO STYLES
+   PORTFOLIO STYLES — Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -22,6 +22,7 @@
   background-image: radial-gradient(rgba(203, 213, 225, 0.3) 1px, transparent 1px);
   background-size: 1.5rem 1.5rem;
   pointer-events: none;
+  animation: pulse-glow 10s ease-in-out infinite;
 }
 
 .portfolio__container {
@@ -66,6 +67,27 @@
   border: 1px solid var(--blue-200);
   border-radius: var(--radius-full);
   align-self: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep on badge */
+.portfolio__badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.15),
+    transparent
+  );
+  animation: gradient-bar-shift 4s ease-in-out infinite;
+  background-size: 200% 100%;
+  pointer-events: none;
 }
 
 .portfolio__badge-icon {
@@ -104,7 +126,14 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: linear-gradient(to right, var(--blue-500), var(--purple-500));
+  background-image: linear-gradient(
+    90deg,
+    var(--blue-500),
+    var(--purple-500),
+    var(--blue-500)
+  );
+  background-size: 200% 100%;
+  animation: gradient-shimmer 6s ease-in-out infinite;
 }
 
 .portfolio__description {
@@ -198,7 +227,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   FLAGSHIP CARD
+   FLAGSHIP CARD — Premium hover with glow
    --------------------------------------------------------------------------- */
 .flagship {
   position: relative;
@@ -221,6 +250,7 @@
   border-radius: 3rem;
   filter: blur(2.5rem);
   z-index: 0;
+  transition: opacity var(--duration-slow) var(--ease);
 }
 
 .flagship__inner {
@@ -229,10 +259,21 @@
   border-radius: 2rem;
   border: 1px solid var(--slate-200);
   overflow: hidden;
-  transform: translateZ(0); /* GPU */
+  transform: translateZ(0);
   will-change: transform, border-radius;
   z-index: 1;
-  box-shadow: 0 0.625rem 2.5rem -0.5rem rgba(15, 23, 42, 0.15), 0 0.25rem 1rem -0.25rem rgba(15, 23, 42, 0.1);
+  box-shadow: 0 0.625rem 2.5rem -0.5rem rgba(15, 23, 42, 0.15),
+              0 0.25rem 1rem -0.25rem rgba(15, 23, 42, 0.1);
+  transition: transform var(--duration-medium) var(--ease-smooth),
+              box-shadow var(--duration-medium) var(--ease-smooth),
+              border-color var(--duration-medium) var(--ease);
+}
+
+.flagship:hover .flagship__inner {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 1.5rem 3.5rem -0.5rem rgba(15, 23, 42, 0.18),
+              0 0.5rem 1.5rem -0.25rem rgba(15, 23, 42, 0.12);
+  border-color: var(--slate-300);
 }
 
 .flagship__content {
@@ -314,6 +355,12 @@
   font-size: var(--fs-sm);
   color: var(--slate-700);
   font-weight: var(--fw-medium);
+  transition: background-color var(--duration-fast) var(--ease),
+              border-color var(--duration-fast) var(--ease);
+}
+
+.flagship:hover .flagship__tech-badge {
+  border-color: var(--slate-300);
 }
 
 .flagship__cta {
@@ -332,6 +379,13 @@
   cursor: pointer;
   align-self: flex-start;
   margin-top: var(--sp-2);
+  transition: transform var(--duration-medium) var(--ease-smooth),
+              box-shadow var(--duration-medium) var(--ease);
+}
+
+.flagship__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1.5rem -0.25rem rgba(15, 23, 42, 0.3);
 }
 
 @media (max-width: 1024px) {
@@ -345,6 +399,11 @@
 .flagship__cta-icon {
   width: var(--sp-5);
   height: var(--sp-5);
+  transition: transform var(--duration-medium) var(--ease-spring);
+}
+
+.flagship__cta:hover .flagship__cta-icon {
+  transform: translateX(4px);
 }
 
 .flagship__visual {
@@ -363,6 +422,7 @@
   border-radius: 50%;
   filter: blur(5rem);
   opacity: 0.4;
+  animation: blob-drift 8s ease-in-out infinite;
 }
 
 .flagship__mockup {
@@ -372,6 +432,11 @@
   border-radius: var(--radius-xl);
   box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(15, 23, 42, 0.2);
   overflow: hidden;
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.flagship:hover .flagship__mockup {
+  transform: scale(1.02);
 }
 
 /* ---------------------------------------------------------------------------
@@ -379,7 +444,7 @@
    --------------------------------------------------------------------------- */
 .mockup-header {
   padding: var(--sp-3);
-  background-color: rgba(226, 232, 240, 0.4); /* slate-150 estimate */
+  background-color: rgba(226, 232, 240, 0.4);
   border-bottom: 1px solid var(--slate-200);
 }
 
@@ -416,7 +481,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   CONCEPTS GRID & CARD
+   CONCEPTS GRID & CARD — Hover accent glow
    --------------------------------------------------------------------------- */
 .concepts {
   display: grid;
@@ -453,12 +518,20 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
-  
   overflow: hidden;
-  transform: translateZ(0); /* GPU */
+  transform: translateZ(0);
   will-change: transform, border-radius;
-  
-  box-shadow: 0 0.5rem 2rem -0.375rem rgba(15, 23, 42, 0.12), 0 0.25rem 0.75rem -0.25rem rgba(15, 23, 42, 0.08);
+  box-shadow: 0 0.5rem 2rem -0.375rem rgba(15, 23, 42, 0.12),
+              0 0.25rem 0.75rem -0.25rem rgba(15, 23, 42, 0.08);
+  transition: transform var(--duration-medium) var(--ease-smooth),
+              box-shadow var(--duration-medium) var(--ease-smooth),
+              border-color var(--duration-medium) var(--ease);
+}
+
+.concept:hover .concept__inner {
+  transform: translateY(-4px) translateZ(0);
+  box-shadow: 0 1rem 2.5rem -0.375rem rgba(15, 23, 42, 0.15),
+              0 0.5rem 1rem -0.25rem rgba(15, 23, 42, 0.1);
 }
 
 .concept__accent {
@@ -467,6 +540,11 @@
   left: 0;
   right: 0;
   height: var(--sp-1);
+  transition: height var(--duration-medium) var(--ease);
+}
+
+.concept:hover .concept__accent {
+  height: 3px;
 }
 
 .concept__tag {
@@ -535,16 +613,25 @@
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
   color: var(--slate-600);
+  transition: color var(--duration-medium) var(--ease);
+}
+
+.concept:hover .concept__cta {
+  color: var(--slate-900);
 }
 
 .concept__cta-icon {
   width: var(--sp-4);
   height: var(--sp-4);
-  transition: transform var(--duration-medium) var(--ease);
+  transition: transform var(--duration-medium) var(--ease-spring);
+}
+
+.concept:hover .concept__cta-icon {
+  transform: translateX(4px);
 }
 
 /* ---------------------------------------------------------------------------
-   MODAL STYLES
+   MODAL STYLES — Enhanced entrance with blur + scale
    --------------------------------------------------------------------------- */
 .modal-backdrop {
   position: fixed;
@@ -617,12 +704,13 @@
   border-radius: var(--radius-full);
   cursor: pointer;
   z-index: 50;
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .modal-close:hover {
   background-color: var(--slate-50);
+  transform: rotate(90deg);
 }
 
 .modal-close-icon {
@@ -771,11 +859,23 @@
   cursor: pointer;
   align-self: flex-start;
   margin-top: auto;
+  transition: transform var(--duration-medium) var(--ease-smooth),
+              box-shadow var(--duration-medium) var(--ease);
+}
+
+.modal-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1.5rem -0.25rem rgba(15, 23, 42, 0.3);
 }
 
 .modal-cta-icon {
   width: var(--sp-5);
   height: var(--sp-5);
+  transition: transform var(--duration-medium) var(--ease-spring);
+}
+
+.modal-cta:hover .modal-cta-icon {
+  transform: translateX(4px);
 }
 
 .modal-visual {
@@ -797,6 +897,7 @@
   border-radius: 50%;
   filter: blur(5rem);
   opacity: 0.5;
+  animation: blob-drift 8s ease-in-out infinite;
 }
 
 .modal-mockup {

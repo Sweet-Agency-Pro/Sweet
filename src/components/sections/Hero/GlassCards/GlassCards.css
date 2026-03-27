@@ -1,5 +1,5 @@
 /* =============================================================================
-   GLASS CARDS STYLES
+   GLASS CARDS STYLES — Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -47,6 +47,8 @@
   width: 100%;
   max-width: 28rem;
   transform-style: preserve-3d;
+  animation: scale-in 1s var(--ease-smooth) both;
+  animation-delay: 0.5s;
 }
 
 @media (max-width: 1024px) {
@@ -57,7 +59,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   COMMON CARD STYLES
+   COMMON CARD STYLES — Float animation & enhanced glass
    --------------------------------------------------------------------------- */
 .glass-card {
   position: absolute;
@@ -65,7 +67,7 @@
   height: clamp(14rem, 18vw, 18rem);
   border-radius: var(--radius-2xl);
   transform-style: preserve-3d;
-  transition: all var(--duration-slower) var(--ease);
+  transition: all var(--duration-slower) var(--ease-smooth);
 }
 
 @media (max-width: 1024px) {
@@ -85,6 +87,29 @@
   box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(1.5rem);
   -webkit-backdrop-filter: blur(1.5rem);
+  transition: box-shadow var(--duration-medium) var(--ease);
+}
+
+/* Glass shimmer overlay */
+.glass-card__inner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 60%
+  );
+  animation: gradient-shimmer 8s linear infinite;
+  background-size: 200% 200%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .glass-card__label {
@@ -95,18 +120,27 @@
   font-weight: var(--fw-medium);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  z-index: 2;
 }
 
 /* ---------------------------------------------------------------------------
-   BACKEND CARD
+   BACKEND CARD — Float with delay 0
    --------------------------------------------------------------------------- */
 .glass-card--backend {
   transform: translateZ(-6rem) rotateX(3deg);
+  animation: float 6s ease-in-out infinite;
 }
 
 .glass-card__inner--backend {
   background: linear-gradient(to bottom right, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
   border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color var(--duration-medium) var(--ease);
+}
+
+.glass-card--backend:hover .glass-card__inner--backend {
+  border-color: rgba(20, 184, 166, 0.4);
+  box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25),
+              0 0 2rem rgba(20, 184, 166, 0.1);
 }
 
 .glass-card__label--backend {
@@ -118,6 +152,8 @@
   font-family: Monaco, Consolas, "Courier New", monospace;
   font-size: var(--fs-xs);
   line-height: var(--lh-relaxed);
+  position: relative;
+  z-index: 2;
 }
 
 .glass-card__code-line {
@@ -141,15 +177,24 @@
 .code-slate { color: var(--slate-500); }
 
 /* ---------------------------------------------------------------------------
-   ARCHITECTURE CARD
+   ARCHITECTURE CARD — Float with delay 1s
    --------------------------------------------------------------------------- */
 .glass-card--architecture {
   transform: translateZ(-3rem) rotateY(2deg) rotateX(3deg);
+  animation: float 7s ease-in-out infinite;
+  animation-delay: -2s;
 }
 
 .glass-card__inner--architecture {
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color var(--duration-medium) var(--ease);
+}
+
+.glass-card--architecture:hover .glass-card__inner--architecture {
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25),
+              0 0 2rem rgba(6, 182, 212, 0.1);
 }
 
 .glass-card__label--light {
@@ -161,6 +206,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
+  position: relative;
+  z-index: 2;
 }
 
 .glass-card__arch-header {
@@ -200,6 +247,11 @@
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color var(--duration-medium) var(--ease);
+}
+
+.glass-card--architecture:hover .glass-card__arch-box {
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .glass-card__arch-box-small {
@@ -237,15 +289,24 @@
 }
 
 /* ---------------------------------------------------------------------------
-   FRONTEND CARD
+   FRONTEND CARD — Float with delay 2s
    --------------------------------------------------------------------------- */
 .glass-card--frontend {
   transform: translateZ(0) rotateY(-4deg) rotateX(3deg);
+  animation: float 8s ease-in-out infinite;
+  animation-delay: -4s;
 }
 
 .glass-card__inner--frontend {
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: border-color var(--duration-medium) var(--ease);
+}
+
+.glass-card--frontend:hover .glass-card__inner--frontend {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25),
+              0 0 2rem rgba(168, 85, 247, 0.1);
 }
 
 .glass-card__frontend-gradient {
@@ -255,12 +316,15 @@
   bottom: 0;
   left: 0;
   background: linear-gradient(to bottom right, rgba(20, 184, 166, 0.1), transparent, rgba(168, 85, 247, 0.1));
+  animation: gradient-shimmer 10s ease infinite;
+  background-size: 200% 200%;
 }
 
 .glass-card__frontend-content {
   position: relative;
   height: 100%;
   padding: var(--sp-6);
+  z-index: 2;
 }
 
 .glass-card__frontend-header {
@@ -281,6 +345,7 @@
   height: var(--sp-10);
   border-radius: 50%;
   background: linear-gradient(to bottom right, var(--teal-400), var(--cyan-400));
+  animation: pulse-glow 4s ease-in-out infinite;
 }
 
 .glass-card__frontend-avatar-text {
@@ -328,6 +393,11 @@
   border-radius: var(--radius-xl);
   padding: var(--sp-4);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color var(--duration-medium) var(--ease);
+}
+
+.glass-card--frontend:hover .glass-card__frontend-card {
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .glass-card__frontend-card-header {
@@ -361,6 +431,11 @@
   height: var(--sp-12);
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
+  transition: background-color var(--duration-medium) var(--ease);
+}
+
+.glass-card--frontend:hover .glass-card__frontend-card-box {
+  background-color: rgba(255, 255, 255, 0.28);
 }
 
 .glass-card__frontend-minicards {

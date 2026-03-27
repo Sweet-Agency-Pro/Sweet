@@ -1,5 +1,5 @@
 /* =============================================================================
-   SCROLL ANIMATION STYLES
+   SCROLL ANIMATION STYLES — Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   BACKGROUND
+   BACKGROUND — Animated breathing gradient
    --------------------------------------------------------------------------- */
 .scroll-animation__bg-container {
   position: absolute;
@@ -40,9 +40,15 @@
   transform: translate(-50%, -50%);
   width: 50rem;
   height: 50rem;
-  background-color: rgba(20, 184, 166, 0.08); /* teal-500 */
+  background: radial-gradient(
+    circle,
+    rgba(20, 184, 166, 0.1) 0%,
+    rgba(6, 182, 212, 0.05) 40%,
+    transparent 70%
+  );
   border-radius: 50%;
-  filter: blur(10rem);
+  filter: blur(8rem);
+  animation: pulse-glow 8s ease-in-out infinite;
 }
 
 @media (max-width: 1024px) {
@@ -89,7 +95,15 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: var(--gradient-primary);
+  background-image: linear-gradient(
+    90deg,
+    var(--teal-500),
+    var(--cyan-400),
+    var(--blue-500),
+    var(--teal-500)
+  );
+  background-size: 300% 100%;
+  animation: gradient-shimmer 8s ease-in-out infinite;
   line-height: var(--lh-none);
   letter-spacing: var(--ls-tighter);
   white-space: nowrap;
@@ -110,7 +124,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   SUBTITLE
+   SUBTITLE — Animated entrance
    --------------------------------------------------------------------------- */
 .scroll-animation__subtitle-container {
   margin-top: var(--sp-6);
@@ -121,8 +135,9 @@
   font-size: var(--fs-lg);
   color: var(--slate-500);
   font-weight: var(--fw-light);
-  letter-spacing: var(--ls-wide);
+  letter-spacing: var(--ls-widest);
   margin: 0;
+  text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
@@ -132,7 +147,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   DECORATIVE CORNERS
+   DECORATIVE CORNERS — Animated fade-in
    --------------------------------------------------------------------------- */
 .scroll-animation__decorative {
   position: absolute;
@@ -148,6 +163,8 @@
   position: absolute;
   width: var(--sp-16);
   height: var(--sp-16);
+  opacity: 0;
+  animation: slide-up-fade 1s var(--ease-smooth) forwards;
 }
 
 .scroll-animation__corner-tl {
@@ -155,6 +172,7 @@
   left: var(--sp-8);
   border-top: 0.0625rem solid rgba(20, 184, 166, 0.3);
   border-left: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  animation-delay: 0.2s;
 }
 
 .scroll-animation__corner-tr {
@@ -162,6 +180,7 @@
   right: var(--sp-8);
   border-top: 0.0625rem solid rgba(20, 184, 166, 0.3);
   border-right: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  animation-delay: 0.35s;
 }
 
 .scroll-animation__corner-bl {
@@ -169,6 +188,7 @@
   left: var(--sp-8);
   border-bottom: 0.0625rem solid rgba(20, 184, 166, 0.3);
   border-left: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  animation-delay: 0.5s;
 }
 
 .scroll-animation__corner-br {
@@ -176,4 +196,5 @@
   right: var(--sp-8);
   border-bottom: 0.0625rem solid rgba(20, 184, 166, 0.3);
   border-right: 0.0625rem solid rgba(20, 184, 166, 0.3);
+  animation-delay: 0.65s;
 }

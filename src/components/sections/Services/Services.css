@@ -1,5 +1,5 @@
 /* =============================================================================
-   SERVICES SECTION STYLES
+   SERVICES SECTION STYLES — Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -11,6 +11,23 @@
   padding-bottom: var(--sp-24);
   overflow: hidden;
   background-color: var(--white);
+}
+
+/* Subtle radial glow behind section */
+.services::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60rem;
+  height: 60rem;
+  background: radial-gradient(
+    circle,
+    rgba(20, 184, 166, 0.04) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
 }
 
 .services__container {
@@ -43,6 +60,7 @@
   margin-bottom: var(--sp-20);
 }
 
+/* Badge with shimmer overlay */
 .services__badge {
   display: inline-flex;
   align-items: center;
@@ -55,6 +73,27 @@
   border: 1px solid var(--teal-200);
   border-radius: var(--radius-full);
   align-self: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer light sweep on badge */
+.services__badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(20, 184, 166, 0.15),
+    transparent
+  );
+  animation: gradient-bar-shift 4s ease-in-out infinite;
+  background-size: 200% 100%;
+  pointer-events: none;
 }
 
 .services__badge-icon {
@@ -93,7 +132,14 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: var(--gradient-teal-cyan);
+  background-image: linear-gradient(
+    90deg,
+    var(--teal-500),
+    var(--cyan-500),
+    var(--teal-500)
+  );
+  background-size: 200% 100%;
+  animation: gradient-shimmer 5s ease-in-out infinite;
 }
 
 .services__description {
@@ -136,12 +182,12 @@
 }
 
 /* ---------------------------------------------------------------------------
-   CARD
+   CARD — Enhanced hover with smooth lift & color-shift
    --------------------------------------------------------------------------- */
 .service-card {
   position: relative;
   perspective: 62.5rem;
-  transition: transform var(--duration-medium) var(--ease);
+  transition: transform var(--duration-medium) var(--ease-smooth);
 }
 
 .service-card--hovered {
@@ -170,8 +216,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   z-index: 1;
+}
+
+/* Subtle inner glow on hover */
+.service-card--hovered .service-card__inner {
+  box-shadow: 0 0.5rem 2rem -0.25rem rgba(15, 23, 42, 0.08),
+              0 0.25rem 1rem -0.25rem rgba(15, 23, 42, 0.05);
 }
 
 @media (max-width: 768px) {
@@ -189,6 +241,12 @@
   align-items: center;
   justify-content: center;
   border: 1px solid;
+  transition: transform var(--duration-medium) var(--ease-spring),
+              box-shadow var(--duration-medium) var(--ease);
+}
+
+.service-card--hovered .service-card__icon-container {
+  transform: scale(1.08) rotate(-3deg);
 }
 
 @media (max-width: 768px) {
@@ -201,6 +259,7 @@
 .service-card__icon {
   width: var(--sp-5);
   height: var(--sp-5);
+  transition: transform var(--duration-medium) var(--ease-spring);
 }
 
 @media (max-width: 768px) {
@@ -243,7 +302,7 @@
 }
 
 .service-card__resume {
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   overflow: hidden;
 }
 
@@ -259,12 +318,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--sp-2);
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
 }
 
 @media (max-width: 768px) {
   .service-card__features {
-    gap: 0.375rem; /* ~ --sp-1-5 */
+    gap: 0.375rem;
   }
 }
 
@@ -279,6 +338,11 @@
   height: var(--sp-2);
   border-radius: var(--radius-full);
   flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--ease);
+}
+
+.service-card--hovered .service-card__feature-dot {
+  transform: scale(1.3);
 }
 
 .service-card__feature-text {
@@ -303,18 +367,18 @@
   cursor: pointer;
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   padding: 0;
 }
 
 .service-card__arrow {
   width: var(--sp-4);
   height: var(--sp-4);
-  transition: transform var(--duration-medium) var(--ease);
+  transition: transform var(--duration-medium) var(--ease-spring);
 }
 
 /* ---------------------------------------------------------------------------
-   CTA BANNER
+   CTA BANNER — Animated gradient & enhanced hover
    --------------------------------------------------------------------------- */
 .services__cta-banner {
   background-color: var(--slate-50);
@@ -325,6 +389,32 @@
   grid-template-columns: 1fr auto;
   gap: var(--sp-8);
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--duration-medium) var(--ease),
+              box-shadow var(--duration-medium) var(--ease);
+}
+
+.services__cta-banner:hover {
+  border-color: var(--teal-200);
+  box-shadow: 0 0.5rem 2rem -0.5rem rgba(20, 184, 166, 0.1);
+}
+
+/* Ambient gradient inside banner */
+.services__cta-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 30rem;
+  height: 30rem;
+  background: radial-gradient(
+    circle,
+    rgba(20, 184, 166, 0.06) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  animation: blob-drift 10s ease-in-out infinite;
 }
 
 @media (max-width: 1024px) {
@@ -339,6 +429,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
+  position: relative;
 }
 
 .services__cta-title {
@@ -367,11 +458,20 @@
   padding: var(--sp-4) var(--sp-8);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   cursor: pointer;
   border: none;
   background: transparent;
   white-space: nowrap;
+}
+
+.services__cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1.5rem -0.25rem rgba(20, 184, 166, 0.35);
+}
+
+.services__cta-button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 @media (max-width: 1024px) {
@@ -402,6 +502,10 @@
   transition: opacity var(--duration-medium) var(--ease);
 }
 
+.services__cta-button:hover .services__cta-button-hover {
+  opacity: 1;
+}
+
 .services__cta-button-content {
   position: relative;
   display: flex;
@@ -416,4 +520,9 @@
 .services__cta-button-icon {
   width: var(--sp-5);
   height: var(--sp-5);
+  transition: transform var(--duration-medium) var(--ease-spring);
+}
+
+.services__cta-button:hover .services__cta-button-icon {
+  transform: translateX(4px);
 }
