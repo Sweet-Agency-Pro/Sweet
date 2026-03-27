@@ -1,6 +1,6 @@
 /**
  * AdminMedia
- * Media browser — shows all project preview images from the storage bucket.
+ * Media browser, shows all project preview images from the storage bucket.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';

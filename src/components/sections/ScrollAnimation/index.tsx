@@ -45,7 +45,7 @@ function ScrollAnimation() {
     offset: ['start end', 'end start'],
   });
 
-  // Parallax transforms — reimagined for "pétillante" feel on mobile
+  // Parallax transforms, reimagined for "pétillante" feel on mobile
   const textY = useTransform(scrollYProgress, [0, 1], ['350%', '-350%']);
 
   // Scale: More pop on mobile

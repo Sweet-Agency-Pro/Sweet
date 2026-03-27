@@ -1,5 +1,5 @@
 /* =============================================================================
-   FOOTER STYLES — Modernized
+   FOOTER STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -14,14 +14,12 @@
 /* Animated gradient top accent bar */
 .footer__top-accent {
   height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--teal-500),
-    var(--cyan-500),
-    var(--blue-500),
-    var(--purple-500),
-    var(--teal-500)
-  );
+  background: linear-gradient(90deg,
+      var(--teal-500),
+      var(--cyan-500),
+      var(--blue-500),
+      var(--purple-500),
+      var(--teal-500));
   background-size: 300% 100%;
   animation: gradient-bar-shift 6s linear infinite;
 }
@@ -131,7 +129,7 @@
   background-color: var(--teal-50);
   border: 1px solid var(--teal-200);
   transition: transform var(--duration-medium) var(--ease-spring),
-              box-shadow var(--duration-medium) var(--ease);
+    box-shadow var(--duration-medium) var(--ease);
 }
 
 .footer__logo-pill:hover {
@@ -163,7 +161,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   LINKS — Underline reveal on hover
+   LINKS, Underline reveal on hover
    --------------------------------------------------------------------------- */
 .footer__link-list {
   display: flex;
@@ -240,12 +238,10 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transition: left var(--duration-slow) var(--ease);
 }
 
@@ -256,6 +252,7 @@
 .footer__cta-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 0.25rem 1rem rgba(20, 184, 166, 0.3);
+  background-image: var(--gradient-teal-cyan-dark);
 }
 
 .footer__cta-button:active {
@@ -323,4 +320,40 @@
 .footer__legal-link:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+/* Color Scheme Overrides */
+.footer--purple .footer__cta-button {
+  background-image: var(--gradient-purple-blue);
+}
+.footer--purple .footer__cta-button:hover {
+  box-shadow: 0 0.25rem 1rem rgba(168, 85, 247, 0.3);
+  background-image: var(--gradient-purple-blue-dark);
+}
+.footer--purple .footer__logo-pill {
+  background-color: var(--purple-50);
+  border-color: var(--purple-200);
+}
+.footer--purple .footer__logo-pill:hover {
+  box-shadow: 0 0 1rem rgba(168, 85, 247, 0.15);
+}
+.footer--purple .footer__logo-icon {
+  color: var(--purple-600);
+}
+
+.footer--blue .footer__cta-button {
+  background-image: var(--gradient-blue-cyan);
+}
+.footer--blue .footer__cta-button:hover {
+  box-shadow: 0 0.25rem 1rem rgba(59, 130, 246, 0.3);
+  background-image: var(--gradient-blue-cyan-dark);
+}
+.footer--blue .footer__logo-pill {
+  background-color: var(--blue-50);
+  border-color: var(--blue-200);
+}
+.footer--blue .footer__logo-pill:hover {
+  box-shadow: 0 0 1rem rgba(59, 130, 246, 0.15);
+}
+.footer--blue .footer__logo-icon {
+  color: var(--blue-600);
 }

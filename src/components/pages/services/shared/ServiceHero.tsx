@@ -1,5 +1,5 @@
 /**
- * ServiceHero — Shared hero banner for service detail pages
+ * ServiceHero, Shared hero banner for service detail pages
  * Dark background with blobs, badge, title, subtitle and CTA
  */
 
@@ -14,12 +14,13 @@ import './ServicePage.css';
 interface ServiceHeroProps {
   badgeIcon: LucideIcon;
   badgeLabel: string;
-  /** Main title — can contain JSX for gradient spans */
+  /** Main title, can contain JSX for gradient spans */
   title: ReactNode;
   subtitle: string;
   ctaLabel: string;
-  /** Where the CTA scrolls to — defaults to 'contact' */
+  /** Where the CTA scrolls to, defaults to 'contact' */
   ctaTarget?: string;
+  colorScheme?: 'teal' | 'purple' | 'blue';
 }
 
 function ServiceHero({
@@ -29,12 +30,13 @@ function ServiceHero({
   subtitle,
   ctaLabel,
   ctaTarget = 'contact',
+  colorScheme = 'teal',
 }: ServiceHeroProps) {
   const { navigateToSection } = useSectionNavigation();
 
   return (
-    <div className="service-hero">
-      <Navigation />
+    <div className={`service-hero service-hero--${colorScheme}`}>
+      <Navigation colorScheme={colorScheme} />
       <div className="service-hero__texture" />
       <div className="service-hero__blob-1" />
       <div className="service-hero__blob-2" />

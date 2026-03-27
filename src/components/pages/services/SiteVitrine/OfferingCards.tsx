@@ -1,5 +1,5 @@
 /**
- * OfferingCards — Site Vitrine specific section
+ * OfferingCards, Site Vitrine specific section
  * Two side-by-side cards: One-Page vs Multi-Pages
  */
 

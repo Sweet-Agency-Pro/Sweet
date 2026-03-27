@@ -1,244 +1,248 @@
 /* =============================================================================
-   DESIGN TOKENS — CSS Custom Properties
+   DESIGN TOKENS, CSS Custom Properties
    Converted from theme.ts
    ============================================================================= */
 
 :root {
-  /* ---------------------------------------------------------------------------
-     COLORS — Teal
+   /* ---------------------------------------------------------------------------
+     COLORS, Teal
      --------------------------------------------------------------------------- */
-  --teal-50: #f0fdfa;
-  --teal-100: #ccfbf1;
-  --teal-200: #99f6e4;
-  --teal-300: #5eead4;
-  --teal-400: #2dd4bf;
-  --teal-500: #14b8a6;
-  --teal-600: #0d9488;
-  --teal-700: #0f766e;
-  --teal-800: #115e59;
-  --teal-900: #134e4a;
+   --teal-50: #f0fdfa;
+   --teal-100: #ccfbf1;
+   --teal-200: #99f6e4;
+   --teal-300: #5eead4;
+   --teal-400: #2dd4bf;
+   --teal-500: #14b8a6;
+   --teal-600: #0d9488;
+   --teal-700: #0f766e;
+   --teal-800: #115e59;
+   --teal-900: #134e4a;
 
-  /* ---------------------------------------------------------------------------
-     COLORS — Cyan
+   /* ---------------------------------------------------------------------------
+     COLORS, Cyan
      --------------------------------------------------------------------------- */
-  --cyan-50: #ecfeff;
-  --cyan-100: #cffafe;
-  --cyan-200: #a5f3fc;
-  --cyan-300: #67e8f9;
-  --cyan-400: #22d3ee;
-  --cyan-500: #06b6d4;
-  --cyan-600: #0891b2;
-  --cyan-700: #0e7490;
-  --cyan-800: #155e75;
-  --cyan-900: #164e63;
+   --cyan-50: #ecfeff;
+   --cyan-100: #cffafe;
+   --cyan-200: #a5f3fc;
+   --cyan-300: #67e8f9;
+   --cyan-400: #22d3ee;
+   --cyan-500: #06b6d4;
+   --cyan-600: #0891b2;
+   --cyan-700: #0e7490;
+   --cyan-800: #155e75;
+   --cyan-900: #164e63;
 
-  /* ---------------------------------------------------------------------------
-     COLORS — Blue
+   /* ---------------------------------------------------------------------------
+     COLORS, Blue
      --------------------------------------------------------------------------- */
-  --blue-50: #eff6ff;
-  --blue-100: #dbeafe;
-  --blue-200: #bfdbfe;
-  --blue-300: #93c5fd;
-  --blue-400: #60a5fa;
-  --blue-500: #3b82f6;
-  --blue-600: #2563eb;
-  --blue-700: #1d4ed8;
-  --blue-800: #1e40af;
-  --blue-900: #1e3a8a;
+   --blue-50: #eff6ff;
+   --blue-100: #dbeafe;
+   --blue-200: #bfdbfe;
+   --blue-300: #93c5fd;
+   --blue-400: #60a5fa;
+   --blue-500: #3b82f6;
+   --blue-600: #2563eb;
+   --blue-700: #1d4ed8;
+   --blue-800: #1e40af;
+   --blue-900: #1e3a8a;
 
-  /* ---------------------------------------------------------------------------
-     COLORS — Purple
+   /* ---------------------------------------------------------------------------
+     COLORS, Purple
      --------------------------------------------------------------------------- */
-  --purple-50: #faf5ff;
-  --purple-100: #f3e8ff;
-  --purple-200: #e9d5ff;
-  --purple-300: #d8b4fe;
-  --purple-400: #c084fc;
-  --purple-500: #a855f7;
-  --purple-600: #9333ea;
-  --purple-700: #7c3aed;
-  --purple-800: #6b21a8;
-  --purple-900: #581c87;
+   --purple-50: #faf5ff;
+   --purple-100: #f3e8ff;
+   --purple-200: #e9d5ff;
+   --purple-300: #d8b4fe;
+   --purple-400: #c084fc;
+   --purple-500: #a855f7;
+   --purple-600: #9333ea;
+   --purple-700: #7c3aed;
+   --purple-800: #6b21a8;
+   --purple-900: #581c87;
 
-  /* ---------------------------------------------------------------------------
-     COLORS — Slate
+   /* ---------------------------------------------------------------------------
+     COLORS, Slate
      --------------------------------------------------------------------------- */
-  --slate-50: #f8fafc;
-  --slate-100: #f1f5f9;
-  --slate-150: #e2e7efd6;
-  --slate-200: #e2e8f0;
-  --slate-300: #cbd5e1;
-  --slate-400: #94a3b8;
-  --slate-500: #64748b;
-  --slate-600: #475569;
-  --slate-700: #334155;
-  --slate-800: #1e293b;
-  --slate-900: #0f172a;
+   --slate-50: #f8fafc;
+   --slate-100: #f1f5f9;
+   --slate-150: #e2e7efd6;
+   --slate-200: #e2e8f0;
+   --slate-300: #cbd5e1;
+   --slate-400: #94a3b8;
+   --slate-500: #64748b;
+   --slate-600: #475569;
+   --slate-700: #334155;
+   --slate-800: #1e293b;
+   --slate-900: #0f172a;
 
-  /* ---------------------------------------------------------------------------
-     COLORS — Base
+   /* ---------------------------------------------------------------------------
+     COLORS, Base
      --------------------------------------------------------------------------- */
-  --white: #ffffff;
-  --black: #000000;
+   --white: #ffffff;
+   --black: #000000;
 
-  /* ---------------------------------------------------------------------------
+   /* ---------------------------------------------------------------------------
      SPACING (rem)
      --------------------------------------------------------------------------- */
-  --sp-0: 0;
-  --sp-0-5: 0.125rem;
-  --sp-1: 0.25rem;
-  --sp-1-5: 0.375rem;
-  --sp-2: 0.5rem;
-  --sp-2-5: 0.625rem;
-  --sp-3: 0.75rem;
-  --sp-4: 1rem;
-  --sp-5: 1.25rem;
-  --sp-6: 1.5rem;
-  --sp-7: 1.75rem;
-  --sp-8: 2rem;
-  --sp-9: 2.25rem;
-  --sp-10: 2.5rem;
-  --sp-11: 2.75rem;
-  --sp-12: 3rem;
-  --sp-14: 3.5rem;
-  --sp-16: 4rem;
-  --sp-20: 5rem;
-  --sp-24: 6rem;
-  --sp-28: 7rem;
-  --sp-32: 8rem;
-  --sp-36: 9rem;
-  --sp-40: 10rem;
-  --sp-44: 11rem;
-  --sp-48: 12rem;
-  --sp-52: 13rem;
-  --sp-56: 14rem;
-  --sp-60: 15rem;
-  --sp-64: 16rem;
-  --sp-72: 18rem;
-  --sp-80: 20rem;
-  --sp-96: 24rem;
+   --sp-0: 0;
+   --sp-0-5: 0.125rem;
+   --sp-1: 0.25rem;
+   --sp-1-5: 0.375rem;
+   --sp-2: 0.5rem;
+   --sp-2-5: 0.625rem;
+   --sp-3: 0.75rem;
+   --sp-4: 1rem;
+   --sp-5: 1.25rem;
+   --sp-6: 1.5rem;
+   --sp-7: 1.75rem;
+   --sp-8: 2rem;
+   --sp-9: 2.25rem;
+   --sp-10: 2.5rem;
+   --sp-11: 2.75rem;
+   --sp-12: 3rem;
+   --sp-14: 3.5rem;
+   --sp-16: 4rem;
+   --sp-20: 5rem;
+   --sp-24: 6rem;
+   --sp-28: 7rem;
+   --sp-32: 8rem;
+   --sp-36: 9rem;
+   --sp-40: 10rem;
+   --sp-44: 11rem;
+   --sp-48: 12rem;
+   --sp-52: 13rem;
+   --sp-56: 14rem;
+   --sp-60: 15rem;
+   --sp-64: 16rem;
+   --sp-72: 18rem;
+   --sp-80: 20rem;
+   --sp-96: 24rem;
 
-  /* ---------------------------------------------------------------------------
-     TYPOGRAPHY — Font Sizes
+   /* ---------------------------------------------------------------------------
+     TYPOGRAPHY, Font Sizes
      --------------------------------------------------------------------------- */
-  --fs-xs: 0.75rem;
-  --fs-sm: 0.875rem;
-  --fs-base: 1rem;
-  --fs-lg: 1.125rem;
-  --fs-xl: 1.25rem;
-  --fs-2xl: 1.5rem;
-  --fs-3xl: 1.875rem;
-  --fs-4xl: 2.25rem;
-  --fs-5xl: 3rem;
-  --fs-6xl: 3.75rem;
-  --fs-7xl: 4.5rem;
-  --fs-8xl: 6rem;
-  --fs-9xl: 8rem;
-  --fs-hero: 12rem;
-  --fs-hero-lg: 16rem;
+   --fs-xs: 0.75rem;
+   --fs-sm: 0.875rem;
+   --fs-base: 1rem;
+   --fs-lg: 1.125rem;
+   --fs-xl: 1.25rem;
+   --fs-2xl: 1.5rem;
+   --fs-3xl: 1.875rem;
+   --fs-4xl: 2.25rem;
+   --fs-5xl: 3rem;
+   --fs-6xl: 3.75rem;
+   --fs-7xl: 4.5rem;
+   --fs-8xl: 6rem;
+   --fs-9xl: 8rem;
+   --fs-hero: 12rem;
+   --fs-hero-lg: 16rem;
 
-  /* ---------------------------------------------------------------------------
-     TYPOGRAPHY — Font Weights
+   /* ---------------------------------------------------------------------------
+     TYPOGRAPHY, Font Weights
      --------------------------------------------------------------------------- */
-  --fw-light: 300;
-  --fw-normal: 400;
-  --fw-medium: 500;
-  --fw-semibold: 600;
-  --fw-bold: 700;
-  --fw-extrabold: 800;
-  --fw-black: 900;
+   --fw-light: 300;
+   --fw-normal: 400;
+   --fw-medium: 500;
+   --fw-semibold: 600;
+   --fw-bold: 700;
+   --fw-extrabold: 800;
+   --fw-black: 900;
 
-  /* ---------------------------------------------------------------------------
-     TYPOGRAPHY — Line Heights
+   /* ---------------------------------------------------------------------------
+     TYPOGRAPHY, Line Heights
      --------------------------------------------------------------------------- */
-  --lh-none: 1;
-  --lh-tight: 1.1;
-  --lh-snug: 1.375;
-  --lh-normal: 1.5;
-  --lh-relaxed: 1.625;
-  --lh-loose: 2;
+   --lh-none: 1;
+   --lh-tight: 1.1;
+   --lh-snug: 1.375;
+   --lh-normal: 1.5;
+   --lh-relaxed: 1.625;
+   --lh-loose: 2;
 
-  /* ---------------------------------------------------------------------------
-     TYPOGRAPHY — Letter Spacing
+   /* ---------------------------------------------------------------------------
+     TYPOGRAPHY, Letter Spacing
      --------------------------------------------------------------------------- */
-  --ls-tighter: -0.05em;
-  --ls-tight: -0.025em;
-  --ls-normal: 0;
-  --ls-wide: 0.025em;
-  --ls-wider: 0.05em;
-  --ls-widest: 0.1em;
+   --ls-tighter: -0.05em;
+   --ls-tight: -0.025em;
+   --ls-normal: 0;
+   --ls-wide: 0.025em;
+   --ls-wider: 0.05em;
+   --ls-widest: 0.1em;
 
-  /* ---------------------------------------------------------------------------
+   /* ---------------------------------------------------------------------------
      BORDER RADIUS
      --------------------------------------------------------------------------- */
-  --radius-none: 0;
-  --radius-sm: 0.125rem;
-  --radius-default: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
-  --radius-3xl: 1.5rem;
-  --radius-full: 9999px;
+   --radius-none: 0;
+   --radius-sm: 0.125rem;
+   --radius-default: 0.25rem;
+   --radius-md: 0.375rem;
+   --radius-lg: 0.5rem;
+   --radius-xl: 0.75rem;
+   --radius-2xl: 1rem;
+   --radius-3xl: 1.5rem;
+   --radius-full: 9999px;
 
-  /* ---------------------------------------------------------------------------
+   /* ---------------------------------------------------------------------------
      SHADOWS
      --------------------------------------------------------------------------- */
-  --shadow-sm: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.05);
-  --shadow-default: 0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.1), 0 0.0625rem 0.125rem -0.0625rem rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 0.25rem 0.375rem -0.0625rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem -0.125rem rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.1), 0 0.25rem 0.375rem -0.25rem rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, 0.1), 0 0.5rem 0.625rem -0.375rem rgba(0, 0, 0, 0.1);
-  --shadow-2xl: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25);
+   --shadow-sm: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, 0.05);
+   --shadow-default: 0 0.0625rem 0.1875rem 0 rgba(0, 0, 0, 0.1), 0 0.0625rem 0.125rem -0.0625rem rgba(0, 0, 0, 0.1);
+   --shadow-md: 0 0.25rem 0.375rem -0.0625rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem -0.125rem rgba(0, 0, 0, 0.1);
+   --shadow-lg: 0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.1), 0 0.25rem 0.375rem -0.25rem rgba(0, 0, 0, 0.1);
+   --shadow-xl: 0 1.25rem 1.5625rem -0.3125rem rgba(0, 0, 0, 0.1), 0 0.5rem 0.625rem -0.375rem rgba(0, 0, 0, 0.1);
+   --shadow-2xl: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25);
 
-  /* ---------------------------------------------------------------------------
+   /* ---------------------------------------------------------------------------
      TRANSITIONS
      --------------------------------------------------------------------------- */
-  --duration-fast: 150ms;
-  --duration-normal: 200ms;
-  --duration-medium: 300ms;
-  --duration-slow: 500ms;
-  --duration-slower: 700ms;
-  --ease: ease;
-  --ease-in: ease-in;
-  --ease-out: ease-out;
-  --ease-in-out: ease-in-out;
+   --duration-fast: 150ms;
+   --duration-normal: 200ms;
+   --duration-medium: 300ms;
+   --duration-slow: 500ms;
+   --duration-slower: 700ms;
+   --ease: ease;
+   --ease-in: ease-in;
+   --ease-out: ease-out;
+   --ease-in-out: ease-in-out;
 
-  /* Animation-specific easings & durations */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-premium: cubic-bezier(0.22, 0.68, 0, 1.71);
-  --duration-ambient: 6s;
-  --duration-entrance: 0.8s;
-  --duration-stagger: 0.12s;
+   /* Animation-specific easings & durations */
+   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+   --ease-premium: cubic-bezier(0.22, 0.68, 0, 1.71);
+   --duration-ambient: 6s;
+   --duration-entrance: 0.8s;
+   --duration-stagger: 0.12s;
 
-  /* ---------------------------------------------------------------------------
+   /* ---------------------------------------------------------------------------
      GRADIENTS
      --------------------------------------------------------------------------- */
-  --gradient-primary: linear-gradient(to right, #14b8a6, #06b6d4, #3b82f6);
-  --gradient-primary-light: linear-gradient(to right, #5eead4, #67e8f9, #93c5fd);
-  --gradient-primary-dark: linear-gradient(to right, #0d9488, #0891b2, #2563eb);
-  --gradient-teal-cyan: linear-gradient(to right, #14b8a6, #06b6d4);
-  --gradient-teal-cyan-dark: linear-gradient(to right, #0d9488, #0891b2);
-  --gradient-blue-purple: linear-gradient(to right, #3b82f6, #a855f7);
-  --gradient-blue-purple-dark: linear-gradient(to right, #2563eb, #9333ea);
-  --gradient-hero-bg: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a);
+   --gradient-primary: linear-gradient(90deg, #14b8a6, #06b6d4, #3b82f6, #14b8a6);
+   --gradient-primary-light: linear-gradient(90deg, #5eead4, #67e8f9, #93c5fd, #5eead4);
+   --gradient-primary-dark: linear-gradient(90deg, #0d9488, #0891b2, #2563eb, #0d9488);
+   --gradient-teal-cyan: linear-gradient(90deg, #14b8a6, #06b6d4, #14b8a6);
+   --gradient-teal-cyan-dark: linear-gradient(90deg, #0d9488, #0891b2, #0d9488);
+   --gradient-blue-purple: linear-gradient(90deg, #3b82f6, #a855f7, #3b82f6);
+   --gradient-blue-purple-dark: linear-gradient(90deg, #2563eb, #9333ea, #2563eb);
+   --gradient-purple-blue: linear-gradient(90deg, #c084fc, #60a5fa, #c084fc);
+   --gradient-purple-blue-dark: linear-gradient(90deg, #a855f7, #3b82f6, #a855f7);
+   --gradient-blue-cyan: linear-gradient(90deg, #60a5fa, #22d3ee, #60a5fa);
+   --gradient-blue-cyan-dark: linear-gradient(90deg, #3b82f6, #06b6d4, #3b82f6);
+   --gradient-hero-bg: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a);
 
-  /* ---------------------------------------------------------------------------
+   /* ---------------------------------------------------------------------------
      CONTAINER
      --------------------------------------------------------------------------- */
-  --container-max: 100rem;
-  --container-padding: var(--sp-6);
-  --container-padding-lg: var(--sp-8);
+   --container-max: 100rem;
+   --container-padding: var(--sp-6);
+   --container-padding-lg: var(--sp-8);
 
-  /* ---------------------------------------------------------------------------
-     BREAKPOINTS (for reference — used in @media queries)
+   /* ---------------------------------------------------------------------------
+     BREAKPOINTS (for reference, used in @media queries)
      --------------------------------------------------------------------------- */
-  --bp-sm: 640px;
-  --bp-md: 768px;
-  --bp-lg: 1024px;
-  --bp-xl: 1280px;
-  --bp-2xl: 1536px;
-  --bp-3xl: 1920px;
-  --bp-4xl: 2560px;
+   --bp-sm: 640px;
+   --bp-md: 768px;
+   --bp-lg: 1024px;
+   --bp-xl: 1280px;
+   --bp-2xl: 1536px;
+   --bp-3xl: 1920px;
+   --bp-4xl: 2560px;
 }

@@ -1,5 +1,5 @@
 /* =============================================================================
-   CONTACT SECTION STYLES — Modernized
+   CONTACT SECTION STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -218,7 +218,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   GLASS CARD — Enhanced glassmorphism with animated border glow
+   GLASS CARD, Enhanced glassmorphism with animated border glow
    --------------------------------------------------------------------------- */
 .contact__glass-card {
   position: relative;
@@ -449,7 +449,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   SUBMIT BUTTON — Gradient shift + glow
+   SUBMIT BUTTON, Gradient shift + glow
    --------------------------------------------------------------------------- */
 .contact-form__submit {
   display: flex;

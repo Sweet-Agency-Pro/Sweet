@@ -341,7 +341,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
             onChange={(e) => setIsFlagship(e.target.checked)}
           />
           <span style={{ color: theme.colors.slate[200], fontSize: theme.typography.fontSize.sm }}>
-            Projet phare (flagship — mis en avant sur le site)
+            Projet phare (flagship, mis en avant sur le site)
           </span>
         </label>
 

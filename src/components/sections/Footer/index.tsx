@@ -10,12 +10,16 @@ const navLinks = [
   { sectionId: 'contact', label: 'Contact' },
 ];
 
-function Footer() {
+interface FooterProps {
+  colorScheme?: 'teal' | 'purple' | 'blue';
+}
+
+function Footer({ colorScheme }: FooterProps) {
   const { navigateToSection } = useSectionNavigation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${colorScheme ? `footer--${colorScheme}` : ''}`}>
       <div className="footer__top-accent" />
       <div className="footer__bg-texture" />
       <div className="footer__glow-orb" />

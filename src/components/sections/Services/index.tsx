@@ -167,7 +167,14 @@ function ServicesPreview() {
   const activeService = services.find(s => s.id === activeTabId) || services[0];
 
   return (
-    <section id="services" className="services">
+    <section 
+      id="services" 
+      className="services"
+      style={{
+        '--selection-bg': activeService.colorAccent[200],
+        '--selection-text': activeService.colorAccent[900],
+      } as React.CSSProperties}
+    >
       <div className="services__container">
         <SectionHeader />
 

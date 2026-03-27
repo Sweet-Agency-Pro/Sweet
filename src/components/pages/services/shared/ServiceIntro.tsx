@@ -1,5 +1,5 @@
 /**
- * ServiceIntro — Shared intro section for service detail pages
+ * ServiceIntro, Shared intro section for service detail pages
  * White background with a centered title + paragraph
  */
 
@@ -9,11 +9,12 @@ import './ServicePage.css';
 interface ServiceIntroProps {
   title: string;
   text: string;
+  colorScheme?: 'teal' | 'purple' | 'blue';
 }
 
-function ServiceIntro({ title, text }: ServiceIntroProps) {
+function ServiceIntro({ title, text, colorScheme = 'teal' }: ServiceIntroProps) {
   return (
-    <section className="service-intro">
+    <section className={`service-intro service-intro--${colorScheme}`}>
       <div className="service-intro__container">
         <motion.div
           className="service-intro__decoration"

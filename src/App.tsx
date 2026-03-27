@@ -3,6 +3,8 @@ import PublicHome from './components/PublicHome';
 import MentionsLegales from './components/pages/legal/MentionsLegales';
 import PolitiqueConfidentialite from './components/pages/legal/PolitiqueConfidentialite';
 import SiteVitrine from './components/pages/services/SiteVitrine';
+import SiteEcommerce from './components/pages/services/Ecommerce';
+import PanneauDeGestion from './components/pages/services/PanneauDeGestion';
 import Login from './components/admin/Login';
 import NotFound from './components/admin/NotFound';
 import RequireAdmin from './components/admin/RequireAdmin';
@@ -26,6 +28,8 @@ function App() {
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/confidentialite" element={<PolitiqueConfidentialite />} />
         <Route path="/services/site-vitrine" element={<SiteVitrine />} />
+        <Route path="/services/site-ecommerce" element={<SiteEcommerce />} />
+        <Route path="/services/panneau-de-gestion" element={<PanneauDeGestion />} />
         <Route path={loginPath} element={<Login adminPath={adminPath} />} />
         <Route
           path={adminPath}

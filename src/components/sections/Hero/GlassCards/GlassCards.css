@@ -1,5 +1,5 @@
 /* =============================================================================
-   GLASS CARDS STYLES — Modernized
+   GLASS CARDS STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -59,7 +59,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   COMMON CARD STYLES — Float animation & enhanced glass
+   COMMON CARD STYLES, Float animation & enhanced glass
    --------------------------------------------------------------------------- */
 .glass-card {
   position: absolute;
@@ -99,14 +99,12 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.03) 45%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.03) 55%,
-    transparent 60%
-  );
+  background: linear-gradient(45deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.03) 45%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.03) 55%,
+      transparent 60%);
   animation: gradient-shimmer 8s linear infinite;
   background-size: 200% 200%;
   pointer-events: none;
@@ -125,7 +123,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   BACKEND CARD — Float with delay 0
+   BACKEND CARD, Float with delay 0
    --------------------------------------------------------------------------- */
 .glass-card--backend {
   transform: translateZ(-6rem) rotateX(3deg);
@@ -140,7 +138,7 @@
 .glass-card--backend:hover .glass-card__inner--backend {
   border-color: rgba(20, 184, 166, 0.4);
   box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25),
-              0 0 2rem rgba(20, 184, 166, 0.1);
+    0 0 2rem rgba(20, 184, 166, 0.1);
 }
 
 .glass-card__label--backend {
@@ -170,14 +168,28 @@
 }
 
 /* Syntax colors */
-.code-purple { color: var(--purple-400); }
-.code-cyan { color: var(--cyan-300); }
-.code-yellow { color: #fde047; }
-.code-green { color: #4ade80; }
-.code-slate { color: var(--slate-500); }
+.code-purple {
+  color: var(--purple-400);
+}
+
+.code-cyan {
+  color: var(--cyan-300);
+}
+
+.code-yellow {
+  color: #fde047;
+}
+
+.code-green {
+  color: #4ade80;
+}
+
+.code-slate {
+  color: var(--slate-500);
+}
 
 /* ---------------------------------------------------------------------------
-   ARCHITECTURE CARD — Float with delay 1s
+   ARCHITECTURE CARD, Float with delay 1s
    --------------------------------------------------------------------------- */
 .glass-card--architecture {
   transform: translateZ(-3rem) rotateY(2deg) rotateX(3deg);
@@ -192,7 +204,7 @@
 .glass-card--architecture:hover .glass-card__inner--architecture {
   border-color: rgba(6, 182, 212, 0.4);
   box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25),
-              0 0 2rem rgba(6, 182, 212, 0.1);
+    0 0 2rem rgba(6, 182, 212, 0.1);
 }
 
 .glass-card__label--light {
@@ -287,7 +299,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   FRONTEND CARD — Float with delay 2s
+   FRONTEND CARD, Float with delay 2s
    --------------------------------------------------------------------------- */
 .glass-card--frontend {
   transform: translateZ(0) rotateY(-4deg) rotateX(3deg);
@@ -302,7 +314,7 @@
 .glass-card--frontend:hover .glass-card__inner--frontend {
   border-color: rgba(168, 85, 247, 0.4);
   box-shadow: 0 1.5625rem 3.125rem -0.75rem rgba(0, 0, 0, 0.25),
-              0 0 2rem rgba(168, 85, 247, 0.1);
+    0 0 2rem rgba(168, 85, 247, 0.1);
 }
 
 .glass-card__frontend-gradient {

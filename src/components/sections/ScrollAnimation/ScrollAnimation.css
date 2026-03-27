@@ -1,5 +1,5 @@
 /* =============================================================================
-   SCROLL ANIMATION STYLES — Modernized
+   SCROLL ANIMATION STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   BACKGROUND — Animated breathing gradient
+   BACKGROUND, Animated breathing gradient
    --------------------------------------------------------------------------- */
 .scroll-animation__bg-container {
   position: absolute;
@@ -120,7 +120,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   SUBTITLE — Animated entrance
+   SUBTITLE, Animated entrance
    --------------------------------------------------------------------------- */
 .scroll-animation__subtitle-container {
   margin-top: var(--sp-6);
@@ -143,7 +143,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   DECORATIVE CORNERS — Animated fade-in
+   DECORATIVE CORNERS, Animated fade-in
    --------------------------------------------------------------------------- */
 .scroll-animation__decorative {
   position: absolute;

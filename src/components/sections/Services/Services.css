@@ -1,5 +1,5 @@
 /* =============================================================================
-   SERVICES SECTION STYLES — Modernized
+   SERVICES SECTION STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -11,6 +11,11 @@
   padding-bottom: var(--sp-24);
   overflow: hidden;
   background-color: var(--white);
+}
+
+.services ::selection {
+  background-color: var(--selection-bg, var(--teal-100));
+  color: var(--selection-text, var(--teal-900));
 }
 
 @media (max-width: 1024px) {
@@ -28,11 +33,9 @@
   transform: translateX(-50%);
   width: 60rem;
   height: 60rem;
-  background: radial-gradient(
-    circle,
-    rgba(20, 184, 166, 0.04) 0%,
-    transparent 60%
-  );
+  background: radial-gradient(circle,
+      rgba(20, 184, 166, 0.04) 0%,
+      transparent 60%);
   pointer-events: none;
 }
 
@@ -91,12 +94,10 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(20, 184, 166, 0.15),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(20, 184, 166, 0.15),
+      transparent);
   animation: gradient-bar-shift 4s ease-in-out infinite;
   background-size: 200% 100%;
   pointer-events: none;
@@ -138,12 +139,10 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: linear-gradient(
-    90deg,
-    var(--teal-500),
-    var(--cyan-500),
-    var(--teal-500)
-  );
+  background-image: linear-gradient(90deg,
+      var(--teal-500),
+      var(--cyan-500),
+      var(--teal-500));
   background-size: 200% 100%;
   animation: gradient-shimmer 5s ease-in-out infinite;
 }
@@ -194,7 +193,7 @@
   padding: var(--sp-2);
   gap: var(--sp-2);
   box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05),
-              inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
   overflow-x: auto;
   max-width: 100%;
   scrollbar-width: none;
@@ -217,7 +216,8 @@
   font-weight: var(--fw-bold);
   cursor: pointer;
   transition: color var(--duration-medium) var(--ease-smooth);
-  z-index: 1; /* Above indicator */
+  z-index: 1;
+  /* Above indicator */
   white-space: nowrap;
   outline: none;
 }
@@ -247,7 +247,8 @@
 .services__showcase-wrapper {
   position: relative;
   width: 100%;
-  min-height: 480px; /* Prevent vertical collapsing during strict crossfade */
+  min-height: 480px;
+  /* Prevent vertical collapsing during strict crossfade */
   display: flex;
   justify-content: center;
   margin-bottom: var(--sp-20);
@@ -263,9 +264,11 @@
 .service-showcase {
   width: 100%;
   display: grid;
-  grid-template-columns: 4fr 6fr; /* 40% / 60% balance */
+  grid-template-columns: 4fr 6fr;
+  /* 40% / 60% balance */
   gap: var(--sp-12);
-  align-items: center; /* Center horizontally across the columns */
+  align-items: center;
+  /* Center horizontally across the columns */
 }
 
 @media (max-width: 1024px) {
@@ -301,7 +304,8 @@
 .service-showcase__icon-squircle {
   width: var(--sp-20);
   height: var(--sp-20);
-  border-radius: var(--radius-2xl); /* Apple style continuous curve squircle */
+  border-radius: var(--radius-2xl);
+  /* Apple style continuous curve squircle */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -370,7 +374,7 @@
   letter-spacing: var(--ls-wide);
   cursor: pointer;
   transition: transform var(--duration-medium) var(--ease-spring),
-              box-shadow var(--duration-medium) var(--ease);
+    box-shadow var(--duration-medium) var(--ease);
 }
 
 .service-showcase__cta:hover {
@@ -403,7 +407,7 @@
   border-radius: var(--radius-3xl);
   padding: var(--sp-12);
   box-shadow: 0 2rem 5rem -1rem rgba(15, 23, 42, 0.05),
-              inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
 }
 
 @media (max-width: 1024px) {
@@ -447,13 +451,14 @@
 
 .service-showcase__feature-item {
   display: flex;
-  align-items: center; /* keep icon and text aligned */
+  align-items: center;
+  /* keep icon and text aligned */
   gap: var(--sp-3);
   padding: var(--sp-4);
   border-radius: var(--radius-xl);
   border: 1px solid;
   transition: transform var(--duration-fast) var(--ease),
-              box-shadow var(--duration-fast) var(--ease);
+    box-shadow var(--duration-fast) var(--ease);
 }
 
 .service-showcase__feature-item:hover {
@@ -478,7 +483,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   CTA BANNER — Animated gradient & enhanced hover
+   CTA BANNER, Animated gradient & enhanced hover
    --------------------------------------------------------------------------- */
 .services__cta-banner {
   background-color: var(--slate-50);
@@ -492,7 +497,7 @@
   position: relative;
   overflow: hidden;
   transition: border-color var(--duration-medium) var(--ease),
-              box-shadow var(--duration-medium) var(--ease);
+    box-shadow var(--duration-medium) var(--ease);
 }
 
 .services__cta-banner:hover {
@@ -508,11 +513,9 @@
   right: -20%;
   width: 30rem;
   height: 30rem;
-  background: radial-gradient(
-    circle,
-    rgba(20, 184, 166, 0.06) 0%,
-    transparent 60%
-  );
+  background: radial-gradient(circle,
+      rgba(20, 184, 166, 0.06) 0%,
+      transparent 60%);
   pointer-events: none;
   animation: blob-drift 10s ease-in-out infinite;
 }

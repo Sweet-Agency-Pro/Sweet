@@ -148,7 +148,7 @@ button {
    GLOBAL KEYFRAMES
    ============================================================================= */
 
-/* Blob drift — slow organic motion for background blobs */
+/* Blob drift, slow organic motion for background blobs */
 @keyframes blob-drift {
 
   0%,
@@ -169,7 +169,7 @@ button {
   }
 }
 
-/* Gradient shimmer — moving highlights on gradient text */
+/* Gradient shimmer, moving highlights on gradient text */
 @keyframes gradient-shimmer {
   0% {
     background-position: 0% 50%;
@@ -184,7 +184,7 @@ button {
   }
 }
 
-/* Float — gentle hovering effect for cards */
+/* Float, gentle hovering effect for cards */
 @keyframes float {
 
   0%,
@@ -197,7 +197,7 @@ button {
   }
 }
 
-/* Pulse glow — breathing border/shadow glow */
+/* Pulse glow, breathing border/shadow glow */
 @keyframes pulse-glow {
 
   0%,
@@ -210,7 +210,7 @@ button {
   }
 }
 
-/* Slide up + fade — entrance animation */
+/* Slide up + fade, entrance animation */
 @keyframes slide-up-fade {
   from {
     opacity: 0;
@@ -223,7 +223,7 @@ button {
   }
 }
 
-/* Scale in — smooth entrance scale */
+/* Scale in, smooth entrance scale */
 @keyframes scale-in {
   from {
     opacity: 0;
@@ -236,7 +236,7 @@ button {
   }
 }
 
-/* Gradient bar shift — moving gradient for accent bars */
+/* Gradient bar shift, moving gradient for accent bars */
 @keyframes gradient-bar-shift {
   0% {
     background-position: 0% 50%;
@@ -247,14 +247,14 @@ button {
   }
 }
 
-/* Spin — loading spinner */
+/* Spin, loading spinner */
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* Draw line — for decorative elements */
+/* Draw line, for decorative elements */
 @keyframes draw-line {
   from {
     stroke-dashoffset: 100;
@@ -306,7 +306,7 @@ button {
 }
 
 /* =============================================================================
-   REDUCED MOTION — Accessibility
+   REDUCED MOTION, Accessibility
    ============================================================================= */
 @media (prefers-reduced-motion: reduce) {
 

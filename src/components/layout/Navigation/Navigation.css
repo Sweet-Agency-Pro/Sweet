@@ -346,8 +346,72 @@
 }
 
 .nav__drawer-contact-text {
-  font-size: var(--fs-sm);
-  color: var(--slate-500);
-  margin: 0;
+  font-size: var(--fs-lg);
+  color: var(--slate-600);
   margin-bottom: var(--sp-2);
+}
+
+/* =============================================================================
+   COLOR SCHEME OVERRIDES (PURPLE & BLUE)
+   ============================================================================= */
+
+/* --- Default Teal Hover --- */
+.nav__cta--scrolled:hover {
+  background-image: var(--gradient-primary-dark);
+}
+
+/* --- Purple --- */
+.nav--purple .nav__logo-icon-inner--scrolled,
+.nav--purple .nav__logo-icon-inner--dark,
+.nav--purple .nav__burger--scrolled {
+  background-color: var(--purple-50);
+  border-color: var(--purple-200);
+}
+
+.nav--purple .nav__logo-icon-glow,
+.nav--purple .nav__logo-icon-glow--dark {
+  background: linear-gradient(to bottom right, var(--purple-400), var(--blue-400));
+}
+
+.nav--purple .nav__logo-icon--scrolled,
+.nav--purple .nav__logo-icon--dark,
+.nav--purple .nav__burger-icon--scrolled {
+  color: var(--purple-600);
+}
+
+.nav--purple .nav__cta--scrolled {
+  background-image: var(--gradient-purple-blue);
+  box-shadow: 0 0.25rem 0.75rem rgba(168, 85, 247, 0.3);
+}
+
+.nav--purple .nav__cta--scrolled:hover {
+  background-image: var(--gradient-purple-blue-dark);
+}
+
+/* --- Blue --- */
+.nav--blue .nav__logo-icon-inner--scrolled,
+.nav--blue .nav__logo-icon-inner--dark,
+.nav--blue .nav__burger--scrolled {
+  background-color: var(--blue-50);
+  border-color: var(--blue-200);
+}
+
+.nav--blue .nav__logo-icon-glow,
+.nav--blue .nav__logo-icon-glow--dark {
+  background: linear-gradient(to bottom right, var(--blue-400), var(--cyan-400));
+}
+
+.nav--blue .nav__logo-icon--scrolled,
+.nav--blue .nav__logo-icon--dark,
+.nav--blue .nav__burger-icon--scrolled {
+  color: var(--blue-600);
+}
+
+.nav--blue .nav__cta--scrolled {
+  background-image: var(--gradient-blue-cyan);
+  box-shadow: 0 0.25rem 0.75rem rgba(59, 130, 246, 0.3);
+}
+
+.nav--blue .nav__cta--scrolled:hover {
+  background-image: var(--gradient-blue-cyan-dark);
 }

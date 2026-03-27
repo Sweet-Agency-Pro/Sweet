@@ -1,5 +1,5 @@
 /**
- * ServiceCtaBand — Shared dark CTA band (typically above Footer)
+ * ServiceCtaBand, Shared dark CTA band (typically above Footer)
  */
 
 import { motion } from 'framer-motion';
@@ -12,6 +12,7 @@ interface ServiceCtaBandProps {
   text?: string;
   ctaLabel?: string;
   ctaTarget?: string;
+  colorScheme?: 'teal' | 'purple' | 'blue';
 }
 
 function ServiceCtaBand({
@@ -19,11 +20,12 @@ function ServiceCtaBand({
   text = 'Discutons ensemble de vos objectifs et construisons la solution idéale.',
   ctaLabel = 'Nous contacter',
   ctaTarget = 'contact',
+  colorScheme = 'teal',
 }: ServiceCtaBandProps) {
   const { navigateToSection } = useSectionNavigation();
 
   return (
-    <section className="service-cta-bottom">
+    <section className={`service-cta-bottom service-cta-bottom--${colorScheme}`}>
       <div className="service-cta-bottom__texture" />
 
       <motion.div

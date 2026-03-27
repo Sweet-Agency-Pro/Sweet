@@ -1,4 +1,5 @@
 import { motion, type Variants } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { Service } from '../services.data';
 
@@ -43,6 +44,7 @@ const childVariants: Variants = {
 };
 
 export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
+  const navigate = useNavigate();
   const IconComponent = service.icon;
   const primaryColor = service.colorAccent[500];
   const darkColor = service.colorAccent[300];
@@ -83,9 +85,11 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
           variants={childVariants}
           className="service-showcase__tagline"
           style={{
-            backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${darkColor})`,
+            backgroundImage: `linear-gradient(90deg, ${primaryColor}, ${darkColor}, ${primaryColor})`,
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
+            backgroundSize: '200% auto',
+            animation: 'gradient-shimmer 8s linear infinite',
           }}
         >
           {service.tagline}
@@ -103,7 +107,7 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
             }}
             onClick={
               service.redirectUrl
-                ? () => window.open(service.redirectUrl, '_blank', 'noopener')
+                ? () => navigate(service.redirectUrl as string)
                 : undefined
             }
           >

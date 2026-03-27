@@ -43,6 +43,7 @@ export const services: Service[] = [
     features: ['Design personnalisé', 'One-Page ou Multi-Pages', 'Optimisation SEO', 'Performance garantie'],
     colorAccent: colors.teal,
     glowColor: hexToRgba(colors.teal[500], 0.15),
+    redirectUrl: '/services/site-vitrine',
   },
   {
     id: 2,
@@ -53,6 +54,7 @@ export const services: Service[] = [
     features: ['Paiements sécurisés', 'Gestion de catalogue', 'Parcours d\'achat optimisé', 'Scalabilité'],
     colorAccent: colors.purple,
     glowColor: hexToRgba(colors.purple[500], 0.15),
+    redirectUrl: '/services/site-ecommerce',
   },
   {
     id: 3,
@@ -63,5 +65,6 @@ export const services: Service[] = [
     features: ['Gestion de contenu simple', 'Back-office sécurisé', 'Tableaux de bord analytiques', 'Contrôle total'],
     colorAccent: colors.blue,
     glowColor: hexToRgba(colors.blue[500], 0.15),
+    redirectUrl: '/services/panneau-de-gestion',
   },
 ];
