@@ -44,7 +44,6 @@ const offerings: OfferingItem[] = [
 // SUB-COMPONENT: Single Offering Card
 // =============================================================================
 function OfferingCard({ item, index }: { item: OfferingItem; index: number }) {
-  const isOnePage = item.variant === 'onepage';
   const Icon = item.icon;
 
   return (

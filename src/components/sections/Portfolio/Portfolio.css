@@ -638,6 +638,7 @@
   overscroll-behavior: contain;
   border-radius: inherit;
   -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
 }
 
 @media (max-width: 1024px) {
