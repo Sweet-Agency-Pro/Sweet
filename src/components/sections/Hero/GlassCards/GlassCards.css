@@ -88,6 +88,7 @@
   backdrop-filter: blur(1.5rem);
   -webkit-backdrop-filter: blur(1.5rem);
   transition: box-shadow var(--duration-medium) var(--ease);
+  animation: float 8s ease-in-out infinite;
 }
 
 /* Glass shimmer overlay */
@@ -128,7 +129,6 @@
    --------------------------------------------------------------------------- */
 .glass-card--backend {
   transform: translateZ(-6rem) rotateX(3deg);
-  animation: float 6s ease-in-out infinite;
 }
 
 .glass-card__inner--backend {
@@ -181,8 +181,6 @@
    --------------------------------------------------------------------------- */
 .glass-card--architecture {
   transform: translateZ(-3rem) rotateY(2deg) rotateX(3deg);
-  animation: float 7s ease-in-out infinite;
-  animation-delay: -2s;
 }
 
 .glass-card__inner--architecture {
@@ -293,8 +291,6 @@
    --------------------------------------------------------------------------- */
 .glass-card--frontend {
   transform: translateZ(0) rotateY(-4deg) rotateX(3deg);
-  animation: float 8s ease-in-out infinite;
-  animation-delay: -4s;
 }
 
 .glass-card__inner--frontend {
