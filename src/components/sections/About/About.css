@@ -402,6 +402,31 @@
   }
 }
 
+@media (max-width: 640px) {
+  .team-card {
+    padding: var(--sp-6);
+    gap: var(--sp-5);
+  }
+
+  .team-card__avatar {
+    width: var(--sp-16);
+    height: var(--sp-16);
+    font-size: var(--fs-xl);
+  }
+
+  .team-card__name {
+    font-size: var(--fs-xl);
+  }
+
+  .team-card__footer {
+    flex-direction: column;
+  }
+
+  .team-card__social {
+    width: 100%;
+  }
+}
+
 .team-card {
   position: relative;
   background-color: var(--white);
@@ -432,6 +457,8 @@
 .team-card__avatar {
   width: var(--sp-20);
   height: var(--sp-20);
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--teal-400), var(--blue-500));
   display: flex;
