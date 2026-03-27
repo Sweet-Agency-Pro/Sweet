@@ -6,6 +6,7 @@ import Hero from './sections/Hero';
 import ScrollAnimation from './sections/ScrollAnimation';
 import ServicesPreview from './sections/Services';
 import PortfolioPreview from './sections/Portfolio';
+import About from './sections/About';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 
@@ -136,6 +137,7 @@ function PublicHome() {
       <ScrollAnimation />
       <ServicesPreview />
       <PortfolioPreview />
+      <About />
       <Contact />
       <Footer />
       {AnalyticsComponent ? <AnalyticsComponent /> : null}
