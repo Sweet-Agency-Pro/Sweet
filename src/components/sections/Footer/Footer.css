@@ -221,7 +221,8 @@
   border-radius: var(--radius-lg);
   border: none;
   background-image: var(--gradient-teal-cyan);
-  background-size: 200% 100%;
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   color: var(--white);
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);

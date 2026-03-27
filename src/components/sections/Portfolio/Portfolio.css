@@ -258,7 +258,7 @@
   position: relative;
   background-color: var(--white);
   border-radius: 2rem;
-  border: 1px solid var(--slate-200);
+  border: none;
   overflow: hidden;
   transform: translateZ(0);
   will-change: transform, border-radius;
@@ -266,14 +266,27 @@
   box-shadow: 0 0.625rem 2.5rem -0.5rem rgba(15, 23, 42, 0.15),
     0 0.25rem 1rem -0.25rem rgba(15, 23, 42, 0.1);
   transition: transform var(--duration-medium) var(--ease-smooth),
-    box-shadow var(--duration-medium) var(--ease-smooth),
-    border-color var(--duration-medium) var(--ease);
+    box-shadow var(--duration-medium) var(--ease-smooth);
+}
+
+.flagship__inner::after {
+  content: '';
+  position: absolute;
+  inset: 0.5px;
+  border-radius: calc(2rem - 0.5px);
+  border: 1px solid var(--slate-200);
+  pointer-events: none;
+  transition: border-color var(--duration-medium) var(--ease);
+  z-index: 10;
 }
 
 .flagship:hover .flagship__inner {
   transform: translateY(-4px) translateZ(0);
   box-shadow: 0 1.5rem 3.5rem -0.5rem rgba(15, 23, 42, 0.18),
     0 0.5rem 1.5rem -0.25rem rgba(15, 23, 42, 0.12);
+}
+
+.flagship:hover .flagship__inner::after {
   border-color: var(--slate-300);
 }
 

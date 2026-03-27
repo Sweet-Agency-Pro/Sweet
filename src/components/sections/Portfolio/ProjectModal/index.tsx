@@ -77,7 +77,7 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
               className="modal-inner"
               initial={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
               animate={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
-              exit={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }} 
+              exit={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
               transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             >
               {/* Close button */}
@@ -169,6 +169,8 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                         gradient ||
                         renderProject.colorAccent.primary ||
                         '#14b8a6',
+                      backgroundSize: '200% auto',
+                      animation: 'gradient-shimmer 4s linear infinite',
                       ...(renderProject.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),
                     }}
                     initial={{ opacity: 0, y: 20 }}
@@ -202,7 +204,7 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                       background: renderProject.colorAccent.gradient,
                     }}
                   />
-                  
+
                   {/* Preview image or fallback mockup */}
                   {hasPreviewImage ? (
                     <div className="modal-mockup">

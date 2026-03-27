@@ -96,7 +96,9 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
           <button 
             className="service-showcase__cta"
             style={{
-              background: `linear-gradient(90deg, ${primaryColor}, ${darkColor})`,
+              background: `linear-gradient(90deg, ${primaryColor}, ${darkColor}, ${primaryColor})`,
+              backgroundSize: '200% auto',
+              animation: 'gradient-shimmer 4s linear infinite',
               boxShadow: `0 8px 25px -5px ${hexToRgba(primaryColor, 0.4)}`
             }}
             onClick={

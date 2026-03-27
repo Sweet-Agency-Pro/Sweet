@@ -188,12 +188,14 @@
   bottom: 0;
   left: 0;
   background-image: var(--gradient-teal-cyan);
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   border-radius: var(--radius-xl);
-  transition: opacity var(--duration-medium) var(--ease);
+  transition: opacity var(--duration-medium) var(--ease), filter var(--duration-medium) var(--ease);
 }
 
 .service-hero__cta:hover .service-hero__cta-bg {
-  opacity: 0;
+  filter: brightness(1.15);
 }
 
 .service-hero__cta-hover {
@@ -545,12 +547,14 @@
   bottom: 0;
   left: 0;
   background-image: var(--gradient-teal-cyan);
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   border-radius: var(--radius-xl);
-  transition: opacity var(--duration-medium) var(--ease);
+  transition: opacity var(--duration-medium) var(--ease), filter var(--duration-medium) var(--ease);
 }
 
 .service-cta-bottom__btn:hover .service-cta-bottom__btn-bg {
-  opacity: 0;
+  filter: brightness(1.15);
 }
 
 .service-cta-bottom__btn-hover {

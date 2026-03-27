@@ -27,7 +27,7 @@ function FlagshipCard({ project, onClick }: FlagshipCardProps) {
   const accent = project.colorAccent?.primary || '#0f9aa7';
   const accentSecondary = project.colorAccent?.secondary || '#06b6d4';
   const accentLight = project.colorAccent?.light || 'rgba(15, 154, 167, 0.12)';
-  const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary})`;
+  const gradient = project.colorAccent?.gradient || `linear-gradient(135deg, ${accent}, ${accentSecondary}, ${accent})`;
 
   return (
     <motion.div
@@ -47,17 +47,17 @@ function FlagshipCard({ project, onClick }: FlagshipCardProps) {
       }}
       whileHover={{ y: -8 }}
     >
-      <div 
+      <div
         className="flagship__glow"
         style={{
           background: `linear-gradient(135deg, ${hexToRgba(accent, 0.15)}, ${hexToRgba(accentSecondary, 0.1)})`,
-        }} 
+        }}
       />
       <motion.div layoutId={`card-inner-${project.id}`} className="flagship__inner" style={{ clipPath: 'inset(0% round 2rem)' }}>
         <div className="flagship__content">
           <div className="flagship__left">
-            <motion.div 
-              layoutId={`card-tag-${project.id}`} 
+            <motion.div
+              layoutId={`card-tag-${project.id}`}
               className="flagship__tag"
               style={{
                 background: gradient,
@@ -91,9 +91,13 @@ function FlagshipCard({ project, onClick }: FlagshipCardProps) {
               ))}
             </div>
 
-            <button 
+            <button
               className="flagship__cta"
-              style={{ background: gradient }}
+              style={{
+                background: gradient,
+                backgroundSize: '200% auto',
+                animation: 'gradient-shimmer 4s linear infinite'
+              }}
             >
               <span>Explorer le projet</span>
               <ArrowRight className="flagship__cta-icon" />

@@ -182,7 +182,7 @@ function ServicesPreview() {
                   onClick={() => setActiveTabId(s.id)}
                   className={`services__tab ${isActive ? 'active' : ''}`}
                   style={{
-                    color: isActive ? s.colorAccent[700] : 'var(--slate-500)',
+                    color: isActive ? 'var(--white)' : 'var(--slate-500)',
                   }}
                 >
                   {isActive && (
@@ -190,8 +190,10 @@ function ServicesPreview() {
                       layoutId="active-service-tab"
                       className="services__tab-indicator"
                       style={{ 
-                        backgroundColor: hexToRgba(s.colorAccent[500], 0.1),
-                        border: `1px solid ${hexToRgba(s.colorAccent[300], 0.5)}` 
+                        backgroundImage: `linear-gradient(90deg, ${s.colorAccent[400]}, ${s.colorAccent[600]}, ${s.colorAccent[400]})`,
+                        backgroundSize: '200% auto',
+                        animation: 'gradient-shimmer 4s linear infinite',
+                        border: `1px solid ${s.colorAccent[300]}` 
                       }}
                       transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />

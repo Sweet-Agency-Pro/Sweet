@@ -582,22 +582,14 @@
   bottom: 0;
   left: 0;
   background-image: var(--gradient-teal-cyan);
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   border-radius: var(--radius-xl);
+  transition: filter var(--duration-medium) var(--ease);
 }
 
-.services__cta-button-hover {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-image: var(--gradient-teal-cyan-dark);
-  opacity: 0;
-  transition: opacity var(--duration-medium) var(--ease);
-}
-
-.services__cta-button:hover .services__cta-button-hover {
-  opacity: 1;
+.services__cta-button:hover .services__cta-button-bg {
+  filter: brightness(1.15);
 }
 
 .services__cta-button-content {

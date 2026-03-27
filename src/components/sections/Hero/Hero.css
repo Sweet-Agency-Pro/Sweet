@@ -261,16 +261,15 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(0.75rem);
-  -webkit-backdrop-filter: blur(0.75rem);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-image: var(--gradient-primary);
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   border-radius: var(--radius-xl);
-  transition: border-color var(--duration-medium) var(--ease);
+  transition: opacity var(--duration-medium) var(--ease), filter var(--duration-medium) var(--ease);
 }
 
 .hero__primary-btn:hover .hero__primary-btn-bg {
-  border-color: rgba(20, 184, 166, 0.5);
+  filter: brightness(1.15);
 }
 
 .hero__primary-btn-hover {
@@ -279,7 +278,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(6, 182, 212, 0.2));
+  background-image: var(--gradient-primary);
+  filter: brightness(1.3);
   opacity: 0;
   transition: opacity var(--duration-medium) var(--ease);
   border-radius: var(--radius-xl);

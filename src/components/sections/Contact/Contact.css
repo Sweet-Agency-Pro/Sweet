@@ -458,8 +458,9 @@
   gap: var(--sp-2);
   width: 100%;
   padding: var(--sp-4);
-  background: var(--gradient-teal-cyan);
-  background-size: 200% 100%;
+  background-image: var(--gradient-teal-cyan);
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   border: none;
   border-radius: var(--radius-xl);
   font-size: var(--fs-base);
@@ -494,7 +495,7 @@
 }
 
 .contact-form__submit:hover:not(:disabled) {
-  background: var(--gradient-teal-cyan-dark);
+  filter: brightness(1.15);
   transform: translateY(-0.125rem);
   box-shadow: 0 0.5rem 1.5rem -0.25rem rgba(20, 184, 166, 0.4),
               0 0 2rem rgba(20, 184, 166, 0.15);
