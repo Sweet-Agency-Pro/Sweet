@@ -311,6 +311,14 @@ function ContactForm() {
           )}
         </div>
 
+        {/* Legal Notice */}
+        <p className="contact-form__legal">
+          L'envoi de ce formulaire vaut pour acceptation de nos{' '}
+          <a href="/mentions-legales" className="contact-form__legal-link">Mentions légales</a>{' '}
+          et{' '}
+          <a href="/confidentialite" className="contact-form__legal-link">Politique de confidentialité</a>.
+        </p>
+
         {/* Submit Button */}
         <motion.button
           type="submit"
