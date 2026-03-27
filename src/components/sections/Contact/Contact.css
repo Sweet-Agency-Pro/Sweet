@@ -264,7 +264,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-8);
-  height: 33.59rem;
+  height: 39rem;
 }
 
 @media (max-width: 768px) {
@@ -422,7 +422,7 @@
 
 .contact-form__textarea {
   resize: vertical;
-  min-height: 10rem;
+  min-height: 11.5rem;
   font-family: inherit;
 }
 
@@ -605,7 +605,7 @@
 
 /* Legal notice in contact form */
 .contact-form__legal {
-  margin-top: var(--sp-1);
+  margin-top: var(--sp-3);
   font-size: var(--fs-xs);
   color: var(--slate-500);
   line-height: var(--lh-relaxed);
@@ -621,4 +621,41 @@
 
 .contact-form__legal-link:hover {
   color: var(--teal-300);
+}
+
+/* Contact info extra content */
+.contact-info__extra {
+  margin-top: auto;
+  padding-top: var(--sp-10);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.contact-info__extra-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.contact-info__extra-label {
+  font-size: var(--fs-xs);
+  color: var(--teal-400);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-widest);
+  font-weight: var(--fw-bold);
+}
+
+.contact-info__extra-value {
+  font-size: var(--fs-base);
+  color: var(--slate-300);
+  margin: 0;
+  line-height: var(--lh-relaxed);
+}
+
+.contact-info__extra-social {
+  font-size: var(--fs-sm);
+  color: var(--slate-400);
+  font-style: italic;
 }

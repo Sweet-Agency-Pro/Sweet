@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Linkedin } from 'lucide-react';
 
 const EmailIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -50,7 +51,7 @@ const ContactItem: React.FC<ContactItemProps> = ({ icon, label, value, href, del
 
   if (href) {
     return (
-      <a href={href} style={{ textDecoration: 'none', display: 'block' }}>
+      <a href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
         {content}
       </a>
     );
@@ -77,6 +78,12 @@ const ContactInfo: React.FC = () => {
       icon: <LocationIcon size={22} />,
       label: 'Adresse',
       value: 'Strasbourg, France',
+    },
+    {
+      icon: <Linkedin size={22} />,
+      label: 'Suivez-nous',
+      value: 'LinkedIn',
+      href: 'https://www.linkedin.com/company/agence-sweet/',
     },
   ];
 
