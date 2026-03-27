@@ -14,6 +14,12 @@
   flex-direction: column;
 }
 
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 80vh;
+  }
+}
+
 .hero__main {
   position: relative;
   width: 100%;
@@ -40,7 +46,7 @@
 @media (max-width: 768px) {
   .hero__main {
     padding-top: var(--sp-16);
-    padding-bottom: var(--sp-16);
+    padding-bottom: var(--sp-8);
     padding-left: var(--sp-5);
     padding-right: var(--sp-5);
   }
@@ -175,13 +181,11 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: linear-gradient(
-    90deg,
-    var(--teal-300),
-    var(--cyan-300),
-    var(--blue-300),
-    var(--teal-300)
-  );
+  background-image: linear-gradient(90deg,
+      var(--teal-300),
+      var(--cyan-300),
+      var(--blue-300),
+      var(--teal-300));
   background-size: 300% 100%;
   animation: gradient-shimmer 6s ease-in-out infinite;
 }
@@ -242,7 +246,7 @@
 .hero__primary-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 1.5rem rgba(20, 184, 166, 0.3),
-              0 0 3rem rgba(6, 182, 212, 0.15);
+    0 0 3rem rgba(6, 182, 212, 0.15);
 }
 
 .hero__primary-btn:active {
@@ -314,7 +318,7 @@
   color: var(--slate-300);
   font-weight: var(--fw-semibold);
   transition: color var(--duration-medium) var(--ease),
-              transform var(--duration-medium) var(--ease);
+    transform var(--duration-medium) var(--ease);
   cursor: pointer;
   border: none;
   background: transparent;
@@ -348,6 +352,7 @@
   .hero__secondary-btn {
     min-height: var(--sp-11);
   }
+
   .hero__secondary-btn::after {
     bottom: 0.5rem;
   }

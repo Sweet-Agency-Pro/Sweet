@@ -13,6 +13,12 @@
   background-color: var(--white);
 }
 
+@media (max-width: 1024px) {
+  .services {
+    padding-top: var(--sp-10);
+  }
+}
+
 /* Subtle radial glow behind section */
 .services::before {
   content: '';

@@ -17,7 +17,7 @@
 
 @media (max-width: 1024px) {
   .scroll-animation {
-    height: 90vh;
+    height: 40vh;
   }
 }
 
@@ -40,12 +40,10 @@
   transform: translate(-50%, -50%);
   width: 50rem;
   height: 50rem;
-  background: radial-gradient(
-    circle,
-    rgba(20, 184, 166, 0.1) 0%,
-    rgba(6, 182, 212, 0.05) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(circle,
+      rgba(20, 184, 166, 0.1) 0%,
+      rgba(6, 182, 212, 0.05) 40%,
+      transparent 70%);
   border-radius: 50%;
   filter: blur(8rem);
   animation: pulse-glow 8s ease-in-out infinite;
@@ -85,7 +83,7 @@
 
 @media (max-width: 1024px) {
   .scroll-animation__reveal-window {
-    height: clamp(6rem, 20vw, 14rem);
+    height: clamp(11rem, 35vw, 26rem);
   }
 }
 
@@ -95,13 +93,11 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: linear-gradient(
-    90deg,
-    var(--teal-500),
-    var(--cyan-400),
-    var(--blue-500),
-    var(--teal-500)
-  );
+  background-image: linear-gradient(90deg,
+      var(--teal-500),
+      var(--cyan-400),
+      var(--blue-500),
+      var(--teal-500));
   background-size: 300% 100%;
   animation: gradient-shimmer 8s ease-in-out infinite;
   line-height: var(--lh-none);
