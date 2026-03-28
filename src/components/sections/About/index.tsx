@@ -152,7 +152,7 @@ export default function About() {
               <div className="team-card__header">
                 <div className="team-card__avatar">
                   {member.imageUrl ? (
-                    <img src={member.imageUrl} alt={member.name} className="team-card__image" />
+                    <img src={member.imageUrl} alt={member.name} className="team-card__image" loading="lazy" />
                   ) : (
                     member.initials
                   )}

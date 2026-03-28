@@ -234,6 +234,7 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                       <img
                         src={renderProject.previewUrl}
                         alt={`Preview de ${renderProject.name}`}
+                        loading="lazy"
                         style={{
                           width: '100%',
                           height: 'auto',

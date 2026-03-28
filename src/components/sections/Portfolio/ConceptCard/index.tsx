@@ -72,6 +72,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
               <img
                 src={project.previewUrl}
                 alt={`Preview de ${project.name}`}
+                loading="lazy"
                 style={{
                   width: '100%',
                   height: 'auto',

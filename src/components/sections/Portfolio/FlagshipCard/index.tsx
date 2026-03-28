@@ -123,6 +123,7 @@ function FlagshipCard({ project, onClick }: FlagshipCardProps) {
                 <img
                   src={project.previewUrl}
                   alt={`Preview de ${project.name}`}
+                  loading="lazy"
                   style={{
                     width: '100%',
                     height: 'auto',
