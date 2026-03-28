@@ -6,7 +6,6 @@
 
 import { useEffect } from 'react';
 import {
-  Store,
   ShoppingCart,
   BarChart3,
   TrendingUp,
@@ -116,17 +115,16 @@ function SiteEcommerce() {
   return (
     <div className="service-page service-page--purple">
       <ServiceHero
-        badgeIcon={Store}
-        badgeLabel="Site E-commerce"
         title={
           <>
             Votre boutique en ligne,{' '}
             <span className="service-hero__title-gradient">qui vend vraiment</span>
           </>
         }
-        subtitle="Un site e-commerce sur mesure qui transforme chaque visiteur en acheteur. Parcours d'achat optimisé, paiements sécurisés, expérience premium."
-        ctaLabel="Lancer ma boutique"
+        subtitle="Une plateforme performante et sécurisée conçue pour démultiplier vos ventes en ligne, tout en offrant une expérience utilisateur fluide."
+        ctaLabel="Discuter de votre projet"
         colorScheme="purple"
+        currentSlug="/services/site-ecommerce"
       />
 
       <ServiceIntro

@@ -1,0 +1,92 @@
+/* =============================================================================
+   SHARED SERVICE TABS
+   ============================================================================= */
+
+.services-tabs-shared {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-6);
+}
+
+.services-tabs-shared__scroll {
+  position: relative;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-full);
+  padding: var(--sp-2);
+  gap: var(--sp-2);
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+}
+
+.services-tabs-shared--dark .services-tabs-shared__scroll {
+  background-color: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.05);
+}
+
+.services-tabs-shared__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.services-tabs-shared__tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-3) var(--sp-6);
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: color var(--duration-medium) var(--ease-smooth);
+  z-index: 1;
+  white-space: nowrap;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .services-tabs-shared__tab {
+    padding: var(--sp-3) var(--sp-4);
+    font-size: var(--fs-xs);
+  }
+}
+
+.services-tabs-shared--light .services-tabs-shared__tab:hover {
+  color: var(--slate-800);
+}
+
+.services-tabs-shared--dark .services-tabs-shared__tab:hover {
+  color: var(--white);
+}
+
+.services-tabs-shared__indicator {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  z-index: -1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.services-tabs-shared--dark .services-tabs-shared__indicator {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.services-tabs-shared__text {
+  position: relative;
+  z-index: 2;
+}

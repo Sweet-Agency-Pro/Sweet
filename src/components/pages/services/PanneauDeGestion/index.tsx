@@ -6,7 +6,6 @@
 
 import { useEffect } from 'react';
 import {
-  BarChart3,
   Clock,
   Settings,
   UserCog,
@@ -116,17 +115,16 @@ function PanneauDeGestion() {
   return (
     <div className="service-page service-page--blue">
       <ServiceHero
-        badgeIcon={BarChart3}
-        badgeLabel="Panneau de Gestion"
         title={
           <>
             Votre site,{' '}
             <span className="service-hero__title-gradient">sous votre contrôle</span>
           </>
         }
-        subtitle="Un back-office sur mesure pour piloter votre site en totale autonomie. Modifiez, analysez, publiez, sans jamais appeler un développeur."
-        ctaLabel="Prendre le contrôle"
+        subtitle="Un back-office sur mesure pour recadrer la gestion de votre entreprise. Suivez vos métriques clés, gérez vos tâches complexes et automatisez votre processus de travail avec des processus taillés pour votre entreprise."
+        ctaLabel="Demander une démo"
         colorScheme="blue"
+        currentSlug="/services/panneau-de-gestion"
       />
 
       <ServiceIntro

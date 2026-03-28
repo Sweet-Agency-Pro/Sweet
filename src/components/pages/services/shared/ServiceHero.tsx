@@ -5,15 +5,14 @@
 
 import { type ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, type LucideIcon } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import { useSectionNavigation } from '../../../../hooks/useSectionNavigation';
 import Navigation from '../../../layout/Navigation';
+import ServiceTabs from './ServiceTabs';
 import './ServicePage.css';
 
 interface ServiceHeroProps {
-  badgeIcon: LucideIcon;
-  badgeLabel: string;
   /** Main title, can contain JSX for gradient spans */
   title: ReactNode;
   subtitle: string;
@@ -21,16 +20,17 @@ interface ServiceHeroProps {
   /** Where the CTA scrolls to, defaults to 'contact' */
   ctaTarget?: string;
   colorScheme?: 'teal' | 'purple' | 'blue';
+  /** Current service slug for active tab detection */
+  currentSlug?: string;
 }
 
 function ServiceHero({
-  badgeIcon: BadgeIcon,
-  badgeLabel,
   title,
   subtitle,
   ctaLabel,
   ctaTarget = 'contact',
   colorScheme = 'teal',
+  currentSlug,
 }: ServiceHeroProps) {
   const { navigateToSection } = useSectionNavigation();
 
@@ -42,15 +42,16 @@ function ServiceHero({
       <div className="service-hero__blob-2" />
 
       <div className="service-hero__content">
-        <motion.div
-          className="service-hero__badge"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+        <div
+           className="service-hero__top-actions"
+           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--sp-4)', marginBottom: 'var(--sp-8)' }}
         >
-          <BadgeIcon className="service-hero__badge-icon" />
-          <span className="service-hero__badge-text">{badgeLabel}</span>
-        </motion.div>
+          <ServiceTabs 
+            mode="navigate" 
+            currentSlug={currentSlug} 
+            variant="dark" 
+          />
+        </div>
 
         <motion.h1
           className="service-hero__title"

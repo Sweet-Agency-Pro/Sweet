@@ -4,7 +4,7 @@
  */
 
 import { useEffect } from 'react';
-import { Globe, Paintbrush, Search, Zap, TrendingUp, Users } from 'lucide-react';
+import { Paintbrush, Search, Zap, TrendingUp, Users } from 'lucide-react';
 
 import ServiceHero from '../shared/ServiceHero';
 import ServiceIntro from '../shared/ServiceIntro';
@@ -108,8 +108,6 @@ function SiteVitrine() {
   return (
     <div className="service-page service-page--teal">
       <ServiceHero
-        badgeIcon={Globe}
-        badgeLabel="Site Vitrine"
         title={
           <>
             Votre présence en ligne,{' '}
@@ -119,6 +117,7 @@ function SiteVitrine() {
         subtitle="Un site vitrine sur mesure qui transforme vos visiteurs en clients. Pas un template, une expérience pensée pour votre activité."
         ctaLabel="Démarrer votre projet"
         colorScheme="teal"
+        currentSlug="/services/site-vitrine"
       />
 
       <ServiceIntro

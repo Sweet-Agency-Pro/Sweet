@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -24,6 +24,7 @@ import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { services as fallbackServices, type Service } from './services.data';
 import ServiceShowcase from './ServiceShowcase';
+import ServiceTabs from '../../pages/services/shared/ServiceTabs';
 import { fetchPublicServices } from '../../../services/supabaseService';
 import './Services.css';
 
@@ -179,38 +180,12 @@ function ServicesPreview() {
         <SectionHeader />
 
         {/* Apple-Style Navigation Tabs */}
-        <div className="services__tabs-wrapper">
-          <div className="services__tabs">
-            {services.map((s) => {
-              const isActive = activeTabId === s.id;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveTabId(s.id)}
-                  className={`services__tab ${isActive ? 'active' : ''}`}
-                  style={{
-                    color: isActive ? 'var(--white)' : 'var(--slate-500)',
-                  }}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="active-service-tab"
-                      className="services__tab-indicator"
-                      style={{
-                        backgroundImage: `linear-gradient(90deg, ${s.colorAccent[500]}, ${s.colorAccent[300]}, ${s.colorAccent[500]})`,
-                        backgroundSize: '200% auto',
-                        animation: 'gradient-shimmer 8s linear infinite',
-                        border: `1px solid ${s.colorAccent[400]}`
-                      }}
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  <span className="services__tab-text">{s.accroche}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        <ServiceTabs 
+          mode="switch" 
+          activeTabId={activeTabId} 
+          onTabChange={setActiveTabId} 
+          variant="light"
+        />
 
         {/* Showcase Area */}
         <div className="services__showcase-wrapper">
