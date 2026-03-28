@@ -128,8 +128,7 @@
   border-radius: var(--radius-xl);
   background-color: var(--teal-50);
   border: 1px solid var(--teal-200);
-  transition: transform var(--duration-medium) var(--ease-spring),
-    box-shadow var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-spring);
 }
 
 .footer__logo-pill:hover {
@@ -141,6 +140,7 @@
   width: var(--sp-5);
   height: var(--sp-5);
   color: var(--teal-600);
+  transition: transform var(--duration-medium) var(--ease-smooth);
 }
 
 .footer__brand-name {
@@ -149,6 +149,31 @@
   font-weight: var(--fw-black);
   color: var(--slate-900);
   letter-spacing: var(--ls-wider);
+  transition: all var(--duration-medium) var(--ease-smooth);
+}
+
+.footer__brand-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.footer__brand-row:hover .footer__logo-pill {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 0 1.5rem var(--footer-accent-glow, rgba(20, 184, 166, 0.2));
+  border-color: var(--footer-accent-border, var(--teal-300));
+  background-color: var(--footer-accent-light, var(--teal-100));
+}
+
+.footer__brand-row:hover .footer__logo-icon {
+  transform: rotate(15deg) scale(1.1);
+  color: var(--footer-accent, var(--teal-600));
+}
+
+.footer__brand-row:hover .footer__brand-name {
+  letter-spacing: 0.15em;
 }
 
 .footer__brand-description {
@@ -174,7 +199,7 @@
   text-decoration: none;
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
-  transition: color var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   width: fit-content;
   position: relative;
 }
@@ -194,7 +219,8 @@
 }
 
 .footer__link-item:hover {
-  color: var(--teal-600);
+  color: var(--footer-accent, var(--teal-600));
+  transform: translateX(4px);
 }
 
 .footer__link-item:hover::after {
@@ -202,11 +228,37 @@
   transform-origin: left;
 }
 
-.footer__contact-text {
-  margin: 0;
+.footer__contact-link {
   color: var(--slate-600);
+  text-decoration: none;
   font-size: var(--fs-sm);
   line-height: var(--lh-relaxed);
+  transition: all var(--duration-medium) var(--ease-smooth);
+  width: fit-content;
+  position: relative;
+}
+
+.footer__contact-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gradient-teal-cyan);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.footer__contact-link:hover {
+  color: var(--footer-accent, var(--teal-600));
+  transform: translateX(4px);
+}
+
+.footer__contact-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .footer__cta-button {
@@ -321,39 +373,62 @@
   transform: scaleX(1);
   transform-origin: left;
 }
+
 /* Color Scheme Overrides */
 .footer--purple .footer__cta-button {
   background-image: var(--gradient-purple-blue);
 }
+
 .footer--purple .footer__cta-button:hover {
   box-shadow: 0 0.25rem 1rem rgba(168, 85, 247, 0.3);
   background-image: var(--gradient-purple-blue-dark);
 }
+
 .footer--purple .footer__logo-pill {
   background-color: var(--purple-50);
   border-color: var(--purple-200);
 }
+
 .footer--purple .footer__logo-pill:hover {
-  box-shadow: 0 0 1rem rgba(168, 85, 247, 0.15);
+  box-shadow: 0 0 1.5rem rgba(168, 85, 247, 0.2);
+  border-color: var(--purple-300);
+  background-color: var(--purple-100);
 }
+
 .footer--purple .footer__logo-icon {
   color: var(--purple-600);
+}
+
+.footer--purple .footer__link-item::after,
+.footer--purple .footer__contact-link::after {
+  background: var(--gradient-purple-blue);
 }
 
 .footer--blue .footer__cta-button {
   background-image: var(--gradient-blue-cyan);
 }
+
 .footer--blue .footer__cta-button:hover {
   box-shadow: 0 0.25rem 1rem rgba(59, 130, 246, 0.3);
   background-image: var(--gradient-blue-cyan-dark);
 }
+
 .footer--blue .footer__logo-pill {
   background-color: var(--blue-50);
   border-color: var(--blue-200);
 }
+
 .footer--blue .footer__logo-pill:hover {
-  box-shadow: 0 0 1rem rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 1.5rem rgba(59, 130, 246, 0.2);
+  border-color: var(--blue-300);
+  background-color: var(--blue-100);
 }
+
 .footer--blue .footer__logo-icon {
   color: var(--blue-600);
+}
+
+.footer--blue .footer__link-item::after,
+.footer--blue .footer__contact-link::after {
+  background: var(--gradient-blue-cyan);
 }

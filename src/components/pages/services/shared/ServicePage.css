@@ -12,14 +12,35 @@
   background-color: var(--white);
 }
 
+.service-page--teal {
+  --footer-accent: var(--teal-600);
+  --footer-accent-light: var(--teal-100);
+  --footer-accent-border: var(--teal-300);
+  --footer-accent-glow: rgba(20, 184, 166, 0.2);
+}
+
 .service-page--teal ::selection {
   background-color: var(--teal-200);
   color: var(--teal-900);
 }
 
+.service-page--purple {
+  --footer-accent: var(--purple-600);
+  --footer-accent-light: var(--purple-100);
+  --footer-accent-border: var(--purple-300);
+  --footer-accent-glow: rgba(168, 85, 247, 0.2);
+}
+
 .service-page--purple ::selection {
   background-color: var(--purple-200);
   color: var(--purple-900);
+}
+
+.service-page--blue {
+  --footer-accent: var(--blue-600);
+  --footer-accent-light: var(--blue-100);
+  --footer-accent-border: var(--blue-300);
+  --footer-accent-glow: rgba(59, 130, 246, 0.2);
 }
 
 .service-page--blue ::selection {

@@ -62,8 +62,8 @@ function Footer({ colorScheme }: FooterProps) {
           <div>
             <h4 className="footer__section-title">Contact</h4>
             <div className="footer__link-list">
-              <p className="footer__contact-text">contact@agence-sweet.com</p>
-              <p className="footer__contact-text">+33 6 83 94 96 90</p>
+              <a href="mailto:contact@agence-sweet.com" className="footer__contact-link">contact@agence-sweet.com</a>
+              <a href="tel:+33683949690" className="footer__contact-link">+33 6 83 94 96 90</a>
               <button
                 className="footer__cta-button"
                 onClick={() => navigateToSection('contact')}
