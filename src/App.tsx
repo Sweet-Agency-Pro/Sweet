@@ -1,6 +1,34 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect, lazy, Suspense } from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import RequireAdmin from './components/admin/RequireAdmin';
+
+// =============================================================================
+// ANALYTICS SETUP
+// =============================================================================
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+
+if (GA_MEASUREMENT_ID) {
+  ReactGA.initialize(GA_MEASUREMENT_ID);
+}
+
+// Analytics Page View Tracker Component
+const AnalyticsTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const isAdminPage = location.pathname.startsWith(import.meta.env.VITE_ADMIN_PATH);
+
+    if (GA_MEASUREMENT_ID && !isAdminPage) {
+      ReactGA.send({
+        hitType: "pageview",
+        page: location.pathname + location.search
+      });
+    }
+  }, [location]);
+
+  return null;
+};
 
 // Public Pages
 const PublicHome = lazy(() => import('./components/PublicHome'));
@@ -49,6 +77,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <AnalyticsTracker />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<PublicHome />} />
