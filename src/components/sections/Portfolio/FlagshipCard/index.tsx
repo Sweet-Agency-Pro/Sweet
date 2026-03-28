@@ -122,7 +122,7 @@ function FlagshipCard({ project, onClick }: FlagshipCardProps) {
               {hasPreviewImage ? (
                 <img
                   src={project.previewUrl}
-                  alt={`Preview de ${project.name}`}
+                  alt={`Aperçu du projet ${project.name}`}
                   loading="lazy"
                   style={{
                     width: '100%',
