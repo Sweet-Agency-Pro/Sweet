@@ -223,7 +223,18 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
 
                   {/* Preview image or fallback mockup */}
                   {hasPreviewImage ? (
-                    <div className="modal-mockup">
+                    <motion.div 
+                      className="modal-mockup"
+                      whileHover={renderProject.externalUrl ? { scale: 1.02, y: -4 } : {}}
+                      whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      onClick={() => {
+                        if (renderProject.externalUrl) {
+                          window.open(renderProject.externalUrl, '_blank', 'noopener');
+                        }
+                      }}
+                      style={{ cursor: renderProject.externalUrl ? 'pointer' : 'default' }}
+                    >
                       <div className="mockup-header">
                         <div className="mockup-dots">
                           <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
@@ -243,9 +254,20 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                         }}
                         onError={() => setImageError(true)}
                       />
-                    </div>
+                    </motion.div>
                   ) : (
-                    <div className="modal-mockup">
+                    <motion.div 
+                      className="modal-mockup"
+                      whileHover={renderProject.externalUrl ? { scale: 1.02, y: -4 } : {}}
+                      whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      onClick={() => {
+                        if (renderProject.externalUrl) {
+                          window.open(renderProject.externalUrl, '_blank', 'noopener');
+                        }
+                      }}
+                      style={{ cursor: renderProject.externalUrl ? 'pointer' : 'default' }}
+                    >
                       <div className="mockup-header">
                         <div className="mockup-dots">
                           <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
@@ -270,7 +292,7 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                           <div className="mockup-grid-item" />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                 </motion.div>
               </div>
