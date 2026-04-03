@@ -6,7 +6,8 @@ import './Footer.css';
 
 const navLinks = [
   { sectionId: 'services', label: 'Services' },
-  { sectionId: 'portfolio', label: 'Portfolio' },
+  { sectionId: 'portfolio', label: 'Réalisations' },
+  { sectionId: 'about', label: 'À propos' },
   { sectionId: 'contact', label: 'Contact' },
 ];
 

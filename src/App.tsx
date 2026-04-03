@@ -1,8 +1,9 @@
 import { useState, useEffect, lazy, Suspense, useCallback } from 'react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import RequireAdmin from './components/admin/RequireAdmin';
 import CookieConsentModal, { type ConsentData } from './components/layout/CookieConsent';
+import { useAccentColor } from './hooks/useAccentColor';
 
 // =============================================================================
 // ANALYTICS SETUP
@@ -101,6 +102,7 @@ function App() {
   const loginPath = import.meta.env.VITE_LOGIN_PATH || '/acces-prive-87';
   const adminPath = import.meta.env.VITE_ADMIN_PATH || '/studio-ombre-87';
   const [analyticsConsent, setAnalyticsConsent] = useState(getAnalyticsConsent());
+  const { accentColor, accentGradient } = useAccentColor();
 
   const handleConsentChange = useCallback((data: ConsentData) => {
     setAnalyticsConsent(data.analytics);
@@ -129,7 +131,7 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+    <>
       <AnalyticsTracker hasConsent={analyticsConsent} />
       <Suspense fallback={<Loader />}>
         <Routes>
@@ -184,8 +186,12 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      <CookieConsentModal onConsentChange={handleConsentChange} />
-    </BrowserRouter>
+      <CookieConsentModal 
+        onConsentChange={handleConsentChange} 
+        dynamicAccent={accentColor} 
+        dynamicGradient={accentGradient}
+      />
+    </>
   );
 }
 

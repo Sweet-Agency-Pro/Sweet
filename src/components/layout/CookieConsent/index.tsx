@@ -49,9 +49,11 @@ const Toggle = ({ active, onChange, disabled }: ToggleProps) => (
 
 interface CookieConsentProps {
   onConsentChange: (consent: ConsentData) => void;
+  dynamicAccent?: string;
+  dynamicGradient?: string;
 }
 
-const CookieConsentModal = ({ onConsentChange }: CookieConsentProps) => {
+const CookieConsentModal = ({ onConsentChange, dynamicAccent, dynamicGradient }: CookieConsentProps) => {
   const [show, setShow] = useState(false);
   const [level, setLevel] = useState<1 | 2>(1);
   const [tempConsent, setTempConsent] = useState({
@@ -102,7 +104,12 @@ const CookieConsentModal = ({ onConsentChange }: CookieConsentProps) => {
   const handleSaveCustom = () => saveConsent(tempConsent.analytics);
 
   return (
-    <>
+    <div style={{
+      ['--teal-400' as any]: dynamicAccent || 'var(--teal-400)',
+      ['--teal-500' as any]: dynamicAccent || 'var(--teal-500)',
+      ['--teal-600' as any]: dynamicAccent || 'var(--teal-600)',
+      ['--accent-gradient' as any]: dynamicGradient || 'var(--gradient-teal-cyan)',
+    }}>
       <AnimatePresence>
         {show && (
           <div className="cookie-modal-backdrop">
@@ -245,7 +252,7 @@ const CookieConsentModal = ({ onConsentChange }: CookieConsentProps) => {
           </motion.button>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 
