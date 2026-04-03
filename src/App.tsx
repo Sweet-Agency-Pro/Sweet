@@ -1,31 +1,57 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense, useCallback } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import ReactGA from 'react-ga4';
 import RequireAdmin from './components/admin/RequireAdmin';
+import CookieConsentModal, { type ConsentData } from './components/layout/CookieConsent';
 
 // =============================================================================
 // ANALYTICS SETUP
 // =============================================================================
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
-if (GA_MEASUREMENT_ID) {
-  ReactGA.initialize(GA_MEASUREMENT_ID);
-}
+// Helper to check if analytics consent is granted
+const getAnalyticsConsent = () => {
+  const saved = localStorage.getItem('SweetAgency_GDPR_Consent');
+  if (!saved) return false;
+  try {
+    const data = JSON.parse(saved) as ConsentData;
+    return data.analytics === true;
+  } catch {
+    return false;
+  }
+};
 
 // Analytics Page View Tracker Component
-const AnalyticsTracker = () => {
+const AnalyticsTracker = ({ hasConsent }: { hasConsent: boolean }) => {
   const location = useLocation();
 
   useEffect(() => {
     const isAdminPage = location.pathname.startsWith(import.meta.env.VITE_ADMIN_PATH);
 
-    if (GA_MEASUREMENT_ID && !isAdminPage) {
-      ReactGA.send({
-        hitType: "pageview",
-        page: location.pathname + location.search
-      });
+    if (GA_MEASUREMENT_ID) {
+      if (hasConsent && !isAdminPage) {
+        // Re-enable GA tracking
+        // @ts-ignore
+        window[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
+        
+        // Initialize if not already done
+        if (window.localStorage.getItem('ga_initialized') !== 'true') {
+          ReactGA.initialize(GA_MEASUREMENT_ID);
+          window.localStorage.setItem('ga_initialized', 'true');
+        }
+        
+        ReactGA.send({
+          hitType: "pageview",
+          page: location.pathname + location.search
+        });
+      } else {
+        // Disable GA tracking
+        // @ts-ignore
+        window[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
+        window.localStorage.setItem('ga_initialized', 'false');
+      }
     }
-  }, [location]);
+  }, [location, hasConsent]);
 
   return null;
 };
@@ -74,10 +100,37 @@ const Loader = () => (
 function App() {
   const loginPath = import.meta.env.VITE_LOGIN_PATH || '/acces-prive-87';
   const adminPath = import.meta.env.VITE_ADMIN_PATH || '/studio-ombre-87';
+  const [analyticsConsent, setAnalyticsConsent] = useState(getAnalyticsConsent());
+
+  const handleConsentChange = useCallback((data: ConsentData) => {
+    setAnalyticsConsent(data.analytics);
+    if (GA_MEASUREMENT_ID) {
+      if (data.analytics) {
+        // Re-enable GA tracking immediately
+        // @ts-ignore
+        window[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
+
+        if (window.localStorage.getItem('ga_initialized') !== 'true') {
+          ReactGA.initialize(GA_MEASUREMENT_ID);
+          window.localStorage.setItem('ga_initialized', 'true');
+        }
+        ReactGA.send({
+          hitType: "pageview",
+          page: window.location.pathname + window.location.search
+        });
+      } else {
+        // Disable GA tracking immediately
+        // @ts-ignore
+        window[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
+        window.localStorage.setItem('ga_initialized', 'false');
+      }
+    }
+  }, []);
+
 
   return (
     <BrowserRouter>
-      <AnalyticsTracker />
+      <AnalyticsTracker hasConsent={analyticsConsent} />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<PublicHome />} />
@@ -131,6 +184,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      <CookieConsentModal onConsentChange={handleConsentChange} />
     </BrowserRouter>
   );
 }

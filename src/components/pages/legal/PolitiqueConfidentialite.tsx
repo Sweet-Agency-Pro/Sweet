@@ -166,7 +166,7 @@ function PolitiqueConfidentialite() {
             <p className="legal-paragraph">
               Le site utilise des cookies pour améliorer l'expérience utilisateur et
               analyser le trafic. Lors de votre première visite, un bandeau de consentement
-              vous permet d'accepter ou de refuser ces cookies.
+              vous permet d'accepter ou de refuser ces cookies. Votre choix est mémorisé pour <strong>6 mois</strong>.
             </p>
             <p className="legal-paragraph">
               Vous pouvez à tout moment configurer votre navigateur pour refuser tout ou
