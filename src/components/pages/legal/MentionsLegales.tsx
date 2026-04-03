@@ -165,7 +165,7 @@ function MentionsLegales() {
           </article>
 
           <p className="legal-last-updated">
-            Dernière mise à jour : février 2026
+            Dernière mise à jour : avril 2026
           </p>
         </div>
       </div>
