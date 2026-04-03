@@ -209,7 +209,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
           />
         </div>
 
-        {/* Icône — grille visuelle */}
+        {/* Icône, grille visuelle */}
         <div className="admin-form-group">
           <label className="admin-form-label">Icône</label>
           <div style={{
@@ -238,7 +238,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
           </div>
         </div>
 
-        {/* Color Accent — picker */}
+        {/* Color Accent, picker */}
         <div className="admin-form-group">
           <label className="admin-form-label">Couleur d'accent</label>
           <div style={localStyles.colorRow}>
@@ -272,7 +272,7 @@ function ServiceFormModal({ initial, onSave, onClose }: ServiceFormModalProps) {
           </div>
         </div>
 
-        {/* Glow Color — picker */}
+        {/* Glow Color, picker */}
         <div className="admin-form-group">
           <label className="admin-form-label">Couleur de glow</label>
           <div style={localStyles.colorRow}>

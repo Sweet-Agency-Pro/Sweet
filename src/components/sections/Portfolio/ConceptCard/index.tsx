@@ -34,7 +34,7 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
       layoutId={`card-container-${project.id}`}
       onClick={onClick}
       className="concept"
-      style={{ clipPath: 'inset(0% round 1rem)' }}
+      style={{ clipPath: 'inset(0% round 2rem)' }}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -50,31 +50,46 @@ function ConceptCard({ project, index, onClick }: ConceptCardProps) {
         className="concept__inner"
         style={{ 
           boxShadow: `0 0.25rem 2rem -0.25rem ${hexToRgba(accent, 0.2)}`, 
-          clipPath: 'inset(0% round 1rem)' 
+          clipPath: 'inset(0% round 2rem)' 
         }}
       >
-        {/* Preview image or accent bar */}
-        {hasPreviewImage ? (
-          <img
-            src={project.previewUrl}
-            alt={`Preview de ${project.name}`}
-            style={{
-              width: '100%',
-              height: '8rem',
-              objectFit: 'cover',
-              borderRadius: '0.75rem 0.75rem 0 0',
-              marginBottom: '1rem',
-            }}
-            onError={() => setImageError(true)}
-          />
-        ) : (
+        <div className="concept__visual">
           <div
-            className="concept__accent"
+            className="concept__orb"
             style={{
               background: gradient,
             }}
           />
-        )}
+          <div className="concept__mockup">
+            <div className="mockup-header">
+              <div className="mockup-dots">
+                <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
+                <span className="mockup-dot" style={{ backgroundColor: '#febc2e' }} />
+                <span className="mockup-dot" style={{ backgroundColor: '#28c840' }} />
+              </div>
+            </div>
+            {hasPreviewImage ? (
+              <img
+                src={project.previewUrl}
+                alt={`Aperçu du projet ${project.name}`}
+                loading="lazy"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                  objectFit: 'cover',
+                }}
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <div className="mockup-content">
+                <div className="mockup-line" />
+                <div className="mockup-line" style={{ width: '60%' }} />
+                <div className="mockup-block" />
+              </div>
+            )}
+          </div>
+        </div>
 
         <motion.div layoutId={`card-tag-${project.id}`} className="concept__tag">
           {project.type === 'production' ? (

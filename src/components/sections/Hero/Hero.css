@@ -1,5 +1,5 @@
 /* =============================================================================
-   HERO STYLES
+   HERO STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -12,6 +12,12 @@
   background: var(--gradient-hero-bg);
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 80vh;
+  }
 }
 
 .hero__main {
@@ -40,7 +46,7 @@
 @media (max-width: 768px) {
   .hero__main {
     padding-top: var(--sp-16);
-    padding-bottom: var(--sp-16);
+    padding-bottom: var(--sp-8);
     padding-left: var(--sp-5);
     padding-right: var(--sp-5);
   }
@@ -62,7 +68,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   BACKGROUND BLOBS
+   BACKGROUND BLOBS, Animated organic drift
    --------------------------------------------------------------------------- */
 .hero__background {
   position: absolute;
@@ -82,6 +88,7 @@
   background-color: rgba(20, 184, 166, 0.2);
   border-radius: 50%;
   filter: blur(7.5rem);
+  animation: blob-drift 8s ease-in-out infinite;
 }
 
 @media (max-width: 768px) {
@@ -101,6 +108,8 @@
   background-color: rgba(71, 85, 105, 0.15);
   border-radius: 50%;
   filter: blur(8.75rem);
+  animation: blob-drift 10s ease-in-out infinite reverse;
+  animation-delay: -3s;
 }
 
 @media (max-width: 768px) {
@@ -120,16 +129,19 @@
   background-color: rgba(168, 85, 247, 0.1);
   border-radius: 50%;
   filter: blur(6.25rem);
+  animation: blob-drift 12s ease-in-out infinite;
+  animation-delay: -5s;
 }
 
 /* ---------------------------------------------------------------------------
-   CONTENT
+   CONTENT, Entrance animations
    --------------------------------------------------------------------------- */
 .hero__content {
   display: flex;
   flex-direction: column;
   gap: var(--sp-8);
   z-index: 10;
+  animation: slide-up-fade var(--duration-entrance) var(--ease-smooth) both;
 }
 
 .hero__text-content {
@@ -138,6 +150,9 @@
   gap: var(--sp-6);
 }
 
+/* ---------------------------------------------------------------------------
+   TITLE, Gradient shimmer on "Sweet."
+   --------------------------------------------------------------------------- */
 .hero__title {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: var(--fw-black);
@@ -145,6 +160,8 @@
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-normal);
   margin: 0;
+  animation: slide-up-fade var(--duration-entrance) var(--ease-smooth) both;
+  animation-delay: 0.1s;
 }
 
 @media (max-width: 1024px) {
@@ -164,9 +181,18 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  background-image: linear-gradient(to right, var(--teal-300), var(--cyan-300), var(--blue-300));
+  background-image: linear-gradient(90deg,
+      var(--teal-300),
+      var(--cyan-300),
+      var(--blue-300),
+      var(--teal-300));
+  background-size: 300% 100%;
+  animation: gradient-shimmer 6s ease-in-out infinite;
 }
 
+/* ---------------------------------------------------------------------------
+   DESCRIPTION
+   --------------------------------------------------------------------------- */
 .hero__description {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   color: var(--slate-300);
@@ -174,6 +200,8 @@
   line-height: var(--lh-relaxed);
   max-width: 28rem;
   margin: 0;
+  animation: slide-up-fade var(--duration-entrance) var(--ease-smooth) both;
+  animation-delay: 0.25s;
 }
 
 @media (max-width: 768px) {
@@ -186,12 +214,14 @@
 }
 
 /* ---------------------------------------------------------------------------
-   BUTTONS
+   BUTTONS, Glow effects and animations
    --------------------------------------------------------------------------- */
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sp-4);
+  animation: slide-up-fade var(--duration-entrance) var(--ease-smooth) both;
+  animation-delay: 0.4s;
 }
 
 @media (max-width: 768px) {
@@ -207,10 +237,20 @@
   padding: var(--sp-4) var(--sp-8);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  transition: all var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   cursor: pointer;
   border: none;
   background: transparent;
+}
+
+.hero__primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 1.5rem rgba(20, 184, 166, 0.3),
+    0 0 3rem rgba(6, 182, 212, 0.15);
+}
+
+.hero__primary-btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 @media (max-width: 768px) {
@@ -225,11 +265,15 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(0.75rem);
-  -webkit-backdrop-filter: blur(0.75rem);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-image: var(--gradient-primary);
+  background-size: 200% auto;
+  animation: gradient-shimmer 8s linear infinite;
   border-radius: var(--radius-xl);
+  transition: opacity var(--duration-medium) var(--ease), filter var(--duration-medium) var(--ease);
+}
+
+.hero__primary-btn:hover .hero__primary-btn-bg {
+  filter: brightness(1.15);
 }
 
 .hero__primary-btn-hover {
@@ -238,10 +282,17 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(to right, rgba(20, 184, 166, 0.2), rgba(6, 182, 212, 0.2));
+  background-image: var(--gradient-primary);
+  background-size: 200% auto;
+  animation: gradient-shimmer 8s linear infinite;
+  filter: brightness(1.3);
   opacity: 0;
   transition: opacity var(--duration-medium) var(--ease);
   border-radius: var(--radius-xl);
+}
+
+.hero__primary-btn:hover .hero__primary-btn-hover {
+  opacity: 1;
 }
 
 .hero__primary-btn-content {
@@ -257,22 +308,54 @@
 .hero__btn-icon {
   width: var(--sp-5);
   height: var(--sp-5);
-  transition: transform var(--duration-medium) var(--ease);
+  transition: transform var(--duration-medium) var(--ease-spring);
+}
+
+.hero__primary-btn:hover .hero__btn-icon {
+  transform: translateX(4px);
 }
 
 .hero__secondary-btn {
   padding: var(--sp-4) var(--sp-8);
   color: var(--slate-300);
   font-weight: var(--fw-semibold);
-  transition: color var(--duration-medium) var(--ease);
+  transition: color var(--duration-medium) var(--ease),
+    transform var(--duration-medium) var(--ease);
   cursor: pointer;
   border: none;
   background: transparent;
   font-size: var(--fs-base);
+  position: relative;
+}
+
+.hero__secondary-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0.75rem;
+  left: var(--sp-8);
+  right: var(--sp-8);
+  height: 1px;
+  background: var(--gradient-teal-cyan);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.hero__secondary-btn:hover {
+  color: var(--white);
+}
+
+.hero__secondary-btn:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 @media (max-width: 768px) {
   .hero__secondary-btn {
     min-height: var(--sp-11);
+  }
+
+  .hero__secondary-btn::after {
+    bottom: 0.5rem;
   }
 }

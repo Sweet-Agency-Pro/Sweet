@@ -1,6 +1,6 @@
 /**
  * AdminMedia
- * Media browser — shows all project preview images from the storage bucket.
+ * Media browser, shows all project preview images from the storage bucket.
  */
 
 import { useCallback, useEffect, useState, type CSSProperties } from 'react';
@@ -25,6 +25,17 @@ function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function normalizeFileName(name: string) {
+  // Remove extension
+  const base = name.split('.').slice(0, -1).join('.');
+  // Replace underscores with spaces and capitalize
+  return base
+    .replace(/[_-]/g, ' ')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function AdminMedia() {
@@ -134,7 +145,7 @@ function AdminMedia() {
               flexDirection: 'column',
             }}>
               <div style={styles.imgWrap}>
-                <img src={item.publicUrl} alt={item.name} style={styles.img} />
+                <img src={item.publicUrl} alt={normalizeFileName(item.name)} style={styles.img} />
               </div>
               <div style={{
                 padding: theme.spacing[4],

@@ -24,6 +24,7 @@ interface ProjectModalProps {
 
 function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
   const [imageError, setImageError] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Keep a snapshot of the last valid project + id so AnimatePresence
   // can render the exit animation with the correct layoutId values
@@ -34,6 +35,18 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
     if (selectedId && project) {
       lastProjectRef.current = project;
       lastIdRef.current = selectedId;
+
+      const resetScroll = () => {
+        const el = scrollContainerRef.current;
+        if (el) {
+          el.scrollTop = 0;
+          // Use scrollTo as well just in case
+          el.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        }
+      };
+
+      // Reset scroll immediately
+      resetScroll();
     }
   }, [selectedId, project]);
 
@@ -77,7 +90,7 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
               className="modal-inner"
               initial={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
               animate={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
-              exit={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }} 
+              exit={{ borderRadius: '2rem', clipPath: 'inset(0% round 2rem)' }}
               transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             >
               {/* Close button */}
@@ -86,7 +99,10 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
               </button>
 
               {/* Modal content */}
-              <div className="modal-content">
+              <div
+                ref={scrollContainerRef}
+                className="modal-content"
+              >
                 {/* Left side - Info */}
                 <div className="modal-info">
                   <motion.div
@@ -169,6 +185,8 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                         gradient ||
                         renderProject.colorAccent.primary ||
                         '#14b8a6',
+                      backgroundSize: '200% auto',
+                      animation: 'gradient-shimmer 4s linear infinite',
                       ...(renderProject.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),
                     }}
                     initial={{ opacity: 0, y: 20 }}
@@ -202,10 +220,21 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                       background: renderProject.colorAccent.gradient,
                     }}
                   />
-                  
+
                   {/* Preview image or fallback mockup */}
                   {hasPreviewImage ? (
-                    <div className="modal-mockup">
+                    <motion.div 
+                      className="modal-mockup"
+                      whileHover={renderProject.externalUrl ? { scale: 1.02, y: -4 } : {}}
+                      whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      onClick={() => {
+                        if (renderProject.externalUrl) {
+                          window.open(renderProject.externalUrl, '_blank', 'noopener');
+                        }
+                      }}
+                      style={{ cursor: renderProject.externalUrl ? 'pointer' : 'default' }}
+                    >
                       <div className="mockup-header">
                         <div className="mockup-dots">
                           <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
@@ -215,7 +244,8 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                       </div>
                       <img
                         src={renderProject.previewUrl}
-                        alt={`Preview de ${renderProject.name}`}
+                        alt={`Aperçu du projet ${renderProject.name}`}
+                        loading="lazy"
                         style={{
                           width: '100%',
                           height: 'auto',
@@ -224,9 +254,20 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                         }}
                         onError={() => setImageError(true)}
                       />
-                    </div>
+                    </motion.div>
                   ) : (
-                    <div className="modal-mockup">
+                    <motion.div 
+                      className="modal-mockup"
+                      whileHover={renderProject.externalUrl ? { scale: 1.02, y: -4 } : {}}
+                      whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      onClick={() => {
+                        if (renderProject.externalUrl) {
+                          window.open(renderProject.externalUrl, '_blank', 'noopener');
+                        }
+                      }}
+                      style={{ cursor: renderProject.externalUrl ? 'pointer' : 'default' }}
+                    >
                       <div className="mockup-header">
                         <div className="mockup-dots">
                           <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
@@ -251,7 +292,7 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                           <div className="mockup-grid-item" />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                 </motion.div>
               </div>

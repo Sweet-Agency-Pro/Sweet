@@ -106,6 +106,13 @@ function ContactForm() {
 
   // Handle blur for field-level validation
   const handleBlur = useCallback((field: keyof FormData) => {
+    // Check if all fields are empty
+    const allEmpty = Object.values(formData).every(value => !value.trim());
+    if (allEmpty) {
+      setFocusedField(null);
+      return;
+    }
+
     setTouched((prev) => ({ ...prev, [field]: true }));
     setFocusedField(null);
 
@@ -123,6 +130,12 @@ function ContactForm() {
   // Handle form submission
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check if all fields are empty
+    const allEmpty = Object.values(formData).every(value => !value.trim());
+    if (allEmpty) {
+      return;
+    }
 
     // Validate all fields
     const formErrors = validateForm(formData);
@@ -310,6 +323,14 @@ function ContactForm() {
             <span className="contact-form__error-message">{errors.message}</span>
           )}
         </div>
+
+        {/* Legal Notice */}
+        <p className="contact-form__legal">
+          L'envoi de ce formulaire vaut pour acceptation de nos{' '}
+          <a href="/mentions-legales" className="contact-form__legal-link">Mentions légales</a>{' '}
+          et{' '}
+          <a href="/confidentialite" className="contact-form__legal-link">Politique de confidentialité</a>.
+        </p>
 
         {/* Submit Button */}
         <motion.button

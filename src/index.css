@@ -41,14 +41,14 @@ html {
 
 /* High DPI displays */
 @media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1920px),
-       screen and (min-resolution: 192dpi) and (min-width: 1920px) {
+screen and (min-resolution: 192dpi) and (min-width: 1920px) {
   html {
     font-size: 20px;
   }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 2560px),
-       screen and (min-resolution: 192dpi) and (min-width: 2560px) {
+screen and (min-resolution: 192dpi) and (min-width: 2560px) {
   html {
     font-size: 24px;
   }
@@ -62,14 +62,18 @@ body {
   color: var(--color-slate-900);
   background-color: var(--color-white);
   min-height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll on mobile */
 }
 
 html {
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -86,8 +90,12 @@ html {
 
 /* Touch target minimum size (44px x 44px) */
 @media (pointer: coarse) {
-  button, a, [role="button"] {
-    min-height: 2.75rem; /* 44px */
+
+  button,
+  a,
+  [role="button"] {
+    min-height: 2.75rem;
+    /* 44px */
     min-width: 2.75rem;
   }
 }
@@ -97,11 +105,13 @@ html {
    ============================================================================= */
 
 .perspective-1000 {
-  perspective: 62.5rem; /* 1000px */
+  perspective: 62.5rem;
+  /* 1000px */
 }
 
 /* Smooth transitions for interactive elements */
-a, button {
+a,
+button {
   transition: all 0.2s ease;
 }
 
@@ -132,4 +142,179 @@ a, button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-teal-500);
+}
+
+/* =============================================================================
+   GLOBAL KEYFRAMES
+   ============================================================================= */
+
+/* Blob drift, slow organic motion for background blobs */
+@keyframes blob-drift {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+
+  50% {
+    transform: translate(-20px, 15px) scale(0.95);
+  }
+
+  75% {
+    transform: translate(15px, 25px) scale(1.03);
+  }
+}
+
+/* Gradient shimmer, moving highlights on gradient text */
+@keyframes gradient-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Float, gentle hovering effect for cards */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Pulse glow, breathing border/shadow glow */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Slide up + fade, entrance animation */
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scale in, smooth entrance scale */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Gradient bar shift, moving gradient for accent bars */
+@keyframes gradient-bar-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Spin, loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Draw line, for decorative elements */
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: 100;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* =============================================================================
+   SCROLL REVEAL UTILITY
+   ============================================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--duration-entrance) var(--ease-smooth),
+    transform var(--duration-entrance) var(--ease-smooth);
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children delays */
+.reveal-stagger> :nth-child(1) {
+  transition-delay: calc(var(--duration-stagger) * 1);
+}
+
+.reveal-stagger> :nth-child(2) {
+  transition-delay: calc(var(--duration-stagger) * 2);
+}
+
+.reveal-stagger> :nth-child(3) {
+  transition-delay: calc(var(--duration-stagger) * 3);
+}
+
+.reveal-stagger> :nth-child(4) {
+  transition-delay: calc(var(--duration-stagger) * 4);
+}
+
+.reveal-stagger> :nth-child(5) {
+  transition-delay: calc(var(--duration-stagger) * 5);
+}
+
+.reveal-stagger> :nth-child(6) {
+  transition-delay: calc(var(--duration-stagger) * 6);
+}
+
+/* =============================================================================
+   REDUCED MOTION, Accessibility
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

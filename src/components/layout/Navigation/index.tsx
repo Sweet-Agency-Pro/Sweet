@@ -56,7 +56,11 @@ function useBodyScrollLock(isLocked: boolean) {
 // =============================================================================
 // COMPONENT
 // =============================================================================
-function Navigation() {
+interface NavigationProps {
+  colorScheme?: 'teal' | 'purple' | 'blue';
+}
+
+function Navigation({ colorScheme }: NavigationProps = {}) {
   const { isDesktop } = useWindowSize();
   const { navigateToSection } = useSectionNavigation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -81,7 +85,7 @@ function Navigation() {
 
   return (
     <>
-      <nav className={`nav ${isScrolled ? 'nav--active' : 'nav--transparent'}`}>
+      <nav className={`nav ${isScrolled ? 'nav--active' : 'nav--transparent'} ${colorScheme ? `nav--${colorScheme}` : ''}`}>
         <div className="nav__content">
           {/* Logo */}
           <div onClick={() => navigateToSection('hero-section')} className="nav__logo">

@@ -136,7 +136,7 @@ function AdminProjects() {
                       {proj.preview_url ? (
                         <img
                           src={proj.preview_url}
-                          alt=""
+                          alt={proj.name}
                           style={styles.thumb}
                         />
                       ) : (

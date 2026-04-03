@@ -3,6 +3,7 @@
  * Privacy policy page with branded dark hero + light content
  */
 
+import { useEffect } from 'react';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -57,6 +58,10 @@ function BulletList({ items }: { items: string[] }) {
 // MAIN COMPONENT
 // =============================================================================
 function PolitiqueConfidentialite() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="legal-page">
       <HeroBanner />
@@ -157,21 +162,25 @@ function PolitiqueConfidentialite() {
           {/* ── Article 5 : Cookies ── */}
           <article className="legal-article">
             <div className="legal-article__decoration" />
-            <h2 className="legal-article__title">Article 5 - Cookies</h2>
+            <h2 className="legal-article__title">Article 5 - Cookies et Traceurs</h2>
             <p className="legal-paragraph">
-              Le site utilise des cookies pour améliorer l'expérience utilisateur et
+              Le site utilise des cookies pour assurer son bon fonctionnement, améliorer l'expérience utilisateur et
               analyser le trafic. Lors de votre première visite, un bandeau de consentement
-              vous permet d'accepter ou de refuser ces cookies.
+              vous permet de configurer vos préférences. Votre choix est mémorisé pour <strong className="legal-strong">6 mois</strong>.
             </p>
             <p className="legal-paragraph">
-              Vous pouvez à tout moment configurer votre navigateur pour refuser tout ou
-              partie des cookies. Toutefois, le refus de certains cookies peut limiter
-              l'accès à certaines fonctionnalités du site.
+              Vous pouvez à tout moment modifier vos choix en cliquant sur l'icône de biscuit présente en bas à droite de chaque page.
             </p>
+
+            <h3 className="legal-subsection-title">Liste des cookies utilisés :</h3>
             <BulletList items={[
-              'Cookies strictement nécessaires : fonctionnement du site (non désactivables).',
-              'Cookies analytiques : mesure d\'audience via Vercel Analytics (anonymisés).',
+              'Cookies essentiels (Vercel, Supabase) : indispensables pour la navigation, la sécurité et la gestion des sessions administrateur. Ces cookies ne peuvent pas être désactivés.',
+              'Mesure d\'audience (Google Analytics 4) : nous permettent d\'obtenir des statistiques anonymes de fréquentation afin d\'améliorer notre contenu. Ces cookies ne sont déposés qu\'en cas d\'acceptation explicite.',
             ]} />
+
+            <p className="legal-paragraph" style={{ marginTop: '1rem' }}>
+              Pour le suivi d'audience, nous utilisons <strong className="legal-strong">Google Analytics 4</strong>. Les données récoltées sont traitées conformément à la politique de confidentialité de Google. Vous pouvez consulter cette politique directement sur leur site.
+            </p>
           </article>
 
           {/* ── Article 6 : Hébergement des données ── */}
@@ -223,7 +232,7 @@ function PolitiqueConfidentialite() {
           </article>
 
           <p className="legal-last-updated">
-            Dernière mise à jour : février 2026
+            Dernière mise à jour : avril 2026
           </p>
         </div>
       </div>

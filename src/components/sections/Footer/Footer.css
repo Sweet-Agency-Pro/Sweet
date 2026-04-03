@@ -1,5 +1,5 @@
 /* =============================================================================
-   FOOTER STYLES
+   FOOTER STYLES, Modernized
    ============================================================================= */
 
 /* ---------------------------------------------------------------------------
@@ -11,9 +11,17 @@
   background-color: var(--white);
 }
 
+/* Animated gradient top accent bar */
 .footer__top-accent {
   height: 3px;
-  background-image: var(--gradient-primary);
+  background: linear-gradient(90deg,
+      var(--teal-500),
+      var(--cyan-500),
+      var(--blue-500),
+      var(--purple-500),
+      var(--teal-500));
+  background-size: 300% 100%;
+  animation: gradient-bar-shift 6s linear infinite;
 }
 
 .footer__bg-texture {
@@ -34,9 +42,10 @@
   right: -8rem;
   top: -8rem;
   border-radius: 50%;
-  background-color: rgba(45, 212, 191, 0.08); /* teal-400 */
+  background-color: rgba(45, 212, 191, 0.08);
   filter: blur(5rem);
   pointer-events: none;
+  animation: float 8s ease-in-out infinite;
 }
 
 .footer__content {
@@ -119,12 +128,19 @@
   border-radius: var(--radius-xl);
   background-color: var(--teal-50);
   border: 1px solid var(--teal-200);
+  transition: all var(--duration-medium) var(--ease-spring);
+}
+
+.footer__logo-pill:hover {
+  transform: scale(1.05) rotate(-3deg);
+  box-shadow: 0 0 1rem rgba(20, 184, 166, 0.15);
 }
 
 .footer__logo-icon {
   width: var(--sp-5);
   height: var(--sp-5);
   color: var(--teal-600);
+  transition: transform var(--duration-medium) var(--ease-smooth);
 }
 
 .footer__brand-name {
@@ -133,6 +149,31 @@
   font-weight: var(--fw-black);
   color: var(--slate-900);
   letter-spacing: var(--ls-wider);
+  transition: all var(--duration-medium) var(--ease-smooth);
+}
+
+.footer__brand-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.footer__brand-row:hover .footer__logo-pill {
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 0 1.5rem var(--footer-accent-glow, rgba(20, 184, 166, 0.2));
+  border-color: var(--footer-accent-border, var(--teal-300));
+  background-color: var(--footer-accent-light, var(--teal-100));
+}
+
+.footer__brand-row:hover .footer__logo-icon {
+  transform: rotate(15deg) scale(1.1);
+  color: var(--footer-accent, var(--teal-600));
+}
+
+.footer__brand-row:hover .footer__brand-name {
+  letter-spacing: 0.15em;
 }
 
 .footer__brand-description {
@@ -145,7 +186,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   LINKS
+   LINKS, Underline reveal on hover
    --------------------------------------------------------------------------- */
 .footer__link-list {
   display: flex;
@@ -158,19 +199,66 @@
   text-decoration: none;
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
-  transition: color var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
   width: fit-content;
+  position: relative;
+}
+
+/* Underline reveal animation */
+.footer__link-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gradient-teal-cyan);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-medium) var(--ease-smooth);
 }
 
 .footer__link-item:hover {
-  color: var(--teal-600);
+  color: var(--footer-accent, var(--teal-600));
+  transform: translateX(4px);
 }
 
-.footer__contact-text {
-  margin: 0;
+.footer__link-item:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.footer__contact-link {
   color: var(--slate-600);
+  text-decoration: none;
   font-size: var(--fs-sm);
   line-height: var(--lh-relaxed);
+  transition: all var(--duration-medium) var(--ease-smooth);
+  width: fit-content;
+  position: relative;
+}
+
+.footer__contact-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--gradient-teal-cyan);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.footer__contact-link:hover {
+  color: var(--footer-accent, var(--teal-600));
+  transform: translateX(4px);
+}
+
+.footer__contact-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .footer__cta-button {
@@ -178,21 +266,49 @@
   width: fit-content;
   padding-left: var(--sp-5);
   padding-right: var(--sp-5);
-  padding-top: 0.625rem; /* ~sp-2.5 */
+  padding-top: 0.625rem;
   padding-bottom: 0.625rem;
   border-radius: var(--radius-lg);
   border: none;
   background-image: var(--gradient-teal-cyan);
+  background-size: 200% auto;
+  animation: gradient-shimmer 4s linear infinite;
   color: var(--white);
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
   cursor: pointer;
-  transition: opacity var(--duration-medium) var(--ease), transform var(--duration-medium) var(--ease);
+  transition: all var(--duration-medium) var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+/* CTA shimmer */
+.footer__cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
+  transition: left var(--duration-slow) var(--ease);
+}
+
+.footer__cta-button:hover::before {
+  left: 100%;
 }
 
 .footer__cta-button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 0.25rem 1rem rgba(20, 184, 166, 0.3);
+  background-image: var(--gradient-teal-cyan-dark);
+}
+
+.footer__cta-button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* ---------------------------------------------------------------------------
@@ -233,8 +349,86 @@
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   transition: color var(--duration-medium) var(--ease);
+  position: relative;
+}
+
+.footer__legal-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--slate-400);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-medium) var(--ease-smooth);
 }
 
 .footer__legal-link:hover {
   color: var(--slate-600);
+}
+
+.footer__legal-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Color Scheme Overrides */
+.footer--purple .footer__cta-button {
+  background-image: var(--gradient-purple-blue);
+}
+
+.footer--purple .footer__cta-button:hover {
+  box-shadow: 0 0.25rem 1rem rgba(168, 85, 247, 0.3);
+  background-image: var(--gradient-purple-blue-dark);
+}
+
+.footer--purple .footer__logo-pill {
+  background-color: var(--purple-50);
+  border-color: var(--purple-200);
+}
+
+.footer--purple .footer__logo-pill:hover {
+  box-shadow: 0 0 1.5rem rgba(168, 85, 247, 0.2);
+  border-color: var(--purple-300);
+  background-color: var(--purple-100);
+}
+
+.footer--purple .footer__logo-icon {
+  color: var(--purple-600);
+}
+
+.footer--purple .footer__link-item::after,
+.footer--purple .footer__contact-link::after {
+  background: var(--gradient-purple-blue);
+}
+
+.footer--blue .footer__cta-button {
+  background-image: var(--gradient-blue-cyan);
+}
+
+.footer--blue .footer__cta-button:hover {
+  box-shadow: 0 0.25rem 1rem rgba(59, 130, 246, 0.3);
+  background-image: var(--gradient-blue-cyan-dark);
+}
+
+.footer--blue .footer__logo-pill {
+  background-color: var(--blue-50);
+  border-color: var(--blue-200);
+}
+
+.footer--blue .footer__logo-pill:hover {
+  box-shadow: 0 0 1.5rem rgba(59, 130, 246, 0.2);
+  border-color: var(--blue-300);
+  background-color: var(--blue-100);
+}
+
+.footer--blue .footer__logo-icon {
+  color: var(--blue-600);
+}
+
+.footer--blue .footer__link-item::after,
+.footer--blue .footer__contact-link::after {
+  background: var(--gradient-blue-cyan);
 }

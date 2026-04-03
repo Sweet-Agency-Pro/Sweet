@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { useEffect, useState, CSSProperties, type ComponentType } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -5,9 +6,11 @@ import { useLocation } from 'react-router-dom';
 import Hero from './sections/Hero';
 import ScrollAnimation from './sections/ScrollAnimation';
 import ServicesPreview from './sections/Services';
-import PortfolioPreview from './sections/Portfolio';
-import Contact from './sections/Contact';
-import Footer from './sections/Footer';
+
+const PortfolioPreview = lazy(() => import('./sections/Portfolio'));
+const About = lazy(() => import('./sections/About'));
+const Contact = lazy(() => import('./sections/Contact'));
+const Footer = lazy(() => import('./sections/Footer'));
 
 // =============================================================================
 // COMPONENT
@@ -135,9 +138,14 @@ function PublicHome() {
       <Hero />
       <ScrollAnimation />
       <ServicesPreview />
-      <PortfolioPreview />
-      <Contact />
-      <Footer />
+      
+      <Suspense fallback={<div style={{ minHeight: '400px', backgroundColor: 'transparent' }} />}>
+        <PortfolioPreview />
+        <About />
+        <Contact />
+        <Footer />
+      </Suspense>
+
       {AnalyticsComponent ? <AnalyticsComponent /> : null}
     </div>
   );

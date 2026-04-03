@@ -3,6 +3,7 @@
  * Legal notice page with branded dark hero + light content
  */
 
+import { useEffect } from 'react';
 import { ArrowLeft, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -59,6 +60,10 @@ function InfoCard({ rows }: { rows: { label: string; value: string; isPlaceholde
 // MAIN COMPONENT
 // =============================================================================
 function MentionsLegales() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="legal-page">
       <HeroBanner />
@@ -160,7 +165,7 @@ function MentionsLegales() {
           </article>
 
           <p className="legal-last-updated">
-            Dernière mise à jour : février 2026
+            Dernière mise à jour : avril 2026
           </p>
         </div>
       </div>

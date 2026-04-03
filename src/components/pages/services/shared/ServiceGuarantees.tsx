@@ -1,5 +1,5 @@
 /**
- * ServiceGuarantees — Shared guarantees / features band
+ * ServiceGuarantees, Shared guarantees / features band
  * Light gray background with 3 (or more) cards
  */
 
@@ -17,15 +17,17 @@ interface ServiceGuaranteesProps {
   title?: string;
   subtitle?: string;
   items: Guarantee[];
+  colorScheme?: 'teal' | 'purple' | 'blue';
 }
 
 function ServiceGuarantees({
   title = 'Nos Garanties',
   subtitle = 'Une qualité technique irréprochable, quel que soit votre choix.',
   items,
+  colorScheme = 'teal',
 }: ServiceGuaranteesProps) {
   return (
-    <section className="service-guarantees">
+    <section className={`service-guarantees service-guarantees--${colorScheme}`}>
       <div className="service-guarantees__texture" />
 
       <div className="service-guarantees__container">

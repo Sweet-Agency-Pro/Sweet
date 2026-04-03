@@ -57,7 +57,7 @@ function LabHeader() {
     >
       <Beaker className="portfolio__lab-icon" />
       <span className="portfolio__lab-title">
-        Sweet Lab — Concepts Exploratoires
+        Sweet Lab, Concepts Exploratoires
       </span>
     </motion.div>
   );

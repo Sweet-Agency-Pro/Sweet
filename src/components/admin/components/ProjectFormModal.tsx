@@ -294,7 +294,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
           <label className="admin-form-label">Image preview</label>
           {displayedPreview ? (
             <div className="admin-image-preview">
-              <img src={displayedPreview} alt="preview" className="admin-image-preview__img" />
+              <img src={displayedPreview} alt={`Aperçu de ${name || 'nouveau projet'}`} className="admin-image-preview__img" />
               <button
                 type="button"
                 onClick={handleRemovePreview}
@@ -341,7 +341,7 @@ function ProjectFormModal({ initial, onSave, onClose }: ProjectFormModalProps) {
             onChange={(e) => setIsFlagship(e.target.checked)}
           />
           <span style={{ color: theme.colors.slate[200], fontSize: theme.typography.fontSize.sm }}>
-            Projet phare (flagship — mis en avant sur le site)
+            Projet phare (flagship, mis en avant sur le site)
           </span>
         </label>
 

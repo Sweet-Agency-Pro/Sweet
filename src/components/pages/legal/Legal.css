@@ -318,3 +318,12 @@
   width: var(--sp-4);
   height: var(--sp-4);
 }
+
+.legal-subsection-title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--slate-800);
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-3);
+  display: block;
+}

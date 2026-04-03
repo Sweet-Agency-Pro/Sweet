@@ -6,16 +6,21 @@ import './Footer.css';
 
 const navLinks = [
   { sectionId: 'services', label: 'Services' },
-  { sectionId: 'portfolio', label: 'Portfolio' },
+  { sectionId: 'portfolio', label: 'Réalisations' },
+  { sectionId: 'about', label: 'À propos' },
   { sectionId: 'contact', label: 'Contact' },
 ];
 
-function Footer() {
+interface FooterProps {
+  colorScheme?: 'teal' | 'purple' | 'blue';
+}
+
+function Footer({ colorScheme }: FooterProps) {
   const { navigateToSection } = useSectionNavigation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${colorScheme ? `footer--${colorScheme}` : ''}`}>
       <div className="footer__top-accent" />
       <div className="footer__bg-texture" />
       <div className="footer__glow-orb" />
@@ -58,8 +63,8 @@ function Footer() {
           <div>
             <h4 className="footer__section-title">Contact</h4>
             <div className="footer__link-list">
-              <p className="footer__contact-text">contact@agence-sweet.com</p>
-              <p className="footer__contact-text">+33 6 83 94 96 90</p>
+              <a href="mailto:contact@agence-sweet.com" className="footer__contact-link">contact@agence-sweet.com</a>
+              <a href="tel:+33683949690" className="footer__contact-link">+33 6 83 94 96 90</a>
               <button
                 className="footer__cta-button"
                 onClick={() => navigateToSection('contact')}

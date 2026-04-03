@@ -43,6 +43,7 @@ export const services: Service[] = [
     features: ['Design personnalisé', 'One-Page ou Multi-Pages', 'Optimisation SEO', 'Performance garantie'],
     colorAccent: colors.teal,
     glowColor: hexToRgba(colors.teal[500], 0.15),
+    redirectUrl: '/services/site-vitrine',
   },
   {
     id: 2,
@@ -51,8 +52,9 @@ export const services: Service[] = [
     tagline: 'Votre boutique en ligne complète pour vendre 24h/7j.',
     resume: 'Transformez vos visiteurs en clients fidèles avec une plateforme de vente robuste. Notre solution e-commerce intègre les paiements sécurisés, un parcours d\'achat optimisé et une gestion de catalogue fluide. Conçu pour la performance, votre site e-commerce est développé pour supporter la croissance de votre activité tout en offrant une expérience utilisateur rassurante et professionnelle.',
     features: ['Paiements sécurisés', 'Gestion de catalogue', 'Parcours d\'achat optimisé', 'Scalabilité'],
-    colorAccent: colors.cyan,
-    glowColor: hexToRgba(colors.cyan[500], 0.15),
+    colorAccent: colors.purple,
+    glowColor: hexToRgba(colors.purple[500], 0.15),
+    redirectUrl: '/services/site-ecommerce',
   },
   {
     id: 3,
@@ -63,5 +65,6 @@ export const services: Service[] = [
     features: ['Gestion de contenu simple', 'Back-office sécurisé', 'Tableaux de bord analytiques', 'Contrôle total'],
     colorAccent: colors.blue,
     glowColor: hexToRgba(colors.blue[500], 0.15),
+    redirectUrl: '/services/panneau-de-gestion',
   },
 ];
