@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { useEffect, useState, CSSProperties, type ComponentType } from 'react';
 import { useLocation } from 'react-router-dom';
+import SEO from './layout/SEO';
 
 // Section Components (modular architecture)
 import Hero from './sections/Hero';
@@ -33,13 +34,6 @@ function PublicHome() {
     null | ComponentType
   >(null);
 
-  useEffect(() => {
-    if (env !== 'production') {
-      document.title = 'Sweet DEVELOPMENT';
-    } else {
-      document.title = 'Agence Sweet';
-    }
-  }, [env]);
 
   useEffect(() => {
     if (env !== 'production' || !canUseStorage) return;
@@ -135,10 +129,14 @@ function PublicHome() {
 
   return (
     <div style={styles.app}>
+      <SEO
+        title={env !== 'production' ? 'Sweet DEVELOPMENT' : 'Agence Web Créative : Développement & Design sur Mesure'}
+        description="Agence Sweet - Création de sites internet, e-commerce et solutions sur mesure pour propulser votre activité."
+      />
       <Hero />
       <ScrollAnimation />
       <ServicesPreview />
-      
+
       <Suspense fallback={<div style={{ minHeight: '400px', backgroundColor: 'transparent' }} />}>
         <PortfolioPreview />
         <About />

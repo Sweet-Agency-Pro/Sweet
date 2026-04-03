@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import Navigation from '../../layout/Navigation';
 import Footer from '../../sections/Footer';
+import SEO from '../../layout/SEO';
 import './Legal.css';
 
 // =============================================================================
@@ -64,6 +65,10 @@ function PolitiqueConfidentialite() {
 
   return (
     <div className="legal-page">
+      <SEO
+        title="Politique de Confidentialité"
+        description="Découvrez comment Agence Sweet collecte, utilise et protège vos données personnelles dans le respect du RGPD."
+      />
       <HeroBanner />
       <div className="legal-accent-line" />
 

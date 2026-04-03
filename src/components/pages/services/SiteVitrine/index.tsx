@@ -5,6 +5,7 @@
 
 import { useEffect } from 'react';
 import { Paintbrush, Search, Zap, TrendingUp, Users } from 'lucide-react';
+import SEO from '../../../layout/SEO';
 
 import ServiceHero from '../shared/ServiceHero';
 import ServiceIntro from '../shared/ServiceIntro';
@@ -102,11 +103,14 @@ const guarantees: Guarantee[] = [
 function SiteVitrine() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Site Vitrine, Sweet Agency | Créateur de sites professionnels';
   }, []);
 
   return (
     <div className="service-page service-page--teal">
+      <SEO
+        title="Création de Site Vitrine Professionnel & Design Sur Mesure"
+        description="Créez un site vitrine qui convertit vos visiteurs en clients. Design unique, interface responsive et optimisation SEO pour booster votre visibilité locale."
+      />
       <ServiceHero
         title={
           <>

@@ -22,6 +22,7 @@ import ServiceFaq from '../shared/ServiceFaq';
 import ServiceGuarantees from '../shared/ServiceGuarantees';
 import ServiceCtaBand from '../shared/ServiceCtaBand';
 import Footer from '../../../sections/Footer';
+import SEO from '../../../layout/SEO';
 import '../shared/ServicePage.css';
 import type { Guarantee } from '../shared/ServiceGuarantees';
 import type { Benefit } from '../shared/ServiceBenefits';
@@ -109,11 +110,14 @@ const guarantees: Guarantee[] = [
 function PanneauDeGestion() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Panneau de Gestion, Sweet Agency | Back-office sur mesure';
   }, []);
 
   return (
     <div className="service-page service-page--blue">
+      <SEO
+        title="Dashboard & Outils Métier sur Mesure"
+        description="Automatisez vos processus avec un dashboard sur mesure. Développement d'outils de gestion interne, CRM et applications métier sécurisées avec React & Supabase."
+      />
       <ServiceHero
         title={
           <>

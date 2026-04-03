@@ -22,6 +22,7 @@ import ServiceFaq from '../shared/ServiceFaq';
 import ServiceGuarantees from '../shared/ServiceGuarantees';
 import ServiceCtaBand from '../shared/ServiceCtaBand';
 import Footer from '../../../sections/Footer';
+import SEO from '../../../layout/SEO';
 import '../shared/ServicePage.css';
 import type { Guarantee } from '../shared/ServiceGuarantees';
 import type { Benefit } from '../shared/ServiceBenefits';
@@ -109,11 +110,14 @@ const guarantees: Guarantee[] = [
 function SiteEcommerce() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Site E-commerce, Sweet Agency | Boutique en ligne sur mesure';
   }, []);
 
   return (
     <div className="service-page service-page--purple">
+      <SEO
+        title="Développement de Boutique E-commerce (Shopify/Next.js)"
+        description="Lancez votre boutique en ligne performante. Développement e-commerce sécurisé, gestion des stocks simplifiée et expérience d'achat fluide. Prêt à vendre ?"
+      />
       <ServiceHero
         title={
           <>

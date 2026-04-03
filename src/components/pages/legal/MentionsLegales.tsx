@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import Navigation from '../../layout/Navigation';
 import Footer from '../../sections/Footer';
+import SEO from '../../layout/SEO';
 import './Legal.css';
 
 // =============================================================================
@@ -66,6 +67,10 @@ function MentionsLegales() {
 
   return (
     <div className="legal-page">
+      <SEO
+        title="Mentions Légales"
+        description="Informations légales relatives à l'éditeur du site Agence Sweet, à son hébergement et à la propriété intellectuelle."
+      />
       <HeroBanner />
       <div className="legal-accent-line" />
 
