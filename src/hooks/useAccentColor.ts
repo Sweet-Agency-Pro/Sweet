@@ -12,8 +12,12 @@ interface ServiceAccent {
 export function useAccentColor() {
   const location = useLocation();
   const [services, setServices] = useState<ServiceAccent[]>([]);
-  const [accentColor, setAccentColor] = useState<string>('#14b8a6');
-  const [accentGradient, setAccentGradient] = useState<string>('var(--gradient-teal-cyan)');
+  const [palette, setPalette] = useState({
+    accent400: '#2dd4bf',
+    accent500: '#14b8a6',
+    accent600: '#0d9488',
+    accentGradient: 'var(--gradient-teal-cyan)'
+  });
 
   // Fetch services once
   useEffect(() => {
@@ -36,23 +40,21 @@ export function useAccentColor() {
     
     if (currentService && currentService.color_accent && currentService.color_accent['500']) {
       const hex = currentService.color_accent['500'].toLowerCase();
-      setAccentColor(hex);
 
-      // Map hex to gradient
+      // Map hex to full palette and gradient
       if (hex === '#14b8a6') {
-        setAccentGradient('var(--gradient-teal-cyan)');
+        setPalette({ accent400: '#2dd4bf', accent500: '#14b8a6', accent600: '#0d9488', accentGradient: 'var(--gradient-teal-cyan)' });
       } else if (hex === '#a855f7') {
-        setAccentGradient('var(--gradient-purple-blue)');
+        setPalette({ accent400: '#c084fc', accent500: '#a855f7', accent600: '#9333ea', accentGradient: 'var(--gradient-purple-blue)' });
       } else if (hex === '#3b82f6') {
-        setAccentGradient('var(--gradient-blue-cyan)');
+        setPalette({ accent400: '#60a5fa', accent500: '#3b82f6', accent600: '#2563eb', accentGradient: 'var(--gradient-blue-cyan)' });
       } else {
-        setAccentGradient('var(--gradient-teal-cyan)');
+        setPalette({ accent400: '#2dd4bf', accent500: '#14b8a6', accent600: '#0d9488', accentGradient: 'var(--gradient-teal-cyan)' });
       }
     } else {
-      setAccentColor('#14b8a6');
-      setAccentGradient('var(--gradient-teal-cyan)');
+      setPalette({ accent400: '#2dd4bf', accent500: '#14b8a6', accent600: '#0d9488', accentGradient: 'var(--gradient-teal-cyan)' });
     }
   }, [location.pathname, services]);
 
-  return { accentColor, accentGradient };
+  return palette;
 }

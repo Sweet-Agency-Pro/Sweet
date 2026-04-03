@@ -102,7 +102,7 @@ function App() {
   const loginPath = import.meta.env.VITE_LOGIN_PATH || '/acces-prive-87';
   const adminPath = import.meta.env.VITE_ADMIN_PATH || '/studio-ombre-87';
   const [analyticsConsent, setAnalyticsConsent] = useState(getAnalyticsConsent());
-  const { accentColor, accentGradient } = useAccentColor();
+  const { accent400, accent500, accent600, accentGradient } = useAccentColor();
 
   const handleConsentChange = useCallback((data: ConsentData) => {
     setAnalyticsConsent(data.analytics);
@@ -188,7 +188,9 @@ function App() {
       </Suspense>
       <CookieConsentModal 
         onConsentChange={handleConsentChange} 
-        dynamicAccent={accentColor} 
+        dynamic400={accent400} 
+        dynamic500={accent500} 
+        dynamic600={accent600} 
         dynamicGradient={accentGradient}
       />
     </>
