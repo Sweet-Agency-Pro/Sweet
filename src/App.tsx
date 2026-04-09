@@ -34,13 +34,13 @@ const AnalyticsTracker = ({ hasConsent }: { hasConsent: boolean }) => {
         // Re-enable GA tracking
         // @ts-ignore
         window[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
-        
+
         // Initialize if not already done
         if (window.localStorage.getItem('ga_initialized') !== 'true') {
           ReactGA.initialize(GA_MEASUREMENT_ID);
           window.localStorage.setItem('ga_initialized', 'true');
         }
-        
+
         ReactGA.send({
           hitType: "pageview",
           page: location.pathname + location.search
@@ -64,6 +64,7 @@ const PolitiqueConfidentialite = lazy(() => import('./components/pages/legal/Pol
 const SiteVitrine = lazy(() => import('./components/pages/services/SiteVitrine'));
 const SiteEcommerce = lazy(() => import('./components/pages/services/Ecommerce'));
 const PanneauDeGestion = lazy(() => import('./components/pages/services/PanneauDeGestion'));
+const ProjectDetailPage = lazy(() => import('./components/pages/portfolio/ProjectDetail'));
 
 // Admin Pages
 const Login = lazy(() => import('./components/admin/Login'));
@@ -140,6 +141,7 @@ function App() {
           <Route path="/confidentialite" element={<PolitiqueConfidentialite />} />
           <Route path="/services/site-vitrine" element={<SiteVitrine />} />
           <Route path="/services/site-ecommerce" element={<SiteEcommerce />} />
+          <Route path="/portfolio/:projectId" element={<ProjectDetailPage />} />
           <Route path="/services/panneau-de-gestion" element={<PanneauDeGestion />} />
           <Route path={loginPath} element={<Login adminPath={adminPath} />} />
           <Route
@@ -186,11 +188,11 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      <CookieConsentModal 
-        onConsentChange={handleConsentChange} 
-        dynamic400={accent400} 
-        dynamic500={accent500} 
-        dynamic600={accent600} 
+      <CookieConsentModal
+        onConsentChange={handleConsentChange}
+        dynamic400={accent400}
+        dynamic500={accent500}
+        dynamic600={accent600}
         dynamicGradient={accentGradient}
       />
     </>
