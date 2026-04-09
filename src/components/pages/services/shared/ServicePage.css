@@ -227,7 +227,7 @@
   left: 0;
   background-image: var(--gradient-teal-cyan);
   background-size: 200% auto;
-  animation: gradient-shimmer 4s linear infinite;
+  animation: gradient-shimmer 8s linear infinite;
   border-radius: var(--radius-xl);
   transition: opacity var(--duration-medium) var(--ease), filter var(--duration-medium) var(--ease);
 }
@@ -244,7 +244,7 @@
   left: 0;
   background-image: var(--gradient-teal-cyan-dark);
   background-size: 200% auto;
-  animation: gradient-shimmer 4s linear infinite;
+  animation: gradient-shimmer 8s linear infinite;
   border-radius: var(--radius-xl);
   opacity: 0;
   transition: opacity var(--duration-medium) var(--ease);

@@ -116,7 +116,7 @@ function ServiceTabs({
       <div className="services-tabs-shared__scroll">
         {services.map((s) => {
           const isActive = getIsActive(s);
-          
+
           return (
             <button
               key={s.id}
