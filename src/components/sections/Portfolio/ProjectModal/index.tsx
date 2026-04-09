@@ -5,7 +5,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Sparkles, Beaker, Quote } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { X, Sparkles, Beaker, Quote, ArrowRight } from 'lucide-react';
 import type { Project } from '../../../../hooks/useProjects';
 
 // Hex to Rgba helper for dynamic styles
@@ -25,6 +26,7 @@ interface ProjectModalProps {
 function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
   const [imageError, setImageError] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   // Keep a snapshot of the last valid project + id so AnimatePresence
   // can render the exit animation with the correct layoutId values
@@ -187,22 +189,20 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                         '#14b8a6',
                       backgroundSize: '200% auto',
                       animation: 'gradient-shimmer 4s linear infinite',
-                      ...(renderProject.externalUrl ? {} : { opacity: 0.5, cursor: 'default' }),
                     }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: 0.4 }}
-                    whileHover={renderProject.externalUrl ? { scale: 1.03 } : {}}
-                    whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => {
-                      if (renderProject.externalUrl) {
-                        window.open(renderProject.externalUrl, '_blank', 'noopener');
-                      }
+                      onClose();
+                      navigate(`/portfolio/${renderProject.id}`);
                     }}
                   >
-                    <span>Voir le projet</span>
-                    <ExternalLink className="modal-cta-icon" />
+                    <span>En savoir plus</span>
+                    <ArrowRight className="modal-cta-icon" />
                   </motion.button>
                 </div>
 
@@ -223,17 +223,16 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
 
                   {/* Preview image or fallback mockup */}
                   {hasPreviewImage ? (
-                    <motion.div 
+                    <motion.div
                       className="modal-mockup"
-                      whileHover={renderProject.externalUrl ? { scale: 1.02, y: -4 } : {}}
-                      whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                      whileHover={{ scale: 1.02, y: -4 }}
+                      whileTap={{ scale: 0.98 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                       onClick={() => {
-                        if (renderProject.externalUrl) {
-                          window.open(renderProject.externalUrl, '_blank', 'noopener');
-                        }
+                        onClose();
+                        navigate(`/portfolio/${renderProject.id}`);
                       }}
-                      style={{ cursor: renderProject.externalUrl ? 'pointer' : 'default' }}
+                      style={{ cursor: 'pointer' }}
                     >
                       <div className="mockup-header">
                         <div className="mockup-dots">
@@ -256,17 +255,16 @@ function ProjectModal({ project, selectedId, onClose }: ProjectModalProps) {
                       />
                     </motion.div>
                   ) : (
-                    <motion.div 
+                    <motion.div
                       className="modal-mockup"
-                      whileHover={renderProject.externalUrl ? { scale: 1.02, y: -4 } : {}}
-                      whileTap={renderProject.externalUrl ? { scale: 0.98 } : {}}
+                      whileHover={{ scale: 1.02, y: -4 }}
+                      whileTap={{ scale: 0.98 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                       onClick={() => {
-                        if (renderProject.externalUrl) {
-                          window.open(renderProject.externalUrl, '_blank', 'noopener');
-                        }
+                        onClose();
+                        navigate(`/portfolio/${renderProject.id}`);
                       }}
-                      style={{ cursor: renderProject.externalUrl ? 'pointer' : 'default' }}
+                      style={{ cursor: 'pointer' }}
                     >
                       <div className="mockup-header">
                         <div className="mockup-dots">
