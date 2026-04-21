@@ -70,6 +70,24 @@ function MentionsLegales() {
       <SEO
         title="Mentions Légales"
         description="Informations légales relatives à l'éditeur du site Agence Sweet, à son hébergement et à la propriété intellectuelle."
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://agence-sweet.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Mentions Légales",
+              "item": "https://agence-sweet.com/mentions-legales"
+            }
+          ]
+        }}
       />
       <HeroBanner />
       <div className="legal-accent-line" />
@@ -92,7 +110,7 @@ function MentionsLegales() {
 
             <p className="legal-paragraph">
               Le présent site, accessible à l'URL{' '}
-              <strong className="legal-strong">https://www.agence-sweet.com/</strong>, est édité par :
+              <strong className="legal-strong">https://agence-sweet.com/</strong>, est édité par :
             </p>
 
             <InfoCard rows={[

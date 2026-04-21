@@ -1,10 +1,16 @@
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import theme from '../../styles/theme';
+import SEO from '../layout/SEO';
 
 function NotFound() {
   return (
     <div style={styles.wrapper}>
+      <SEO
+        title="Page non trouvée"
+        description="La page que vous cherchez n'existe pas ou a été déplacée."
+        noindex={true}
+      />
       <div style={styles.card}>
         <div style={styles.title}>404</div>
         <div style={styles.subtitle}>Cette page n’existe pas.</div>

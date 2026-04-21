@@ -98,6 +98,64 @@ const guarantees: Guarantee[] = [
 ];
 
 // =============================================================================
+// JSON-LD STRUCTURED DATA
+// =============================================================================
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://agence-sweet.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": "https://agence-sweet.com/#services"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Site Vitrine",
+      "item": "https://agence-sweet.com/services/site-vitrine"
+    }
+  ]
+};
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Création de Site Vitrine",
+  "description": "Création de sites vitrine professionnels sur mesure : design unique, interface responsive et optimisation SEO pour booster votre visibilité en ligne.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Agence Sweet",
+    "url": "https://agence-sweet.com"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "serviceType": "Développement Web"
+};
+
+// =============================================================================
 // COMPONENT
 // =============================================================================
 function SiteVitrine() {
@@ -110,6 +168,7 @@ function SiteVitrine() {
       <SEO
         title="Création de Site Vitrine Professionnel & Design Sur Mesure"
         description="Créez un site vitrine qui convertit vos visiteurs en clients. Design unique, interface responsive et optimisation SEO pour booster votre visibilité locale."
+        jsonLd={[faqJsonLd, breadcrumbJsonLd, serviceJsonLd]}
       />
       <ServiceHero
         title={

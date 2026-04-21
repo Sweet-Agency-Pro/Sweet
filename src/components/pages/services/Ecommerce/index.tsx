@@ -105,6 +105,64 @@ const guarantees: Guarantee[] = [
 ];
 
 // =============================================================================
+// JSON-LD STRUCTURED DATA
+// =============================================================================
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://agence-sweet.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": "https://agence-sweet.com/#services"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "E-commerce",
+      "item": "https://agence-sweet.com/services/site-ecommerce"
+    }
+  ]
+};
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Développement de Boutique E-commerce",
+  "description": "Création de boutiques en ligne performantes et sécurisées : tunnel d'achat optimisé, paiement sécurisé (Stripe), gestion des stocks et expérience d'achat fluide.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Agence Sweet",
+    "url": "https://agence-sweet.com"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "serviceType": "Développement E-commerce"
+};
+
+// =============================================================================
 // COMPONENT
 // =============================================================================
 function SiteEcommerce() {
@@ -117,6 +175,7 @@ function SiteEcommerce() {
       <SEO
         title="Développement de Boutique E-commerce (Shopify/Next.js)"
         description="Lancez votre boutique en ligne performante. Développement e-commerce sécurisé, gestion des stocks simplifiée et expérience d'achat fluide. Prêt à vendre ?"
+        jsonLd={[faqJsonLd, breadcrumbJsonLd, serviceJsonLd]}
       />
       <ServiceHero
         title={

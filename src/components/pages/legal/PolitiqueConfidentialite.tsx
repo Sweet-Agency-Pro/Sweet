@@ -68,6 +68,24 @@ function PolitiqueConfidentialite() {
       <SEO
         title="Politique de Confidentialité"
         description="Découvrez comment Agence Sweet collecte, utilise et protège vos données personnelles dans le respect du RGPD."
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://agence-sweet.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Politique de Confidentialité",
+              "item": "https://agence-sweet.com/confidentialite"
+            }
+          ]
+        }}
       />
       <HeroBanner />
       <div className="legal-accent-line" />

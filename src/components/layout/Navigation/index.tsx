@@ -88,7 +88,7 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
       <nav className={`nav ${isScrolled ? 'nav--active' : 'nav--transparent'} ${colorScheme ? `nav--${colorScheme}` : ''}`}>
         <div className="nav__content">
           {/* Logo */}
-          <div onClick={() => navigateToSection('hero-section')} className="nav__logo">
+          <a href="/" onClick={(e) => { e.preventDefault(); navigateToSection('hero-section'); }} className="nav__logo">
             <div className="nav__logo-icon-wrapper">
               <div className="nav__logo-icon-glow" />
               <div className={`nav__logo-icon-inner ${isScrolled ? 'nav__logo-icon-inner--scrolled' : ''}`}>
@@ -98,7 +98,7 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
             <span className={`nav__logo-text ${isScrolled ? 'nav__logo-text--scrolled' : ''}`}>
               Sweet
             </span>
-          </div>
+          </a>
 
           {/* Desktop Navigation Links */}
           {isDesktop && (

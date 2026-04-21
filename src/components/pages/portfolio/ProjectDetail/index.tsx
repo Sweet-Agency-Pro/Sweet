@@ -627,6 +627,30 @@ function ProjectDetailPage() {
         description={project.metaDescription}
         image={project.previewUrl || undefined}
         type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://agence-sweet.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Réalisations",
+              "item": "https://agence-sweet.com/#portfolio"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": project.name,
+              "item": `https://agence-sweet.com/portfolio/${project.id}`
+            }
+          ]
+        }}
       />
 
       <Navigation colorScheme={colorScheme} />

@@ -1,0 +1,10 @@
+# robots.txt — agence-sweet.com
+User-agent: *
+Allow: /
+
+# Bloquer les pages admin
+Disallow: /studio-ombre-87
+Disallow: /acces-prive-87
+
+# Sitemap
+Sitemap: https://agence-sweet.com/sitemap.xml

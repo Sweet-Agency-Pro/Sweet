@@ -6,9 +6,29 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "react-snap",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
+  },
+  "reactSnap": {
+    "source": "dist",
+    "minifyHtml": {
+      "collapseWhitespace": false
+    },
+    "include": [
+      "/",
+      "/mentions-legales",
+      "/confidentialite",
+      "/services/site-vitrine",
+      "/services/site-ecommerce",
+      "/services/panneau-de-gestion",
+      "/portfolio/translatix",
+      "/portfolio/luminarte",
+      "/portfolio/servicepro",
+      "/portfolio/artinexus",
+      "/404"
+    ]
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.95.0",
@@ -34,9 +54,12 @@
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
     "postcss": "^8.4.35",
+    "react-snap": "^1.23.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vite-plugin-image-optimizer": "^1.1.8"
   }
 }

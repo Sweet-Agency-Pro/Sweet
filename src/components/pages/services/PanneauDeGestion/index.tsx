@@ -105,6 +105,64 @@ const guarantees: Guarantee[] = [
 ];
 
 // =============================================================================
+// JSON-LD STRUCTURED DATA
+// =============================================================================
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://agence-sweet.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Services",
+      "item": "https://agence-sweet.com/#services"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Panneau de Gestion",
+      "item": "https://agence-sweet.com/services/panneau-de-gestion"
+    }
+  ]
+};
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Dashboard & Outils Métier sur Mesure",
+  "description": "Conception de panneaux de gestion et back-offices sur mesure : interface intuitive, gestion de contenu autonome, données sécurisées et hébergées en Europe.",
+  "provider": {
+    "@type": "Organization",
+    "name": "Agence Sweet",
+    "url": "https://agence-sweet.com"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "serviceType": "Développement d'outils métier"
+};
+
+// =============================================================================
 // COMPONENT
 // =============================================================================
 function PanneauDeGestion() {
@@ -117,6 +175,7 @@ function PanneauDeGestion() {
       <SEO
         title="Dashboard & Outils Métier sur Mesure"
         description="Automatisez vos processus avec un dashboard sur mesure. Développement d'outils de gestion interne, CRM et applications métier sécurisées avec React & Supabase."
+        jsonLd={[faqJsonLd, breadcrumbJsonLd, serviceJsonLd]}
       />
       <ServiceHero
         title={
