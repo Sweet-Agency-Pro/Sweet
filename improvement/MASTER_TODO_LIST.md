@@ -66,18 +66,18 @@ Ce document regroupe toutes les tâches identifiées lors de l'audit, classées 
 ---
 
 ## [03_COPYWRITING_ET_VENTE.md](./03_COPYWRITING_ET_VENTE.md)
-- [ ] 🔴 1. "En tant que nouvelle agence" — L'aveu de faiblesse le plus coûteux
-- [ ] 🔴 2. "Fondée en 2026" — Date qui ancre le manque de track record
-- [ ] 🟠 3. Rôles des fondateurs trop "corporate" et pas assez distinctifs
-- [ ] 🟠 4. Absence de preuve sociale et de crédibilité
-- [ ] 🟠 5. "Nous rendons le web plus simple, plus beau, plus Sweet" — Tagline floue
-- [ ] 🟠 6. "Découvrez nos 3 piliers d'excellence" — Jargon corporate
-- [ ] 🟡 7. Hero description dans PublicHome ne correspond pas à Hero.tsx
-- [ ] 🟡 8. "Prêt à transformer votre présence numérique ?" — CTA générique
-- [ ] 🟡 9. Titre Contact "Donnons vie à votre vision" — Trop naïf
-- [ ] 🟡 10. "Contactez-nous et commençons cette aventure ensemble" — Trop émotionnel
-- [ ] 🟢 11. "Nous répondons généralement sous 24 heures" — Bien mais à renforcer
-- [ ] 🟢 12. Technologies listées sans hiérarchie de pertinence
+- [x] 🔴 1. "En tant que nouvelle agence" — L'aveu de faiblesse le plus coûteux
+- [x] 🔴 2. "Fondée en 2026" — Date qui ancre le manque de track record
+- [x] 🟠 3. Rôles des fondateurs trop "corporate" et pas assez distinctifs
+- [x] 🟠 4. Absence de preuve sociale et de crédibilité
+- [x] 🟠 5. "Nous rendons le web plus simple, plus beau, plus Sweet" — Tagline floue
+- [x] 🟠 6. "Découvrez nos 3 piliers d'excellence" — Jargon corporate
+- [x] 🟡 7. Hero description dans PublicHome ne correspond pas à Hero.tsx
+- [x] 🟡 8. "Prêt à transformer votre présence numérique ?" — CTA générique
+- [x] 🟡 9. Titre Contact "Donnons vie à votre vision" — Trop naïf
+- [x] 🟡 10. "Contactez-nous et commençons cette aventure ensemble" — Trop émotionnel
+- [x] 🟢 11. "Nous répondons généralement sous 24 heures" — Bien mais à renforcer
+- [x] 🟢 12. Technologies listées sans hiérarchie de pertinence
 
 ---
 

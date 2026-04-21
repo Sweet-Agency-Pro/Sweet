@@ -28,14 +28,10 @@ const VALUES = [
 ];
 
 const TECHNOLOGIES = [
-  // Languages
-  'HTML', 'CSS', 'JavaScript', 'TypeScript', 'Python', 'Dart', 'Flow',
-  // Frontend
-  'React', 'Next.js', 'Vue.js', 'Nuxt.js',
-  // Mobile
-  'Flutter', 'React Native',
-  // Backend & Databases
-  'Node.js', 'PostgreSQL', 'MySQL', 'MongoDB', 'Firebase', 'Supabase'
+  'TypeScript', 'React', 'Next.js', 'Vue.js', 
+  'React Native', 'Flutter', 'Node.js', 
+  'PostgreSQL', 'Supabase', 'Firebase',
+  'Tailwind CSS', 'Framer Motion'
 ];
 
 const TEAM = [
@@ -43,9 +39,9 @@ const TEAM = [
     name: 'Maël KEMPF--LE PAPE',
     initials: 'MK',
     imageUrl: '',
-    role: 'Co-fondateur',
-    bio: 'Expert en développement web et passionné par les nouvelles technologies, Maël apporte sa vision innovante et son expertise technique à chaque projet.',
-    expertise: ['Développement Frontend', 'Architecture Système', 'Base de données'],
+    role: 'Co-fondateur & CTO',
+    bio: 'Architecte logiciel et expert des infrastructures cloud, Maël conçoit des solutions robustes qui tiennent la charge. Il pilote la stratégie technique et l\'innovation de chaque projet.',
+    expertise: ['Cloud & DevOps', 'Architecture Système', 'Base de données', 'Sécurité'],
     linkedin: 'https://www.linkedin.com/in/maelklp/',
     contact: '#contact'
   },
@@ -53,9 +49,9 @@ const TEAM = [
     name: 'Attilio JAEGER',
     initials: 'AJ',
     imageUrl: '',
-    role: 'Co-fondateur',
-    bio: "Spécialiste du développement web avec un sens aigu du design et de l'expérience utilisateur, Attilio excelle dans la création de solutions innovantes.",
-    expertise: ['Design UI/UX', 'Développement Frontend', 'Architecture Système'],
+    role: 'Co-fondateur & Directeur Créatif',
+    bio: 'Designer et développeur front-end, Attilio transforme les concepts en interfaces qui marquent les esprits. Il s\'assure que chaque pixel sert l\'expérience utilisateur et la conversion.',
+    expertise: ['Design UI/UX', 'Développement Frontend', 'Accessibilité', 'Animation'],
     linkedin: 'https://www.linkedin.com/in/attilio-jaeger-a278842a0/',
     contact: '#contact'
   }
@@ -86,15 +82,17 @@ export default function About() {
           </h2>
 
           <p className="about__description">
-            Fondée en 2026 par Maël KEMPF--LE PAPE et Attilio JAEGER, <span className="about__text-highlight">Sweet</span> est née de
-            notre passion commune pour l'innovation numérique et d'une vision partagée :
-            créer votre présence numérique et vous accompagner dans votre développement.
+            <span className="about__text-highlight">Sweet</span> est née de la vision commune de Maël KEMPF--LE PAPE et Attilio JAEGER :
+            rendre le web plus accessible, plus performant et plus beau. Notre mission est
+            de créer votre présence numérique et de vous accompagner dans votre développement,
+            avec une approche qui place vos objectifs au centre de chaque décision.
           </p>
           <p className="about__description">
-            Notre approche combine expertise technique de pointe et créativité pour créer des
-            solutions web qui dépassent les attentes. En tant que nouvelle agence, nous apportons
-            un regard frais et innovant sur le développement web, tout en nous appuyant
-            sur les meilleures pratiques du secteur.
+            Notre approche combine expertise technique de pointe et créativité pour
+            créer des solutions web qui dépassent les attentes. Notre vision ? Allier
+            les meilleures pratiques du secteur à une approche résolument moderne,
+            centrée sur l'impact et la performance. Chaque projet bénéficie d'un
+            suivi personnalisé et d'une exigence technique sans compromis.
           </p>
         </div>
 

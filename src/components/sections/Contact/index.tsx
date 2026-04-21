@@ -38,8 +38,8 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Donnons vie à{' '}
-            <span className="contact__title-gradient">votre vision</span>
+            Parlons de{' '}
+            <span className="contact__title-gradient">votre projet</span>
           </motion.h2>
 
           <motion.p
@@ -49,8 +49,8 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Prêt à transformer vos idées en expériences digitales exceptionnelles ?
-            Contactez-nous et commençons cette aventure ensemble.
+            Remplissez le formulaire ci-dessous ou contactez-nous directement.
+            Notre équipe vous répond sous 24 heures.
           </motion.p>
         </motion.header>
 
@@ -67,8 +67,8 @@ const Contact: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <p>
-            Nous répondons généralement sous 24 heures.
-            Vos données sont protégées et ne seront jamais partagées.
+            Réponse garantie sous 24 heures ouvrées.<br />
+            Vos données sont protégées et ne seront jamais cédées à des tiers (RGPD).
           </p>
         </motion.div>
       </div>

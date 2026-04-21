@@ -40,7 +40,7 @@ function HeroDescription() {
   return (
     <p className="hero__description">
       Derrière chaque interface élégante se cache une technologie solide. 
-      Nous rendons le web plus simple, plus beau, plus Sweet.
+      Nous concevons des sites web qui convertissent vos visiteurs en clients.
     </p>
   );
 }

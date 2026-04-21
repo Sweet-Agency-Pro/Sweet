@@ -13,7 +13,7 @@ interface SEOProps {
 
 const SEO = ({
   title,
-  description = "Boostez votre présence en ligne avec l'Agence Sweet. Experts en création de sites web sur mesure, design UX/UI et solutions e-commerce haute performance. Devis gratuit.",
+  description = "Agence Sweet — Nous concevons des sites web sur mesure (vitrine, e-commerce) qui convertissent vos visiteurs en clients. Design unique, SEO optimisé, code performant.",
   image = "/preview.png",
   canonical,
   type = "website",

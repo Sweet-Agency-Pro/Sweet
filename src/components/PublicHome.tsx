@@ -131,7 +131,7 @@ function PublicHome() {
     <div style={styles.app}>
       <SEO
         title={env !== 'production' ? 'Sweet DEVELOPMENT' : 'Agence Web Créative : Développement & Design sur Mesure'}
-        description="Agence Sweet - Création de sites internet, e-commerce et solutions sur mesure pour propulser votre activité."
+        description="Agence Sweet — Nous concevons des sites web sur mesure (vitrine, e-commerce) qui convertissent vos visiteurs en clients. Design unique, SEO optimisé, code performant."
       />
       <Hero />
       <ScrollAnimation />

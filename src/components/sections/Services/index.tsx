@@ -69,7 +69,7 @@ function SectionHeader() {
       </h2>
 
       <p className="services__description">
-        Découvrez nos 3 piliers d'excellence pour construire et piloter votre écosystème digital.
+        Trois services, une seule promesse : un site qui travaille pour vous.
       </p>
     </div>
   );
@@ -83,10 +83,10 @@ function CTABanner() {
     <div className="services__cta-banner">
       <div className="services__cta-content">
         <h3 className="services__cta-title">
-          Prêt à transformer votre présence numérique ?
+          Votre prochain client vous cherche en ce moment. Est-ce qu'il vous trouve ?
         </h3>
         <p className="services__cta-description">
-          Parlons ensemble de comment nos solutions peuvent propulser votre activité vers l'avant.
+          Discutons de votre projet — premier échange offert, sans engagement.
         </p>
       </div>
       <button className="services__cta-button" onClick={() => navigateToSection('contact')}>
