@@ -1,0 +1,2 @@
+/* Styles globaux — réutilise la chaîne CSS existante (variables, utilities, keyframes…). */
+@import '../index.css';

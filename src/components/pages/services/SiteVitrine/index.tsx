@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Site Vitrine, Service Detail Page (Enhanced)
  * Full conversion-focused page with Benefits, Process, FAQ
@@ -102,7 +104,6 @@ const guarantees: Guarantee[] = [
 function SiteVitrine() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Site Vitrine, Sweet Agency | Créateur de sites professionnels';
   }, []);
 
   return (

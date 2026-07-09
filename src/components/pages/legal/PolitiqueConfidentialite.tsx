@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Politique de Confidentialité Page
  * Privacy policy page with branded dark hero + light content
@@ -5,7 +7,7 @@
 
 import { useEffect } from 'react';
 import { ArrowLeft, Shield } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import Navigation from '../../layout/Navigation';
 import Footer from '../../sections/Footer';
@@ -71,7 +73,7 @@ function PolitiqueConfidentialite() {
         <div className="legal-main__texture" />
 
         <div className="legal-container">
-          <Link to="/" className="legal-back-link">
+          <Link href="/" className="legal-back-link">
             <ArrowLeft className="legal-back-icon" />
             Retour à l'accueil
           </Link>
@@ -192,7 +194,7 @@ function PolitiqueConfidentialite() {
               <strong className="legal-strong">Hébergement du site</strong> - Les données
               collectées via le formulaire de contact sont stockées sur des serveurs
               sécurisés gérés par notre hébergeur (voir nos{' '}
-              <Link to="/mentions-legales" style={{ color: '#0d9488', textDecoration: 'underline' }}>
+              <Link href="/mentions-legales" style={{ color: '#0d9488', textDecoration: 'underline' }}>
                 Mentions Légales
               </Link>{' '}
               pour les coordonnées de l'hébergeur).

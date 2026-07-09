@@ -5,7 +5,7 @@
  */
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { Lock } from 'lucide-react';
 import theme from '../../styles/theme';
 import { useAuth } from '../../auth/AuthContext';
@@ -17,7 +17,7 @@ interface LoginProps {
 
 function Login({ adminPath }: LoginProps) {
   const { signIn, loading, isAdmin, session } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isMobile, is4K } = useWindowSize();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,9 +29,9 @@ function Login({ adminPath }: LoginProps) {
   // Redirect if already authenticated as admin
   useEffect(() => {
     if (!loading && session && isAdmin) {
-      navigate(adminPath, { replace: true });
+      router.replace(adminPath);
     }
-  }, [loading, session, isAdmin, adminPath, navigate]);
+  }, [loading, session, isAdmin, adminPath, router]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -40,7 +40,7 @@ function Login({ adminPath }: LoginProps) {
 
     try {
       await signIn(email, password);
-      navigate(adminPath, { replace: true });
+      router.replace(adminPath);
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message);

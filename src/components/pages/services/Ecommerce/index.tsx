@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Site E-commerce, Service Detail Page
  * Full conversion-focused page with Benefits, Process, FAQ
@@ -109,7 +111,6 @@ const guarantees: Guarantee[] = [
 function SiteEcommerce() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Site E-commerce, Sweet Agency | Boutique en ligne sur mesure';
   }, []);
 
   return (

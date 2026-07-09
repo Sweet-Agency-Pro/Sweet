@@ -1,16 +1,19 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+// Fallbacks « valides » pour ne jamais faire planter le build/SSG quand les
+// variables ne sont pas présentes (ex. build local sans secrets). Les requêtes
+// échouent alors proprement et les composants gèrent l'erreur (fallback statique).
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key';
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  // Keep this as a non-blocking warning so devs know to set env vars.
-  // In production you should ensure these are present at build time.
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
   // eslint-disable-next-line no-console
-  console.warn('Supabase environment variables missing: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY');
+  console.warn(
+    'Variables Supabase manquantes : NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY'
+  );
 }
 
-export const supabase: SupabaseClient = createClient(supabaseUrl ?? '', supabaseAnonKey ?? '', {
+export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,

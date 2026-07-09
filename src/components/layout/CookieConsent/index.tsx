@@ -6,7 +6,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie, X, ChevronRight, ArrowLeft, ShieldCheck, Info } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import './CookieConsent.css';
 
 // =============================================================================
@@ -151,7 +151,7 @@ const CookieConsentModal = ({ onConsentChange, dynamic400, dynamic500, dynamic60
                       Ces outils nous aident à améliorer votre expérience, analyser notre trafic et vous proposer des contenus adaptés.
                     </p>
                     <p className="cookie-modal__description" style={{ marginTop: '0.5rem', fontSize: '12px' }}>
-                      <Link to="/confidentialite" className="cookie-modal__link" style={{ marginLeft: '4px' }}>En savoir plus</Link>
+                      <Link href="/confidentialite" className="cookie-modal__link" style={{ marginLeft: '4px' }}>En savoir plus</Link>
                     </p>
                   </motion.div>
                 ) : (

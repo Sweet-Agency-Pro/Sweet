@@ -1,5 +1,7 @@
+'use client';
+
 import { useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { usePathname, useRouter } from 'next/navigation';
 
 const NAV_HEIGHT = 80;
 
@@ -17,24 +19,24 @@ function scrollToSection(sectionId: string) {
 }
 
 export function useSectionNavigation() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const navigateToSection = useCallback(
     (sectionId: string) => {
-      const hash = `#${sectionId}`;
-
-      if (location.pathname === '/') {
+      // Sur la home : scroll direct vers la section. Sinon : navigation vers /#section
+      // (la home lit le hash au chargement et scrolle).
+      if (pathname === '/') {
         const scrolled = scrollToSection(sectionId);
         if (!scrolled) {
-          navigate({ pathname: '/', hash });
+          router.push(`/#${sectionId}`);
         }
         return;
       }
 
-      navigate({ pathname: '/', hash });
+      router.push(`/#${sectionId}`);
     },
-    [location.pathname, navigate]
+    [pathname, router]
   );
 
   return { navigateToSection };

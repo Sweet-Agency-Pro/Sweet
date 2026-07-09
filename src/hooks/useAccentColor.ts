@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 import { supabase } from '../lib/supabaseClient';
 
 interface ServiceAccent {
@@ -10,7 +12,7 @@ interface ServiceAccent {
 }
 
 export function useAccentColor() {
-  const location = useLocation();
+  const pathname = usePathname();
   const [services, setServices] = useState<ServiceAccent[]>([]);
   const [palette, setPalette] = useState({
     accent400: '#2dd4bf',
@@ -36,7 +38,7 @@ export function useAccentColor() {
 
   // Update accent color and gradient when location or services change
   useEffect(() => {
-    const currentService = services.find(s => s.redirect_url === location.pathname);
+    const currentService = services.find(s => s.redirect_url === pathname);
     
     if (currentService && currentService.color_accent && currentService.color_accent['500']) {
       const hex = currentService.color_accent['500'].toLowerCase();
@@ -54,7 +56,7 @@ export function useAccentColor() {
     } else {
       setPalette({ accent400: '#2dd4bf', accent500: '#14b8a6', accent600: '#0d9488', accentGradient: 'var(--gradient-teal-cyan)' });
     }
-  }, [location.pathname, services]);
+  }, [pathname, services]);
 
   return palette;
 }

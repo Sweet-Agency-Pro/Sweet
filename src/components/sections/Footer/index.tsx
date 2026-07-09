@@ -1,5 +1,5 @@
 import { Layers } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import './Footer.css';
@@ -81,8 +81,8 @@ function Footer({ colorScheme }: FooterProps) {
           </p>
 
           <div className="footer__legal-links">
-            <Link to="/mentions-legales" className="footer__legal-link">Mentions légales</Link>
-            <Link to="/confidentialite" className="footer__legal-link">Confidentialité</Link>
+            <Link href="/mentions-legales" className="footer__legal-link">Mentions légales</Link>
+            <Link href="/confidentialite" className="footer__legal-link">Confidentialité</Link>
           </div>
         </div>
       </div>

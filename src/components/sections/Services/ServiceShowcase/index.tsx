@@ -1,5 +1,5 @@
 import { motion, type Variants } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { Service } from '../services.data';
 
@@ -44,7 +44,7 @@ const childVariants: Variants = {
 };
 
 export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const IconComponent = service.icon;
   const primaryColor = service.colorAccent[500];
   const darkColor = service.colorAccent[300];
@@ -107,7 +107,7 @@ export default function ServiceShowcase({ service }: ServiceShowcaseProps) {
             }}
             onClick={
               service.redirectUrl
-                ? () => navigate(service.redirectUrl as string)
+                ? () => router.push(service.redirectUrl as string)
                 : undefined
             }
           >

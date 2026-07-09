@@ -5,7 +5,8 @@
  */
 
 import type { CSSProperties } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   Briefcase,
@@ -21,7 +22,7 @@ import { useAuth } from '../../auth/AuthContext';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { useSidebar } from './AdminLayout';
 
-const adminPath = import.meta.env.VITE_ADMIN_PATH || '/studio-ombre-87';
+const adminPath = process.env.NEXT_PUBLIC_ADMIN_PATH || '/studio-ombre-87';
 
 const navItems = [
   { label: 'Dashboard', to: adminPath, end: true, icon: LayoutDashboard },
@@ -33,12 +34,13 @@ const navItems = [
 
 function AdminSidebar() {
   const { signOut } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const pathname = usePathname();
   const { isMobile, is4K } = useWindowSize();
   const { open, close } = useSidebar();
 
   const handleSignOut = async () => {
-    navigate('/', { replace: true });
+    router.replace('/');
     await signOut();
   };
 
@@ -179,28 +181,27 @@ function AdminSidebar() {
 
       {/* Nav */}
       <nav style={navStyle}>
-        {navItems.map((item) => (
-          <NavLink
-            key={item.label}
-            to={item.to}
-            end={item.end}
-            onClick={handleNavClick}
-            style={({ isActive }) => ({
-              ...linkStyle,
-              ...(isActive ? linkActiveStyle : undefined),
-            })}
-          >
-            <item.icon size={iconSize} />
-            {item.label}
-          </NavLink>
-        ))}
+        {navItems.map((item) => {
+          const isActive = pathname === item.to;
+          return (
+            <Link
+              key={item.label}
+              href={item.to}
+              onClick={handleNavClick}
+              style={{ ...linkStyle, ...(isActive ? linkActiveStyle : undefined) }}
+            >
+              <item.icon size={iconSize} />
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Bottom actions */}
       <div style={bottomStyle}>
         <button
           type="button"
-          onClick={() => { navigate('/'); if (isMobile) close(); }}
+          onClick={() => { router.push('/'); if (isMobile) close(); }}
           style={bottomBtnStyle}
         >
           <ArrowLeft size={is4K ? 20 : 16} />

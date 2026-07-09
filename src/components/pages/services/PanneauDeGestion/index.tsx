@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Panneau de Gestion, Service Detail Page
  * Full conversion-focused page with Benefits, Process, FAQ
@@ -109,7 +111,6 @@ const guarantees: Guarantee[] = [
 function PanneauDeGestion() {
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Panneau de Gestion, Sweet Agency | Back-office sur mesure';
   }, []);
 
   return (

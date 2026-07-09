@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState, type CSSProperties } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import {
   Briefcase,
   FolderKanban,
@@ -17,7 +17,7 @@ import AdminLayout from '../AdminLayout';
 import '../admin.css';
 import { fetchStats } from '../../../services/adminService';
 
-const adminPath = import.meta.env.VITE_ADMIN_PATH || '/studio-ombre-87';
+const adminPath = process.env.NEXT_PUBLIC_ADMIN_PATH || '/studio-ombre-87';
 
 interface Stats {
   servicesCount: number;
@@ -29,7 +29,7 @@ interface Stats {
 function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     fetchStats()
@@ -81,7 +81,7 @@ function AdminDashboard() {
                 key={card.label}
                 type="button"
                 className="admin-stat-card"
-                onClick={() => navigate(card.to)}
+                onClick={() => router.push(card.to)}
                 style={{
                   cursor: 'pointer',
                   textAlign: 'left',

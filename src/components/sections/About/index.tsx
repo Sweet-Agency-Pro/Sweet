@@ -86,7 +86,8 @@ export default function About() {
           </h2>
 
           <p className="about__description">
-            Fondée en 2026 par Maël KEMPF--LE PAPE et Attilio JAEGER, <span className="about__text-highlight">Sweet</span> est née de
+            Fondée en 2026 en Alsace par Maël KEMPF--LE PAPE et Attilio JAEGER, <span className="about__text-highlight">Sweet</span> est
+            une agence web basée à Wasselonne, aux portes de Strasbourg. Elle est née de
             notre passion commune pour l'innovation numérique et d'une vision partagée :
             créer votre présence numérique et vous accompagner dans votre développement.
           </p>

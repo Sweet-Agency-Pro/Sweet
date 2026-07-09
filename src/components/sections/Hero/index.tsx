@@ -39,7 +39,7 @@ function HeroTitle() {
 function HeroDescription() {
   return (
     <p className="hero__description">
-      Derrière chaque interface élégante se cache une technologie solide. 
+      Agence web en Alsace, aux portes de Strasbourg. Derrière chaque interface élégante se cache une technologie solide. 
       Nous rendons le web plus simple, plus beau, plus Sweet.
     </p>
   );

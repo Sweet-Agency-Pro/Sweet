@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { fetchPublicServices } from '../../../../../services/supabaseService';
 import { services as fallbackServices, type Service } from '../../../../sections/Services/services.data';
 import './ServiceTabs.css';
@@ -64,7 +64,7 @@ function ServiceTabs({
   variant = 'light',
 }: ServiceTabsProps) {
   const [services, setServices] = useState<Service[]>(fallbackServices);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     let cancelled = false;
@@ -96,7 +96,7 @@ function ServiceTabs({
   const handleTabClick = (service: Service) => {
     if (mode === 'navigate') {
       if (service.redirectUrl && service.redirectUrl !== currentSlug) {
-        navigate(service.redirectUrl);
+        router.push(service.redirectUrl);
       }
     } else if (mode === 'switch' && onTabChange) {
       onTabChange(service.id);

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * Mentions Légales Page
  * Legal notice page with branded dark hero + light content
@@ -5,7 +7,7 @@
 
 import { useEffect } from 'react';
 import { ArrowLeft, FileText } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import Navigation from '../../layout/Navigation';
 import Footer from '../../sections/Footer';
@@ -73,7 +75,7 @@ function MentionsLegales() {
         <div className="legal-main__texture" />
 
         <div className="legal-container">
-          <Link to="/" className="legal-back-link">
+          <Link href="/" className="legal-back-link">
             <ArrowLeft className="legal-back-icon" />
             Retour à l'accueil
           </Link>
