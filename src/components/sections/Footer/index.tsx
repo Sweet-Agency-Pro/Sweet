@@ -11,6 +11,12 @@ const navLinks = [
   { sectionId: 'contact', label: 'Contact' },
 ];
 
+const OurServices = [
+  { sectionId: 'site-ecommerce', label: 'Site E-commerce' },
+  { sectionId: 'site-vitrine', label: 'Site Vitrine'},
+  { sectionId: 'panneau-de-gestion', label: 'Panneau de Gestion'},
+];
+
 interface FooterProps {
   colorScheme?: 'teal' | 'purple' | 'blue';
 }
@@ -59,7 +65,17 @@ function Footer({ colorScheme }: FooterProps) {
               ))}
             </nav>
           </div>
-
+          <div>
+            <h4 className="footer__section-title">Nos Services</h4>
+            <nav className="footer__link-list">
+              {OurServices.map((link) => {
+                const goto=`/services/${link.sectionId}`;
+                return (
+                <a href={goto} className="footer__link-item">{link.label}</a>
+                );
+              })}
+            </nav>
+          </div>
           <div>
             <h4 className="footer__section-title">Contact</h4>
             <div className="footer__link-list">
