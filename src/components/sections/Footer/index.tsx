@@ -71,7 +71,13 @@ function Footer({ colorScheme }: FooterProps) {
               {OurServices.map((link) => {
                 const goto=`/services/${link.sectionId}`;
                 return (
-                <a href={goto} className="footer__link-item">{link.label}</a>
+                <a 
+                key={link.sectionId}
+                href={goto}
+                className="footer__link-item"
+                >
+                  {link.label}
+                  </a>
                 );
               })}
             </nav>

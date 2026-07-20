@@ -32,6 +32,7 @@ export const SITE = {
     addressRegion: 'Grand Est',
     addressCountry: 'FR',
   },
+  canonical: "https://www.agence-sweet.com/",
   geo: {
     // Wasselonne (Bas-Rhin) — coordonnées approximatives du centre-ville.
     latitude: 48.6366,
