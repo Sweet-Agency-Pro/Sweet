@@ -10,6 +10,7 @@ import { Layers, Menu, X } from 'lucide-react';
 import { useWindowSize } from '../../../hooks/useWindowSize';
 import { useSectionNavigation } from '../../../hooks/useSectionNavigation';
 import './Navigation.css';
+import './WindowSizeLayout.css'
 
 // =============================================================================
 // CONSTANTS
@@ -101,8 +102,8 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
           </div>
 
           {/* Desktop Navigation Links */}
-          {isDesktop && (
-            <div className="nav__links">
+          
+            <div className={`navbar__desktop nav__links`}>
               {navLinks.map((link) => (
                 <a
                   key={link.sectionId}
@@ -117,22 +118,22 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
                 </a>
               ))}
             </div>
-          )}
+          
 
           {/* Desktop CTA Button */}
-          {isDesktop && (
+          
             <button
-              className={`nav__cta ${isScrolled ? 'nav__cta--scrolled' : ''}`}
+              className={`nav__cta ${isScrolled ? 'nav__cta--scrolled' : ''} navbar__desktop`}
               onClick={() => navigateToSection('contact')}
             >
               Discutons
             </button>
-          )}
+          
 
           {/* Mobile Burger Button */}
-          {!isDesktop && (
+          
             <button
-              className={`nav__burger ${isScrolled ? 'nav__burger--scrolled' : ''} ${isMenuOpen ? 'nav__burger--open' : ''}`}
+              className={`nav__burger ${isScrolled ? 'nav__burger--scrolled' : ''} ${isMenuOpen ? 'nav__burger--open' : ''} navbar__mobile`}
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             >
@@ -142,7 +143,7 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
                 <Menu className={`nav__burger-icon ${isScrolled ? 'nav__burger-icon--scrolled' : ''}`} />
               )}
             </button>
-          )}
+          
         </div>
       </nav>
 

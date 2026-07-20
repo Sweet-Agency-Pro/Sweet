@@ -1,0 +1,16 @@
+.navbar__desktop {
+    display: flex
+}
+
+.navbar__mobile {
+    display: none
+}
+
+@media (max-width: 800px) {
+    .navbar__desktop {
+        display: none
+    }
+    .navbar__mobile {
+        display: block;
+    }
+}
