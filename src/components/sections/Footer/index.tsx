@@ -8,6 +8,7 @@ const navLinks = [
   { sectionId: 'services', label: 'Services' },
   { sectionId: 'portfolio', label: 'Réalisations' },
   { sectionId: 'about', label: 'À propos' },
+  { sectionId: 'blog', label: 'Blog'},
   { sectionId: 'contact', label: 'Contact' },
 ];
 
@@ -53,12 +54,20 @@ function Footer({ colorScheme }: FooterProps) {
               {navLinks.map((link) => (
                 <a
                   key={link.sectionId}
-                  href={`/#${link.sectionId}`}
+                  href={
+                    link.sectionId === 'blog' ?
+                        `/${link.sectionId}` :
+                        `/#${link.sectionId}`
+                  }
                   className="footer__link-item"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateToSection(link.sectionId);
-                  }}
+                  onClick={
+                    link.sectionId === 'blog' ?
+                        undefined :
+                        (event) => {
+                          event.preventDefault();
+                          navigateToSection(link.sectionId);
+                        }
+                  }
                 >
                   {link.label}
                 </a>

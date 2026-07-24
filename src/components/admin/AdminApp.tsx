@@ -8,17 +8,19 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminServices from './pages/AdminServices';
 import AdminProjects from './pages/AdminProjects';
 import AdminContacts from './pages/AdminContacts';
+import AdminBlog from './pages/AdminBlog';
 import AdminMedia from './pages/AdminMedia';
 
 const ADMIN_PATH = process.env.NEXT_PUBLIC_ADMIN_PATH || '/studio-ombre-87';
 
-export type AdminView = 'login' | 'dashboard' | 'services' | 'projects' | 'contacts' | 'media';
+export type AdminView = 'login' | 'dashboard' | 'services' | 'projects' | 'contacts' | 'blog' | 'media';
 
 const PAGES: Record<Exclude<AdminView, 'login'>, ComponentType> = {
   dashboard: AdminDashboard,
   services: AdminServices,
   projects: AdminProjects,
   contacts: AdminContacts,
+  blog: AdminBlog,
   media: AdminMedia,
 };
 

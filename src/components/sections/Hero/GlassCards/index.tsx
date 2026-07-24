@@ -168,8 +168,8 @@ function GlassCards() {
     <div className="glass-cards">
       <div className="glass-cards__wrapper">
         <div className="glass-cards__container">
-          <BackendCard isCompact={isCompact} />
-          <ArchitectureCard isCompact={isCompact} />
+          {/*<BackendCard isCompact={isCompact} />*/}
+          {/*<ArchitectureCard isCompact={isCompact} />*/}
           <FrontendCard isCompact={isCompact} />
         </div>
       </div>

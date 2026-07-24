@@ -55,6 +55,16 @@ export interface DbContact {
   created_at: string;
 }
 
+export interface DbBlog {
+  id: string;
+  name: string
+  message: string | null;
+  position: number;
+  is_public: boolean;
+  created_at: string;
+  preview_url: string | null;
+}
+
 // =============================================================================
 // SERVICES CRUD
 // =============================================================================
@@ -141,6 +151,53 @@ export async function deleteProject(id: string): Promise<void> {
     .from('projects_portfolio')
     .delete()
     .eq('id', id);
+  if (error) throw error;
+}
+
+// =============================================================================
+// BLOG
+// =============================================================================
+
+export async function fetchBlog(): Promise<DbBlog[]> {
+  const { data, error } = await supabase
+      .from('blog')
+      .select('*')
+      .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data ?? [];
+}
+
+export async function createBlog(
+    payload: Partial<Omit<DbBlog, 'created_at'>>
+): Promise<DbBlog> {
+  const { data, error } = await supabase
+      .from('blog')
+      .insert([payload])
+      .select()
+      .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateBlog(
+    id: string,
+    payload: Partial<Omit<DbBlog, 'created_at'>>
+): Promise<DbProject> {
+  const { data, error } = await supabase
+      .from('blog')
+      .update(payload)
+      .eq('id', id)
+      .select()
+      .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteBlog(id: string): Promise<void> {
+  const { error } = await supabase
+      .from('blog')
+      .delete()
+      .eq('id', id);
   if (error) throw error;
 }
 

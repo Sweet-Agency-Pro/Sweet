@@ -29,6 +29,7 @@ const navItems = [
   { label: 'Services', to: `${adminPath}/services`, icon: Briefcase },
   { label: 'Projets', to: `${adminPath}/projects`, icon: FolderKanban },
   { label: 'Contacts', to: `${adminPath}/contacts`, icon: MessageSquare },
+  { label: 'Blog', to: `${adminPath}/blog`, icon: MessageSquare },
   { label: 'Médias', to: `${adminPath}/media`, icon: Image },
 ];
 

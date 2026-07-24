@@ -21,6 +21,7 @@ const navLinks = [
   { sectionId: 'services', label: 'Services' },
   { sectionId: 'portfolio', label: 'Réalisations' },
   { sectionId: 'about', label: 'À Propos' },
+  { sectionId: 'blog', label: 'blog' },
   { sectionId: 'contact', label: 'Contact' },
 ];
 
@@ -107,11 +108,20 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
               {navLinks.map((link) => (
                 <a
                   key={link.sectionId}
-                  href={`/#${link.sectionId}`}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateToSection(link.sectionId);
-                  }}
+                  href={
+                   link.sectionId === 'blog' ?
+                       `/${link.sectionId}` :
+                       `/#${link.sectionId}`
+                  }
+
+                  onClick={
+                    link.sectionId === 'blog' ?
+                        undefined :
+                        (event) => {
+                          event.preventDefault();
+                          navigateToSection(link.sectionId);
+                        }
+                  }
                   className={`nav__link ${isScrolled ? 'nav__link--scrolled' : ''}`}
                 >
                   {link.label}
@@ -194,12 +204,20 @@ function Navigation({ colorScheme }: NavigationProps = {}) {
                 {navLinks.map((link, index) => (
                   <motion.a
                     key={link.sectionId}
-                    href={`/#${link.sectionId}`}
+                    href={
+                      link.sectionId === 'blog' ?
+                          `/${link.sectionId}` :
+                          `/#${link.sectionId}`
+                    }
                     className="nav__drawer-link"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      handleLinkClick(link.sectionId);
-                    }}
+                    onClick={
+                      link.sectionId === 'blog' ?
+                          undefined :
+                          (event) => {
+                            event.preventDefault();
+                            navigateToSection(link.sectionId);
+                          }
+                    }
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 + index * 0.05 }}

@@ -8,7 +8,7 @@ export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 const ADMIN_PATH = process.env.NEXT_PUBLIC_ADMIN_PATH || '/studio-ombre-87';
 const LOGIN_PATH = process.env.NEXT_PUBLIC_LOGIN_PATH || '/acces-prive-87';
-const SECTIONS = ['services', 'projects', 'contacts', 'media'] as const;
+const SECTIONS = ['services', 'projects', 'contacts', 'blog', 'media'] as const;
 
 export default async function CatchAllPage({
   params,
