@@ -89,33 +89,34 @@ function AdminBlog() {
                         <table className="admin-table">
                             <thead>
                             <tr className="admin-table-head">
-                                <th className="admin-th">Accroche</th>
-                                <th className="admin-th">Tagline</th>
-                                <th className="admin-th hidden-mobile">Icône</th>
-                                <th className="admin-th">Position</th>
-                                <th className="admin-th">Statut</th>
+                                <th className="admin-th">Preview</th>
+                                <th className="admin-th">Name</th>
+                                <th className="admin-th hidden-mobile">Description</th>
                                 <th className="admin-th" style={{ textAlign: 'right' }}>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             {blog.map((blg) => (
                                 <tr key={blg.id}>
+                                    <td className="admin-td">
+                                        {blg.preview_url ? (
+                                        <img
+                                            src={blg.preview_url}
+                                            alt={`preview of ${blg.name}`}
+                                            style={styles.thumb}
+                                        />
+                                            ) : (
+                                            <p>hello</p>
+                                        )}
+                                    </td>
                                     <td className="admin-td">{blg.name}</td>
                                     <td className="admin-td">
-                      <span style={{ color: theme.colors.slate[400] }}>
-                        {blg.message || '—'}
-                      </span>
+                                        <span style={{ color: theme.colors.slate[400] }}>
+                                            {blg.message || '—'}
+                                        </span>
                                     </td>
-                      {/*              <td className="admin-td hidden-mobile">*/}
-                      {/*<span style={{ color: theme.colors.slate[400] }}>*/}
-                      {/*  {blg.icon_name || '—'}*/}
-                      {/*</span>*/}
-                      {/*              </td>*/}
-                                    <td className="admin-td">{blg.position}</td>
+                                    {/*<td className="admin-td">{blg.position}</td>*/}
                                     <td className="admin-td">
-                      <span className={`admin-badge ${blg.is_public ? 'admin-badge--public' : 'admin-badge--draft'}`}>
-                        {blg.is_public ? 'Public' : 'Brouillon'}
-                      </span>
                                     </td>
                                     <td className="admin-td" style={{ textAlign: 'right' }}>
                                     <div style={styles.actionRow}>
@@ -152,7 +153,7 @@ function AdminBlog() {
 
             {editing && (
                 <BlogFormModal
-                    // initial={editing}
+                    initial={editing}
                     onSave={handleUpdate}
                     onClose={() => setEditing(null)}
                 />
@@ -166,6 +167,13 @@ const styles: Record<string, CSSProperties> = {
         display: 'flex',
         justifyContent: 'flex-end',
         gap: theme.spacing[2],
+    },
+    thumb: {
+        width: '3.5rem',
+            height: '2rem',
+            objectFit: 'cover',
+            borderRadius: theme.borderRadius.md,
+            border: `1px solid ${theme.hexToRgba(theme.colors.slate[600], 0.4)}`,
     },
 }
 

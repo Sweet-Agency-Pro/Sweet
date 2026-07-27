@@ -59,8 +59,6 @@ export interface DbBlog {
   id: string;
   name: string
   message: string | null;
-  position: number;
-  is_public: boolean;
   created_at: string;
   preview_url: string | null;
 }

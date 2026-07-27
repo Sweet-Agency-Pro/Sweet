@@ -62,6 +62,7 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
         setExistingPreview(null);
         setPreviewLocal(null);
         setDeleteOld(true);
+        if (fileRef.current) fileRef.current.value = '';
     }
 
 
@@ -179,8 +180,24 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
                         </button>
                     )}
                 </div>
-            </form>
 
+                <div className="admin-grid-2">
+                    <button
+                        type={"button"}
+                        className="admin-btn admin-btn--ghost"
+                        onClick={onClose}
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        type="submit"
+                        className="admin-btn admin-btn--primary"
+                        disabled={save}
+                    >
+                        {save ? 'Enregistrement…' : 'Enregistrer'}
+                    </button>
+                </div>
+            </form>
         </div>
     )
 }
