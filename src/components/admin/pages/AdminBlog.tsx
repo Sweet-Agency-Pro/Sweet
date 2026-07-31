@@ -14,6 +14,7 @@ import {
 } from '../../../services/adminService';
 import BlogFormModal from "@/components/admin/components/BlogFormModal";
 
+const bucket = 'Blog_Images';
 function AdminBlog() {
     const [blog, setBlog] = useState<DbBlog[]>([]);
     const [loading, setLoading] = useState(true);
@@ -35,10 +36,33 @@ function AdminBlog() {
         load();
     }, [load]);
 
-    const handleCreate = async (payload: Partial<DbBlog>) => {
+    const handleCreate = async (
+        payload: Partial<DbBlog>,
+        Files?: File[] | null,
+        deleteOld?: boolean
+    ) => {
+        let newInf: DbBlog
+
         const maxId = blog.length > 0 ? Math.max(...blog.map(s => parseInt(s.id))) : 0;
         const newId = (maxId + 1).toString();
-        await createBlog({...payload, id: newId});
+        newInf = await createBlog({...payload, id: newId});
+        if (deleteOld && (!Files || Files.length === 0)) {
+            await deletePreview(newInf.id, bucket);
+            await updateBlog(newInf.id, { preview_urls: [] });
+        } else if (Files && Files.length > 0) {
+            if (deleteOld) {
+                try {
+                    await deletePreview(newInf.id, bucket);
+                } catch {}
+            }
+            const urls = await Promise.all (
+                Files.map(async(f) => {
+                    return await uploadPreview(newInf.id, f, bucket, newInf.name);
+                })
+            );
+                await updateBlog(newInf.id, { preview_urls: urls });
+        }
+
         await load();
     };
 
@@ -99,14 +123,14 @@ function AdminBlog() {
                             {blog.map((blg) => (
                                 <tr key={blg.id}>
                                     <td className="admin-td">
-                                        {blg.preview_url ? (
+                                        {blg.preview_urls?.length > 0 ? (
                                         <img
-                                            src={blg.preview_url}
+                                            src={blg.preview_urls[0]}
                                             alt={`preview of ${blg.name}`}
                                             style={styles.thumb}
                                         />
                                             ) : (
-                                            <p>hello</p>
+                                            <p>No preview found</p>
                                         )}
                                     </td>
                                     <td className="admin-td">{blg.name}</td>

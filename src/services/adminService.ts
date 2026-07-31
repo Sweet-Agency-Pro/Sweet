@@ -58,9 +58,9 @@ export interface DbContact {
 export interface DbBlog {
   id: string;
   name: string
-  message: string | null;
+  message: string;
   created_at: string;
-  preview_url: string | null;
+  preview_urls: string[];
 }
 
 // =============================================================================
@@ -246,31 +246,37 @@ const BUCKET = 'portfolio_screenshots';
 
 export async function uploadPreview(
   projectId: string,
-  file: File
+  file: File,
+  new_bucket?: string,
+  file_name?: string
 ): Promise<string> {
+  const used_bucket = new_bucket ?? BUCKET;
   const ext = file.name.split('.').pop() ?? 'png';
-  const path = `${projectId}/${projectId}_preview.${ext}`;
+  const path = file_name
+      ? `${projectId}/${projectId}_${file_name}_preview.${ext}`
+      : `${projectId}/${projectId}_preview.${ext}`;
 
   const { error: uploadError } = await supabase.storage
-    .from(BUCKET)
+    .from(used_bucket)
     .upload(path, file, { cacheControl: '3600', upsert: true });
 
   if (uploadError) throw uploadError;
 
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  const { data } = supabase.storage.from(used_bucket).getPublicUrl(path);
   return data.publicUrl;
 }
 
-export async function deletePreview(projectId: string): Promise<void> {
+export async function deletePreview(projectId: string, new_bucket?: string): Promise<void> {
+  const used_bucket = new_bucket ?? BUCKET;
   const { data: list, error: listError } = await supabase.storage
-    .from(BUCKET)
+    .from(used_bucket)
     .list(projectId);
 
   if (listError) throw listError;
 
   if (list && list.length > 0) {
     const paths = list.map((f) => `${projectId}/${f.name}`);
-    const { error } = await supabase.storage.from(BUCKET).remove(paths);
+    const { error } = await supabase.storage.from(used_bucket).remove(paths);
     if (error) throw error;
   }
 }

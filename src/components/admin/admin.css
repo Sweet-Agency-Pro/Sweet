@@ -280,6 +280,23 @@
   font-family: inherit;
 }
 
+.admin-form-input__2 {
+  padding: var(--sp-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(71, 85, 105, 0.4);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--white);
+  font-size: var(--fs-sm);
+  outline: none;
+  font-family: inherit;
+
+  min-height: 150px;
+  vertical-align: top;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
 @media (min-width: 2560px) {
   .admin-form-input,
   .admin-form-select,
@@ -398,11 +415,27 @@
   border: 1px solid rgba(71, 85, 105, 0.4);
 }
 
+.admin-image-preview__multiple {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.admin-image-preview__item {
+  position: relative;
+  width: 8rem;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid rgba(71, 85, 105, 0.4);
+}
+
 .admin-image-preview__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 
 .admin-image-delete-btn {
   position: absolute;
