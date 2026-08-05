@@ -56,8 +56,8 @@ function AdminBlog() {
                 } catch {}
             }
             const urls = await Promise.all (
-                Files.map(async(f) => {
-                    return await uploadPreview(newInf.id, f, bucket, newInf.name);
+                Files.map(async(f, index) => {
+                    return await uploadPreview(newInf.id, f, bucket, newInf.name, index);
                 })
             );
                 await updateBlog(newInf.id, { preview_urls: urls });
@@ -66,8 +66,27 @@ function AdminBlog() {
         await load();
     };
 
-    const handleUpdate = async (payload: Partial<DbBlog>) => {
+    const handleUpdate = async (
+        payload: Partial<DbBlog>,
+        Files?: File[] | null,
+        deleteOld?: boolean
+        ) => {
         if (!editing) return;
+        if (Files && Files.length > 0 && editing.id) {
+            // if (deleteOld) {
+            //     try {
+            //         await deletePreview(editing.id, bucket);
+            //     } catch {}
+            // }
+            const urls = await Promise.all (
+                Files.map(async(f, index) => {
+                    index += editing.preview_urls.length;
+                    return await uploadPreview(editing.id, f, bucket, payload.name, index);
+                })
+            );
+            editing.preview_urls = [...editing.preview_urls, ...urls]
+            await updateBlog(editing.id, { preview_urls: editing.preview_urls });
+        }
         await updateBlog(editing.id, payload);
         await load();
     };

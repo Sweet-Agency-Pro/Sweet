@@ -248,13 +248,14 @@ export async function uploadPreview(
   projectId: string,
   file: File,
   new_bucket?: string,
-  file_name?: string
+  file_name?: string,
+  index?: number
 ): Promise<string> {
   const used_bucket = new_bucket ?? BUCKET;
   const ext = file.name.split('.').pop() ?? 'png';
   const path = file_name
-      ? `${projectId}/${projectId}_${file_name}_preview.${ext}`
-      : `${projectId}/${projectId}_preview.${ext}`;
+      ? `${projectId}/${index}_${file_name}_preview.${ext}`
+      : `${projectId}/${index}_preview.${ext}`;
 
   const { error: uploadError } = await supabase.storage
     .from(used_bucket)

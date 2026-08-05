@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import theme from '../../../styles/theme';
 import '../admin.css';
-import type {DbBlog, DbProject} from '../../../services/adminService';
+import type {DbBlog} from '../../../services/adminService';
 
 const DEFAULT_COLORS = [
     '#14b8a6', // teal
@@ -58,7 +58,6 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
         setPreviewFiles(prev => [...prev, file]);
         setPreviewLocals(prev => [...prev, URL.createObjectURL(file)]);
         setDeleteOld(true);
-
     }
 
     const removePreview = (index: number) => {
@@ -84,6 +83,7 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
                     ...(initial ? {} : { id }),
                     name,
                     message: message,
+                    // preview_urls: displayedPreviews,
                 },
                 previewFiles,
                 deleteOld,
@@ -97,9 +97,10 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
         }
     };
 
-    const displayedPreviews = previewLocals.length > 0
-        ? previewLocals
-        : existingPreviews;
+    const displayedPreviews = [...existingPreviews, ...previewLocals]
+        // previewLocals.length > 0
+        // ? previewLocals
+        // : existingPreviews;
 
     return (
         <div className="admin-modal-overlay" onClick={onClose}>
@@ -139,7 +140,7 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         required
-                        placeholder="Nouvelle Update"
+                        placeholder="Nouvelle Update    [{image:n}]"
                     />
                 </div>
 
@@ -178,17 +179,6 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
                         onChange={handleFileChange}
                         style={{ display: 'none' }}
                     />
-                    {/*{DisplayedPreview && (*/}
-                    {/*    <button*/}
-                    {/*        type="button"*/}
-                    {/*        className="admin-btn admin-btn--ghost admin-btn--small"*/}
-                    {/*        style={{ marginTop: theme.spacing[2] }}*/}
-                    {/*        onClick={() => fileRef.current?.click()}*/}
-                    {/*    >*/}
-                    {/*        <Upload size={14} />*/}
-                    {/*        Remplacer l'image*/}
-                    {/*    </button>*/}
-                    {/*)}*/}
                 </div>
 
                 <div className="admin-grid-2">
