@@ -11,9 +11,12 @@ import {useEffect, useState} from "react";
 import supabase from '../../../lib/supabaseClient';
 import {type DbBlog} from '../../../services/adminService';
 import BlogDescription from './blog_description';
-import type {Project} from "@/hooks/useProjects";
 import { motion } from 'framer-motion';
 import {ArrowRight, Beaker, Sparkles} from "lucide-react";
+import BlogModal from './blogmodal'
+import '../../sections/Portfolio/Portfolio.css'
+import './blog_pres.css'
+
 
 
 interface ConceptCardProps {
@@ -30,7 +33,7 @@ function ConceptCard({ Blog, index, onClick }: ConceptCardProps) {
         <motion.div
             layoutId={`card-container-${Blog.id}`}
             onClick={onClick}
-            className="concept"
+            className="concept_size"
             style={{ clipPath: 'inset(0% round 2rem)' }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -58,13 +61,6 @@ function ConceptCard({ Blog, index, onClick }: ConceptCardProps) {
                         // }}
                     />
                     <div className="concept__mockup">
-                        <div className="mockup-header">
-                            <div className="mockup-dots">
-                                <span className="mockup-dot" style={{ backgroundColor: '#ff5f57' }} />
-                                <span className="mockup-dot" style={{ backgroundColor: '#febc2e' }} />
-                                <span className="mockup-dot" style={{ backgroundColor: '#28c840' }} />
-                            </div>
-                        </div>
                         {hasPreviewImage ? (
                             <img
                                 src={Blog.preview_urls[0]}
@@ -97,29 +93,9 @@ function ConceptCard({ Blog, index, onClick }: ConceptCardProps) {
                 {/*    <span>{Blog.type === 'production' ? 'Production' : 'Concept'}</span>*/}
                 {/*</motion.div>*/}
 
-                <motion.h4 layoutId={`card-title-${Blog.id}`} className="concept__title">
+                <motion.h4 layoutId={`card-title-${Blog.id}`} className="concept_title">
                     {Blog.name}
                 </motion.h4>
-
-                {/*<motion.p layoutId={`card-hook-${Blog.id}`} className="concept__hook">*/}
-                {/*    {Blog.hook}*/}
-                {/*</motion.p>*/}
-
-            {/*    <div className="concept__tech-row">*/}
-            {/*        {Blog.tech.slice(0, 3).map((t: string) => (*/}
-            {/*            <span*/}
-            {/*                key={t}*/}
-            {/*                className="concept__tech-badge"*/}
-            {/*                // style={{*/}
-            {/*                //     borderColor: accent,*/}
-            {/*                //     color: accent,*/}
-            {/*                //     backgroundColor: hexToRgba(accent, 0.1),*/}
-            {/*                // }}*/}
-            {/*            >*/}
-            {/*  {t}*/}
-            {/*</span>*/}
-            {/*        ))}*/}
-            {/*    </div>*/}
 
                 <div className="concept__footer">
                     <span className="concept__cta">Découvrir</span>
@@ -137,6 +113,8 @@ function ConceptCard({ Blog, index, onClick }: ConceptCardProps) {
 function Blogpage () {
 
     const [blog, setBlog] = useState<DbBlog[]>([]);
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const selectedProject = blog.find((p) => p.id === selectedId);
 
 
     useEffect(() => {
@@ -170,24 +148,30 @@ function Blogpage () {
             <h2>
                 here are all our blog
             </h2>
-
-            {/*{blog.map((blg, index) =>*/}
-            {/*    <ConceptCard key={blg.id} Blog={blg} index={index} onClick={() => blg.id}/>*/}
-            {/*)}*/}
-
-                {blog.map((blg) =>
-                    <tr key={blg.id}>
-                        <td>
-                            <h3>
-                                {blg.name}
-                            </h3>
-                            <BlogDescription
-                                text={blg.message}
-                                images={blg.preview_urls}
-                            />
-                        </td>
-                    </tr>
+            <div className='concept_container'>
+                {blog.map((blg, index) =>
+                    <ConceptCard key={blg.id} Blog={blg} index={index} onClick={() => setSelectedId(blg.id)}/>
                 )}
+            </div>
+            <BlogModal
+                blog={selectedProject}
+                selectedId={selectedId}
+                onClose={() => setSelectedId(null)}
+            />
+
+                {/*{blog.map((blg) =>*/}
+                {/*    <tr key={blg.id}>*/}
+                {/*        <td>*/}
+                {/*            <h3>*/}
+                {/*                {blg.name}*/}
+                {/*            </h3>*/}
+                {/*            <BlogDescription*/}
+                {/*                text={blg.message}*/}
+                {/*                images={blg.preview_urls}*/}
+                {/*            />*/}
+                {/*        </td>*/}
+                {/*    </tr>*/}
+                {/*)}*/}
 
                 <Footer colorScheme="purple" />
             </tbody>

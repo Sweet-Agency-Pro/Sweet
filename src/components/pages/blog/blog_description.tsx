@@ -1,3 +1,5 @@
+
+import './blog_pres.css'
 function BlogDescription({
      text,
      images
@@ -16,11 +18,13 @@ function BlogDescription({
                     const imageIndex = Number(match[1]) - 1;
 
                     return images[imageIndex] ? (
-                        <img
-                            key={index}
-                            src={images[imageIndex]}
-                            alt={`Image ${imageIndex + 1}`}
-                        />
+                        <div key={index} className='image_container'>
+                            <img
+                                className='image_view'
+                                src={images[imageIndex]}
+                                alt={`Image ${imageIndex + 1}`}
+                            />
+                        </div>
                     ) : null;
                 }
 
