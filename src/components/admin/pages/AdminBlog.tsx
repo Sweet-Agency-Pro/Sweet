@@ -9,10 +9,14 @@ import {
     updateBlog,
     deleteBlog,
     uploadPreview,
-    deletePreview,
-    type DbBlog,
+    getMediaUrl,
+    deletePrecisePreview,
+    deletePreviewTableBlog,
+    addMediaBlog,
+    type DbBlog, deletePreview,
 } from '../../../services/adminService';
 import BlogFormModal from "@/components/admin/components/BlogFormModal";
+import supabase from "@/lib/supabaseClient";
 
 const bucket = 'Blog_Images';
 function AdminBlog() {
@@ -36,64 +40,80 @@ function AdminBlog() {
         load();
     }, [load]);
 
+    const getStoragePath = async (image_id: string, bucket: string) => {
+        const marker = `/storage/v1/object/public/${bucket}/`;
+        const url = await getMediaUrl(image_id)
+        const index = url.indexOf(marker);
+
+        if (index === -1) {
+            throw new Error("Invalid Supabase storage URL");
+        }
+        return url.substring(index + marker.length);
+    };
     const handleCreate = async (
         payload: Partial<DbBlog>,
         Files?: File[] | null,
-        deleteOld?: boolean
     ) => {
         let newInf: DbBlog
 
         const maxId = blog.length > 0 ? Math.max(...blog.map(s => parseInt(s.id))) : 0;
         const newId = (maxId + 1).toString();
         newInf = await createBlog({...payload, id: newId});
-        if (deleteOld && (!Files || Files.length === 0)) {
-            await deletePreview(newInf.id, bucket);
-            await updateBlog(newInf.id, { preview_urls: [] });
-        } else if (Files && Files.length > 0) {
-            if (deleteOld) {
-                try {
-                    await deletePreview(newInf.id, bucket);
-                } catch {}
-            }
-            const urls = await Promise.all (
+        if (Files && Files.length > 0) {
+            const mediaMaxId = newInf.images?.length > 0
+                ? Math.max(...newInf.images.map(s => parseInt((s.position).toString())))
+                : 0;
+            const mediaNewId = (mediaMaxId + 1).toString();
+            await Promise.all (
                 Files.map(async(f, index) => {
-                    return await uploadPreview(newInf.id, f, bucket, newInf.name, index);
+                    const newId = (Number(mediaNewId) + index).toString();
+                    const url =  await uploadPreview(newInf.id, f, bucket, newInf.name, newId);
+
+                    await addMediaBlog({blog_id: newInf.id, public_url: url, position: Number(newId)});
                 })
             );
-                await updateBlog(newInf.id, { preview_urls: urls });
         }
-
         await load();
     };
 
     const handleUpdate = async (
         payload: Partial<DbBlog>,
         Files?: File[] | null,
-        deleteOld?: boolean
+        deleteOld?: string[]
         ) => {
         if (!editing) return;
+        if (deleteOld && deleteOld.length > 0) {
+                    console.log(deleteOld?.length);
+            deleteOld.map(async(del) => {
+                const path = await getStoragePath(del, 'Blog_Images');
+                try {
+                    await deletePrecisePreview(path, 'Blog_Images');
+                } catch {}
+                await deletePreviewTableBlog(del, 'blog_media')
+            });
+        }
         if (Files && Files.length > 0 && editing.id) {
-            // if (deleteOld) {
-            //     try {
-            //         await deletePreview(editing.id, bucket);
-            //     } catch {}
-            // }
-            const urls = await Promise.all (
+            const mediaMaxId = editing.images?.length > 0
+                ? Math.max(...editing.images.map(s => parseInt((s.position).toString())))
+                : 0;
+            const mediaNewId = (mediaMaxId + 1).toString();
+            await Promise.all (
                 Files.map(async(f, index) => {
-                    index += editing.preview_urls.length;
-                    return await uploadPreview(editing.id, f, bucket, payload.name, index);
+                    const newId = (Number(mediaNewId) + index).toString();
+                    const url =  await uploadPreview(editing.id, f, bucket, editing.name, newId);
+
+                    await addMediaBlog({blog_id: editing.id, public_url: url, position: Number(newId)});
                 })
             );
-            editing.preview_urls = [...editing.preview_urls, ...urls]
-            await updateBlog(editing.id, { preview_urls: editing.preview_urls });
         }
-        await updateBlog(editing.id, payload);
+        await updateBlog(editing.id, 'blog', payload);
         await load();
     };
 
     const handleDelete = async (id: string) => {
         if (!window.confirm('Supprimer ce blog ?')) return;
         await deleteBlog(id);
+        await deletePreview(id, 'Blog_Images')
         await load();
     };
     return (
@@ -142,9 +162,9 @@ function AdminBlog() {
                             {blog.map((blg) => (
                                 <tr key={blg.id}>
                                     <td className="admin-td">
-                                        {blg.preview_urls?.length > 0 ? (
+                                        {blg.images?.length > 0 ? (
                                         <img
-                                            src={blg.preview_urls[0]}
+                                            src={blg.images[0].url}
                                             alt={`preview of ${blg.name}`}
                                             style={styles.thumb}
                                         />

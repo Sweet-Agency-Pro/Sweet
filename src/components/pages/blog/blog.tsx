@@ -9,7 +9,7 @@ import BlogHero from './BlogHero';
 import Footer from "@/components/sections/Footer";
 import {useEffect, useState} from "react";
 import supabase from '../../../lib/supabaseClient';
-import {type DbBlog} from '../../../services/adminService';
+import {type DbBlog, fetchBlog} from '../../../services/adminService';
 import BlogDescription from './blog_description';
 import { motion } from 'framer-motion';
 import {ArrowRight, Beaker, Sparkles} from "lucide-react";
@@ -27,7 +27,7 @@ interface ConceptCardProps {
 
 function ConceptCard({ Blog, index, onClick }: ConceptCardProps) {
     const [imageError, setImageError] = useState(false);
-    const hasPreviewImage = Blog.preview_urls[0] && !imageError;
+    const hasPreviewImage = Blog.images.length > 0 && !imageError;
 
     return(
         <motion.div
@@ -63,7 +63,7 @@ function ConceptCard({ Blog, index, onClick }: ConceptCardProps) {
                     <div className="concept__mockup">
                         {hasPreviewImage ? (
                             <img
-                                src={Blog.preview_urls[0]}
+                                src={Blog.images[0].url}
                                 alt={`Aperçu du blog ${Blog.name}`}
                                 loading="lazy"
                                 style={{
@@ -116,18 +116,13 @@ function Blogpage () {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const selectedProject = blog.find((p) => p.id === selectedId);
 
-
     useEffect(() => {
-        async function fetchBlog() {
-            const { data, error } = await supabase
-                .from('blog')
-                .select('*')
-                .order('created_at', { ascending: false });
-            if (data) {
-                setBlog(data as DbBlog[]);
-            }
-        }
-        fetchBlog();
+        const load = async () => {
+            const blogs = await fetchBlog();
+            setBlog(blogs);
+        };
+
+        load();
     }, []);
 
     return (
@@ -144,11 +139,10 @@ function Blogpage () {
                 colorScheme="purple"
                 currentSlug="/blog"
             />
-            <tbody>
             <h2>
                 here are all our blog
             </h2>
-            <div className='concept_container'>
+                <div className='concept_container'>
                 {blog.map((blg, index) =>
                     <ConceptCard key={blg.id} Blog={blg} index={index} onClick={() => setSelectedId(blg.id)}/>
                 )}
@@ -159,22 +153,7 @@ function Blogpage () {
                 onClose={() => setSelectedId(null)}
             />
 
-                {/*{blog.map((blg) =>*/}
-                {/*    <tr key={blg.id}>*/}
-                {/*        <td>*/}
-                {/*            <h3>*/}
-                {/*                {blg.name}*/}
-                {/*            </h3>*/}
-                {/*            <BlogDescription*/}
-                {/*                text={blg.message}*/}
-                {/*                images={blg.preview_urls}*/}
-                {/*            />*/}
-                {/*        </td>*/}
-                {/*    </tr>*/}
-                {/*)}*/}
-
                 <Footer colorScheme="purple" />
-            </tbody>
 
         </div>
     );

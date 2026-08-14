@@ -61,6 +61,11 @@ export interface DbBlog {
   message: string;
   created_at: string;
   preview_urls: string[];
+  images: {
+    image_id: string;
+    url: string;
+    position: number;
+  } [];
 }
 
 // =============================================================================
@@ -159,12 +164,44 @@ export async function deleteProject(id: string): Promise<void> {
 export async function fetchBlog(): Promise<DbBlog[]> {
   const { data, error } = await supabase
       .from('blog')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select(`
+            *,
+            images:blog_media(
+                id,
+                public_url,
+                position
+            )
+        `)
+      .order('created_at', { ascending: false })
+      .order('position', {
+        ascending: true,
+        referencedTable: 'blog_media'
+      });
+
   if (error) throw error;
-  return data ?? [];
+
+  return (data ?? []).map(blog => ({
+    ...blog,
+    images: blog.images.map(image => ({
+      image_id: image.id,
+      url: image.public_url,
+      position: image.position
+    }))
+  }));
 }
 
+export async function getMediaUrl(
+    image_id: string,
+) : Promise<string> {
+  const {data, error} = await supabase
+      .from('blog_media')
+      .select('public_url')
+      .eq('id', image_id)
+      .single();
+
+  if (error) throw error;
+  return data.public_url
+}
 export async function createBlog(
     payload: Partial<Omit<DbBlog, 'created_at'>>
 ): Promise<DbBlog> {
@@ -177,12 +214,43 @@ export async function createBlog(
   return data;
 }
 
+export async function addMediaBlog(payload: {
+  blog_id: string;
+  public_url: string;
+  position: number;
+}) {
+
+  const { data, error } = await supabase
+      .from('blog_media')
+      .insert(payload)
+      .select()
+      .single();
+
+  if (error) {
+    throw error;
+  }
+  return data;
+}
+
+export async function deletePreviewTableBlog(
+    id: string,
+    table: string,
+): Promise<void> {
+  const { data, error } = await supabase
+      .from(table)
+      .delete()
+      .eq('id', id);
+  if (error) throw error;
+}
+
+
 export async function updateBlog(
     id: string,
+    table: string,
     payload: Partial<Omit<DbBlog, 'created_at'>>
 ): Promise<DbProject> {
   const { data, error } = await supabase
-      .from('blog')
+      .from(table)
       .update(payload)
       .eq('id', id)
       .select()
@@ -249,14 +317,14 @@ export async function uploadPreview(
   file: File,
   new_bucket?: string,
   file_name?: string,
-  index?: number
+  index?: string,
 ): Promise<string> {
   const used_bucket = new_bucket ?? BUCKET;
   const ext = file.name.split('.').pop() ?? 'png';
-  const path = file_name
+  let path: string;
+  path = file_name
       ? `${projectId}/${index}_${file_name}_preview.${ext}`
       : `${projectId}/${index}_preview.${ext}`;
-
   const { error: uploadError } = await supabase.storage
     .from(used_bucket)
     .upload(path, file, { cacheControl: '3600', upsert: true });
@@ -265,6 +333,15 @@ export async function uploadPreview(
 
   const { data } = supabase.storage.from(used_bucket).getPublicUrl(path);
   return data.publicUrl;
+}
+
+export async function deletePrecisePreview(path: string, new_bucket?: string): Promise<void> {
+  const used_bucket = new_bucket ?? BUCKET;
+  const { error: Error } = await supabase.storage
+      .from(used_bucket)
+      .remove([path]);
+
+  if (Error) throw Error;
 }
 
 export async function deletePreview(projectId: string, new_bucket?: string): Promise<void> {

@@ -26,7 +26,7 @@ const DEFAULT_COLORS = [
 
 interface BlogFormModalProps {
     initial?: DbBlog | null;
-    onSave: (Payload: Partial<DbBlog>, Files?: File[] | null, deleteOldPreview?: boolean) => Promise<void>;
+    onSave: (Payload: Partial<DbBlog>, Files?: File[] | null, deleteOldPreview?: string[]) => Promise<void>;
     onClose: () => void
 }
 
@@ -40,16 +40,15 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
 
     const [previewFiles, setPreviewFiles] = useState<File[]>([]);
 
-    const [deleteOld, setDeleteOld] = useState(false);
+    const [deleteOld, setDeleteOld] = useState<string[]>([]);
     const [previewLocals, setPreviewLocals] = useState<string[]>([]);
     const [existingPreviews, setExistingPreviews] = useState<string[]>(
-        initial?.preview_urls ?? []
+        initial?.images?.map((preview) => preview.url) ?? []
     );
 
     const [save, setSave] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const fileRef = useRef<HTMLInputElement>(null);
-
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
         const file = e.target.files?.[0];
@@ -57,17 +56,35 @@ function BlogFormModal({initial, onSave, onClose}: BlogFormModalProps){
 
         setPreviewFiles(prev => [...prev, file]);
         setPreviewLocals(prev => [...prev, URL.createObjectURL(file)]);
-        setDeleteOld(true);
     }
 
     const removePreview = (index: number) => {
-        setPreviewFiles(prev => prev.filter((_, i) => i !== index));
-        setExistingPreviews(prev => prev.filter((_, i) => i !== index));
-        setPreviewLocals(prev => prev.filter((_, i) => i !== index));
-        setDeleteOld(true);
-        if (fileRef.current) fileRef.current.value = '';
-    }
+        if (index < existingPreviews.length) {
+            const url = existingPreviews[index];
+            const image = initial?.images?.find(
+                image => image.url === url
+            );
 
+            if (image) {
+                setDeleteOld(prev => [...prev, image.image_id]);
+            }
+            setExistingPreviews(prev =>
+                prev.filter((_, i) => i !== index)
+            );
+        } else {
+            const localIndex = index - existingPreviews.length;
+
+            setPreviewLocals(prev =>
+                prev.filter((_, i) => i !== localIndex)
+            );
+            setPreviewFiles(prev =>
+                prev.filter((_, i) => i !== localIndex)
+            );
+        }
+        if (fileRef.current) {
+            fileRef.current.value = '';
+        }
+    };
 
     const HandleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();

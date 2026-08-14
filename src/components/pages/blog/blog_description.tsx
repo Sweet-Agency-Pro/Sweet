@@ -5,7 +5,10 @@ function BlogDescription({
      images
 }: {
     text: string;
-    images: string[];
+    images: {
+        image_id: string;
+        url: string;
+    }[];
 }) {
     const parts = text.split(/(\[\{image:\d+\}\])/g);
 
@@ -17,11 +20,11 @@ function BlogDescription({
                 if (match) {
                     const imageIndex = Number(match[1]) - 1;
 
-                    return images[imageIndex] ? (
+                    return images[imageIndex]?.url ? (
                         <div key={index} className='image_container'>
                             <img
                                 className='image_view'
-                                src={images[imageIndex]}
+                                src={images[imageIndex].url}
                                 alt={`Image ${imageIndex + 1}`}
                             />
                         </div>
